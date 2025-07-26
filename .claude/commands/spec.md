@@ -16,6 +16,43 @@
 - `implement` - 実装開始
 - `status` - 現在の状態確認
 
+## マルチAI連携統合フロー
+
+各フェーズで最適なAIチームメンバーと連携し、専門性を活かした開発を実現します。
+
+### 拡張フェーズ構成
+```mermaid
+graph TB
+    subgraph "Phase 1: 分析・戦略 (Gemini CLI)"
+        A1[/research - 市場・ユーザー調査]
+        A2[/content-strategy - ブランド・UX戦略]
+        A3[/product-plan - 要件・ロードマップ]
+    end
+    
+    subgraph "Phase 2: 設計・実装 (Claude Code)"
+        B1[/requirements - 要件定義]
+        B2[/design - 技術設計]
+        B3[/tasks - タスク分割]
+        B4[Implementation - 実装]
+    end
+    
+    subgraph "Phase 3: インフラ・運用 (o3 MCP)"
+        C1[/architecture - システム設計]
+        C2[/devops - CI/CD・運用]
+        C3[/security - セキュリティ]
+    end
+    
+    A1 --> A2
+    A2 --> A3
+    A3 --> B1
+    B1 --> B2
+    B2 --> C1
+    C1 --> B3
+    B3 --> B4
+    B4 --> C2
+    C2 --> C3
+```
+
 ## プロセス全体図
 
 ```mermaid
