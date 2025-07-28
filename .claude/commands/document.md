@@ -394,7 +394,7 @@ const login = async (email, password) => {
 - `password` (string, required): パスワード
 
 **レスポンス:**
-```typescript
+```javascript
 {
   user: User | null,
   session: Session | null,
@@ -778,7 +778,7 @@ src/
 ├── views/              # ページコンポーネント
 ├── router/             # ルーティング設定
 ├── utils/              # ユーティリティ関数
-├── types/              # TypeScript型定義
+├── types/              # JSDoc型定義
 └── styles/             # グローバルスタイル
 ```
 
@@ -843,7 +843,7 @@ npm run dev
 ### コーディング規約
 - [ESLint設定](.eslintrc.js) と [Prettier設定](.prettierrc) に従う
 - Composition API を優先使用
-- TypeScript での型安全性を重視
+- JSDoc での型安全性を重視
 - コンポーネントは単一責任原則に従う
 
 ### テスト

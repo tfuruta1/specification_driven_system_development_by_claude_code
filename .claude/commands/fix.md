@@ -513,17 +513,23 @@ rules: {
 }`
     },
     {
-      measure: 'TypeScript 型チェックの強化',
+      measure: 'JSDoc 型チェックの強化',
       implementation: `
-// types/supabase.ts
-export interface DatabaseError extends Error {
-  code: string
-  details: string
-  hint?: string
-}
+// types/supabase.js
 
-// 型安全なエラーハンドリング
-const handleDatabaseError = (error: DatabaseError) => {
+/**
+ * @typedef {Object} DatabaseError
+ * @property {string} code - エラーコード
+ * @property {string} details - エラー詳細
+ * @property {string} [hint] - ヒント
+ */
+
+/**
+ * 型安全なエラーハンドリング
+ * @param {DatabaseError} error - データベースエラー
+ * @returns {string} ユーザーフレンドリーなエラーメッセージ
+ */
+const handleDatabaseError = (error) => {
   switch (error.code) {
     case '23505': // unique_violation
       return 'この値は既に使用されています'

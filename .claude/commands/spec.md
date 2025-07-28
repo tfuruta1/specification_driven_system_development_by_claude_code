@@ -9,12 +9,13 @@
 ```
 
 ### フェーズ一覧
-- `init` - プロジェクト初期化
+- `init` - プロジェクト初期化（マルチAI協調）
 - `requirements` - 要件定義
 - `design` - 技術設計
 - `tasks` - タスク分割
 - `implement` - 実装開始
 - `status` - 現在の状態確認
+- `multiAI` - マルチAI協調管理
 
 ## マルチAI連携統合フロー
 
@@ -127,13 +128,13 @@ project/
 ### 3. 技術設計フェーズ（/spec design）
 
 #### 3.1 アーキテクチャ決定
-```typescript
+```javascript
 // 技術スタック定義
 const techStack = {
   frontend: {
     framework: "Vue 3.4+",
     buildTool: "Vite 5",
-    language: "TypeScript 5",
+    language: "JavaScript (ES2022+) + JSDoc",
     styling: "Tailwind CSS + DaisyUI",
     stateManagement: "Pinia",
     router: "Vue Router 4"
@@ -166,7 +167,7 @@ const techStack = {
 ### 4. タスク分割フェーズ（/spec tasks）
 
 #### 4.1 自動タスク生成
-```typescript
+```javascript
 // タスク生成ロジック
 function generateTasks(requirements, design) {
   const tasks = []
@@ -215,7 +216,7 @@ function generateTasks(requirements, design) {
 ```markdown
 ## コーディング規約
 - Vue 3 Composition API (<script setup>) を使用
-- TypeScript strict モードを有効化
+- JSDoc型チェックを有効化
 - ESLint + Prettier による自動整形
 - コンポーネント単位でのテスト必須
 
@@ -230,7 +231,7 @@ function generateTasks(requirements, design) {
 ```
 
 #### 5.3 進捗管理
-```typescript
+```javascript
 // 自動進捗レポート
 async function generateProgressReport() {
   const todos = await getTodos()

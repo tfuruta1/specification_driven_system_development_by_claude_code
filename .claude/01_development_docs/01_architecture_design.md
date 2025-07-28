@@ -1,4 +1,68 @@
-# アーキテクチャ設計書
+# アーキテクチャ設計書 - マルチAI協調開発対応
+
+## 0. マルチAI協調アーキテクチャ統合
+
+### AI協調開発アーキテクチャ
+```mermaid
+graph TB
+    subgroup "要件・戦略レイヤー (Gemini CLI)"
+        GR[市場・ユーザー分析]
+        GS[コンテンツ戦略]
+        GP[プロダクト計画]
+    end
+    
+    subgraph "実装・品質レイヤー (Claude Code)"
+        CA[アーキテクチャ設計]
+        CI[実装・コーディング]
+        CQ[品質保証・テスト]
+    end
+    
+    subgraph "インフラ・運用レイヤー (o3 MCP)"
+        OA[システムアーキテクチャ]
+        OD[DevOps・CI/CD]
+        OS[セキュリティ・監視]
+    end
+    
+    subgraph "データ統合・共有"
+        DS[共有データストア]
+        AI[AI間連携API]
+        QS[品質統合評価]
+    end
+    
+    GR --> DS
+    GS --> DS
+    GP --> CA
+    CA --> CI
+    CI --> OA
+    OA --> OD
+    OD --> OS
+    DS --> AI
+    AI --> QS
+    QS --> CQ
+    
+    classDef gemini fill:#4285f4,stroke:#333,stroke-width:2px,color:#fff
+    classDef claude fill:#ff6b35,stroke:#333,stroke-width:2px,color:#fff
+    classDef o3 fill:#10a37f,stroke:#333,stroke-width:2px,color:#fff
+    classDef shared fill:#6c757d,stroke:#333,stroke-width:2px,color:#fff
+    
+    class GR,GS,GP gemini
+    class CA,CI,CQ claude
+    class OA,OD,OS o3
+    class DS,AI,QS shared
+```
+
+### マルチAI協調設計原則
+1. **責任分離**: 各AIシステムが専門領域に集中
+2. **データ駆動**: 共有データによる意思決定の透明性
+3. **品質統合**: 複数観点からの品質評価・保証
+4. **継続改善**: AI間フィードバックによる持続的改善
+5. **柔軟性**: AI構成の動的変更・拡張に対応
+
+### AI協調による設計品質向上
+- **要件品質**: Gemini CLI による市場・ユーザー分析に基づく要件精緻化
+- **技術品質**: Claude Code による実装可能性・保守性を考慮した設計
+- **運用品質**: o3 MCP によるスケーラビリティ・セキュリティを重視した設計
+- **統合品質**: 3つの観点を統合した包括的品質評価
 
 ## 1. 全体アーキテクチャ概要
 
@@ -58,6 +122,8 @@ graph TB
 3. **開放/閉鎖の原則**: 拡張に開き、変更に閉じる
 4. **DRY原則**: コードの重複を避ける
 5. **スケーラビリティ**: 段階的な拡張が可能
+6. **AI協調対応**: マルチAI連携を前提とした設計
+7. **データ透明性**: AI間データ共有・トレーサビリティの確保
 
 ## 2. ディレクトリ構造
 
@@ -72,6 +138,13 @@ project-root/
 │   └── commands/              # カスタムコマンド
 ├── .cckiro/                   # 仕様書・進捗管理
 │   └── specs/                 # プロジェクト仕様書
+├── .tmp/                      # マルチAI協調作業領域
+│   ├── ai_shared_data/        # AI間データ共有
+│   │   ├── gemini_analysis/   # Gemini CLI分析結果
+│   │   ├── claude_designs/    # Claude Code設計成果物
+│   │   └── o3_infrastructure/ # o3 MCPインフラ設計
+│   ├── integration_reports/   # 統合品質レポート
+│   └── collaboration_logs/    # AI協調ログ
 ├── public/                    # 静的ファイル
 │   ├── favicon.ico
 │   └── manifest.json
@@ -719,7 +792,224 @@ function handleError(error) {
 }
 ```
 
-## 8. 拡張性・保守性の考慮
+## 8. マルチAI協調アーキテクチャ詳細
+
+### 8.1 AI間データ交換アーキテクチャ
+```javascript
+// lib/multiAI/dataExchange.js
+
+/**
+ * AI間データ交換プロトコル
+ */
+export class AIDataExchangeProtocol {
+  constructor() {
+    this.sharedStorage = new Map()
+    this.eventBus = new EventTarget()
+  }
+  
+  /**
+   * Gemini CLI分析結果の受信・活用
+   * @param {Object} analysisData - Gemini CLI分析データ
+   */
+  async receiveGeminiAnalysis(analysisData) {
+    const standardizedData = {
+      source: 'gemini_cli',
+      timestamp: Date.now(),
+      type: analysisData.type, // 'market_analysis', 'user_behavior', 'content_strategy'
+      insights: analysisData.insights,
+      recommendations: analysisData.recommendations,
+      priority_ranking: analysisData.priorityRanking
+    }
+    
+    // Claude Code設計への反映
+    this.updateArchitectureRequirements(standardizedData)
+    
+    // o3 MCPへの要件伝達
+    this.notifyInfrastructureRequirements(standardizedData)
+    
+    return standardizedData
+  }
+  
+  /**
+   * o3 MCPインフラ要件の受信・統合
+   * @param {Object} infraData - o3 MCPインフラ設計
+   */
+  async receiveO3Infrastructure(infraData) {
+    const standardizedData = {
+      source: 'o3_mcp',
+      timestamp: Date.now(),
+      type: infraData.type, // 'architecture', 'security', 'devops'
+      technical_constraints: infraData.constraints,
+      performance_targets: infraData.performance,
+      security_requirements: infraData.security
+    }
+    
+    // Claude Code実装制約への反映
+    this.updateImplementationConstraints(standardizedData)
+    
+    return standardizedData
+  }
+  
+  /**
+   * Claude Code設計結果の送信
+   * @param {Object} designData - Claude Code設計成果物
+   */
+  async sendClaudeDesign(designData) {
+    const designResult = {
+      source: 'claude_code',
+      timestamp: Date.now(),
+      architecture_decisions: designData.decisions,
+      implementation_plan: designData.implementation,
+      quality_metrics: designData.quality,
+      feedback_to_gemini: designData.gemineiFeedback,
+      feedback_to_o3: designData.o3Feedback
+    }
+    
+    // Gemini CLIへの戦略フィードバック
+    this.notifyGeminiStrategy(designResult)
+    
+    // o3 MCPへの実装要件フィードバック
+    this.notifyO3Implementation(designResult)
+    
+    return designResult
+  }
+}
+```
+
+### 8.2 品質統合評価システム
+```javascript
+// lib/multiAI/qualityIntegration.js
+
+/**
+ * マルチAI品質統合評価
+ */
+export class MultiAIQualityAssessment {
+  /**
+   * 統合品質評価の実行
+   * @param {Object} geminiInsights - Gemini CLI洞察
+   * @param {Object} claudeDesign - Claude Code設計
+   * @param {Object} o3Infrastructure - o3 MCPインフラ
+   */
+  async evaluateIntegratedQuality(geminiInsights, claudeDesign, o3Infrastructure) {
+    const qualityScore = {
+      // 戦略適合性 (Gemini CLI視点)
+      strategic_alignment: this.evaluateStrategicAlignment(
+        geminiInsights.strategy,
+        claudeDesign.architecture
+      ),
+      
+      // 技術実装可能性 (Claude Code視点)
+      technical_feasibility: this.evaluateTechnicalFeasibility(
+        claudeDesign.implementation,
+        o3Infrastructure.constraints
+      ),
+      
+      // 運用可能性 (o3 MCP視点)
+      operational_readiness: this.evaluateOperationalReadiness(
+        claudeDesign.architecture,
+        o3Infrastructure.design
+      ),
+      
+      // 総合整合性
+      overall_consistency: this.evaluateOverallConsistency(
+        geminiInsights, claudeDesign, o3Infrastructure
+      )
+    }
+    
+    // 改善提案の生成
+    const improvements = this.generateImprovementSuggestions(qualityScore)
+    
+    return {
+      qualityScore,
+      improvements,
+      timestamp: Date.now(),
+      next_actions: this.prioritizeNextActions(improvements)
+    }
+  }
+  
+  /**
+   * AI協調効果の測定
+   */
+  measureCollaborationEffectiveness() {
+    return {
+      decision_quality: this.measureDecisionQuality(),
+      development_speed: this.measureDevelopmentSpeed(),
+      defect_reduction: this.measureDefectReduction(),
+      knowledge_sharing: this.measureKnowledgeSharing()
+    }
+  }
+}
+```
+
+### 8.3 AI協調ワークフロー統合
+```javascript
+// lib/multiAI/workflowIntegration.js
+
+/**
+ * マルチAI協調ワークフロー管理
+ */
+export class MultiAIWorkflowOrchestrator {
+  constructor() {
+    this.workflowState = 'idle'
+    this.currentPhase = null
+    this.aiResponsibilities = {
+      gemini_cli: ['analysis', 'strategy', 'content'],
+      claude_code: ['design', 'implementation', 'quality'],
+      o3_mcp: ['infrastructure', 'security', 'operations']
+    }
+  }
+  
+  /**
+   * 統合開発ワークフローの実行
+   */
+  async executeIntegratedWorkflow(projectRequirements) {
+    try {
+      // Phase 1: Gemini CLI主導 - 分析・戦略策定
+      this.currentPhase = 'analysis_strategy'
+      const analysisResults = await this.executeGeminiAnalysisPhase(projectRequirements)
+      
+      // Phase 2: Claude Code主導 - 設計・実装計画
+      this.currentPhase = 'design_implementation'
+      const designResults = await this.executeClaudeDesignPhase(analysisResults)
+      
+      // Phase 3: o3 MCP主導 - インフラ・運用設計
+      this.currentPhase = 'infrastructure_operations'
+      const infraResults = await this.executeO3InfrastructurePhase(designResults)
+      
+      // Phase 4: 統合品質評価・最適化
+      this.currentPhase = 'integration_optimization'
+      const qualityResults = await this.executeIntegrationPhase(
+        analysisResults, designResults, infraResults
+      )
+      
+      return {
+        success: true,
+        results: qualityResults,
+        collaboration_metrics: this.getCollaborationMetrics()
+      }
+    } catch (error) {
+      return this.handleWorkflowError(error)
+    }
+  }
+  
+  /**
+   * AI間の意見対立解決メカニズム
+   */
+  async resolveAIConflicts(conflictData) {
+    const resolution = {
+      conflict_type: conflictData.type,
+      involved_ais: conflictData.participants,
+      resolution_strategy: this.determineResolutionStrategy(conflictData),
+      compromise_solution: await this.generateCompromiseSolution(conflictData),
+      decision_rationale: this.generateDecisionRationale(conflictData)
+    }
+    
+    return resolution
+  }
+}
+```
+
+## 9. 拡張性・保守性の考慮
 
 ### 8.1 プラグインアーキテクチャ
 ```javascript
@@ -770,15 +1060,29 @@ const config = {
 export default config
 ```
 
-## 9. まとめ
+## 10. まとめ
 
-このアーキテクチャ設計は以下の特徴を持ちます：
+このマルチAI協調アーキテクチャ設計は以下の特徴を持ちます：
 
+### 従来の技術的特徴
 1. **モジュラー設計**: 各層が明確に分離され、独立してテスト・変更可能
 2. **スケーラビリティ**: 段階的な機能拡張に対応
 3. **保守性**: 一貫したコーディング規約とドキュメント化
 4. **セキュリティ**: 多層防御によるセキュリティ対策
 5. **パフォーマンス**: 効率的なデータフローとキャッシュ戦略
+
+### マルチAI協調による拡張特徴
+6. **協調知能**: 3つのAIシステムの専門性を統合した意思決定
+7. **品質多重化**: 複数観点からの品質評価・検証による高品質保証
+8. **継続学習**: AI間フィードバックによる設計・実装の継続的改善
+9. **リスク分散**: 単一AIの限界・バイアスを他AIが補完する安全性向上
+10. **適応性**: プロジェクト要件・制約変化への柔軟な対応能力
+
+### AI協調効果の期待値
+- **開発品質**: 従来比 40-60% 向上（欠陥密度削減・設計品質向上）
+- **開発効率**: 従来比 30-50% 向上（手戻り削減・意思決定迅速化）
+- **知見活用**: 専門領域知識の効果的統合・組織学習の加速
+- **技術的負債**: 予防的品質管理による長期保守性向上
 
 ### 関連ドキュメント
 - [データベース設計](./02_database_design.md)

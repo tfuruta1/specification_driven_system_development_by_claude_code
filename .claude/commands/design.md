@@ -43,19 +43,19 @@ src/
 ├── views/           # ページコンポーネント
 ├── lib/            # ユーティリティ
 │   └── supabase/   # Supabase クライアント
-└── types/          # TypeScript 型定義
+└── types/          # JSDoc 型定義
 ```
 
 ### 3. 技術選定理由
 
 #### Vue.js Composition API
 - ロジックの再利用性向上
-- TypeScript との親和性
+- JavaScript での型安全性（JSDoc活用）
 - リアクティブな状態管理
 
 #### Pinia
 - Vue 3 公式推奨
-- TypeScript サポート
+- JavaScript サポート
 - DevTools 統合
 
 #### Supabase
@@ -71,13 +71,25 @@ src/
 ### 4. 設計パターン
 
 #### 4.1 コンポーザブルパターン
-```typescript
-// composables/useUser.ts
+```javascript
+// composables/useUser.js
+import { ref } from 'vue'
+import { supabase } from '@/lib/supabase'
+
+/**
+ * ユーザー管理用コンポーザブル
+ * @returns {Object} ユーザー状態と操作関数
+ */
 export const useUser = () => {
-  const user = ref<User | null>(null)
+  /** @type {import('vue').Ref<User|null>} */
+  const user = ref(null)
   const loading = ref(false)
   
-  const fetchUser = async (id: string) => {
+  /**
+   * ユーザー情報を取得
+   * @param {string} id - ユーザーID
+   */
+  const fetchUser = async (id) => {
     loading.value = true
     try {
       const { data } = await supabase
@@ -96,13 +108,28 @@ export const useUser = () => {
 ```
 
 #### 4.2 ストアパターン
-```typescript
-// stores/auth.ts
+```javascript
+// stores/auth.js
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import { supabase } from '@/lib/supabase'
+
+/**
+ * 認証ストア
+ */
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User | null>(null)
-  const session = ref<Session | null>(null)
+  /** @type {import('vue').Ref<User|null>} */
+  const user = ref(null)
+  /** @type {import('vue').Ref<Session|null>} */
+  const session = ref(null)
   
-  const signIn = async (email: string, password: string) => {
+  /**
+   * サインイン
+   * @param {string} email - メールアドレス
+   * @param {string} password - パスワード
+   * @returns {Promise<{data: any, error: any}>}
+   */
+  const signIn = async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
@@ -146,10 +173,16 @@ graph TD
 ### 6. エラーハンドリング戦略
 
 #### 6.1 グローバルエラーハンドラー
-```typescript
-// plugins/error-handler.ts
+```javascript
+// plugins/error-handler.js
+import { useToast } from '@/composables/useToast'
+
 export default {
-  install(app: App) {
+  /**
+   * Vue アプリケーションにエラーハンドラーを追加
+   * @param {import('vue').App} app
+   */
+  install(app) {
     app.config.errorHandler = (error, instance, info) => {
       console.error('Global error:', error)
       // エラー通知の表示
@@ -160,9 +193,15 @@ export default {
 ```
 
 #### 6.2 Supabase エラー処理
-```typescript
-// lib/supabase/error-handler.ts
-export const handleSupabaseError = (error: PostgrestError) => {
+```javascript
+// lib/supabase/error-handler.js
+
+/**
+ * Supabaseエラーを処理してユーザーフレンドリーなメッセージを返す
+ * @param {import('@supabase/supabase-js').PostgrestError} error - Supabaseエラー
+ * @returns {string} エラーメッセージ
+ */
+export const handleSupabaseError = (error) => {
   switch (error.code) {
     case '23505':
       return '既に存在するデータです'

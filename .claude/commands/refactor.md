@@ -119,7 +119,7 @@ const incrementalRefactoring = {
     deliverables: [
       'テストスイートの整備',
       'ESLint/Prettier設定の統一',
-      'TypeScript導入（段階的）'
+      'JSDoc型注釈の強化（段階的）'
     ]
   },
   
@@ -690,9 +690,9 @@ export const usePosts = () => {
 }
 ```
 
-### 5. TypeScript統合
+### 5. JSDoc型注釈統合
 
-#### 5.1 段階的TypeScript導入
+#### 5.1 段階的JSDoc導入
 ```typescript
 // types/database.ts - Supabase型定義
 export interface Database {

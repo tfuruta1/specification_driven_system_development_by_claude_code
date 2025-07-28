@@ -43,7 +43,7 @@ const compareWithVueStandards = async (currentProject) => {
   const vueStandards = {
     vueVersion: '3.4+',
     compositionAPI: '>= 80%',
-    typescript: 'recommended',
+    javascript: 'ES2022+ with JSDoc',
     stateManagement: 'Pinia',
     routing: 'Vue Router 4',
     buildTool: 'Vite',

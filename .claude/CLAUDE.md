@@ -269,4 +269,102 @@ graph TB
 2. **Claude Code**: バグ修正・機能拡張
 3. **o3 MCP**: 監視・自動化・セキュリティ運用
 
-このCLAUDE.mdを基盤として、各段階でのドキュメント作成と実装を進めてください。
+## マルチAI協調開発指針
+
+### Claude Code 作業指針（実装・品質保証責任者）
+
+#### 他AIとの連携指針
+1. **Gemini CLI成果物の活用**
+   - `/research` 結果を設計・実装の優先順位決定に活用
+   - `/content-strategy` 成果をUIデザイン・UX設計に反映
+   - `/product-plan` 要件を技術仕様に落とし込み
+
+2. **o3 MCP成果物の活用**
+   - `/architecture` 設計をフロントエンド・バックエンド実装に反映
+   - `/devops` 要件を開発環境・CI/CD設定に適用
+   - `/security` 要件をコード実装・認証機能に統合
+
+3. **成果物共有責任**
+   - 設計書を `.tmp/ai_shared_data/claude_designs/` に出力
+   - 実装進捗を JSON 形式で他AIと共有
+   - テスト結果・品質評価を他AIの改善に活用
+
+#### マルチAI品質保証プロセス
+1. **設計段階**: Gemini CLI 分析結果 + o3 MCP アーキテクチャ要件の整合性確認
+2. **実装段階**: o3 MCP セキュリティ要件 + Gemini CLI UX要件の実装品質確認
+3. **テスト段階**: 全AI成果物との整合性テスト・統合品質評価
+
+### データ共有プロトコル（Claude Code視点）
+
+#### 受信データフォーマット
+```javascript
+// Gemini CLI からの分析結果
+{
+  "source": "gemini_cli",
+  "type": "research_analysis",
+  "insights": {
+    "user_behavior": "object",
+    "market_trends": "array",
+    "content_strategy": "object"
+  },
+  "implementation_suggestions": "array",
+  "priority_ranking": "array"
+}
+
+// o3 MCP からのアーキテクチャ要件
+{
+  "source": "o3_mcp", 
+  "type": "architecture_requirements",
+  "technical_constraints": "object",
+  "security_requirements": "array",
+  "infrastructure_specs": "object",
+  "performance_targets": "object"
+}
+```
+
+#### 送信データフォーマット
+```javascript
+// Claude Code からの実装結果
+{
+  "source": "claude_code",
+  "type": "implementation_result", 
+  "implementation_status": "object",
+  "design_decisions": "array",
+  "technical_debt": "array",
+  "performance_metrics": "object",
+  "feedback_to_gemini": "array", // UX改善提案
+  "feedback_to_o3": "array" // インフラ・セキュリティ改善提案
+}
+```
+
+### エスカレーション・調整プロセス
+
+#### AI間の意見対立解決
+1. **技術vs戦略の対立**: Gemini CLI戦略 vs Claude Code実装可能性
+   - データ駆動による客観的評価
+   - プロトタイプ・PoC実装による検証
+   - 段階的実装による リスク軽減
+
+2. **実装vsインフラの対立**: Claude Code設計 vs o3 MCPインフラ制約  
+   - アーキテクチャ代替案の検討
+   - パフォーマンス・コスト トレードオフ分析
+   - 段階的移行計画による調整
+
+3. **優先順位の調整**: 機能要件 vs 非機能要件 vs 運用要件
+   - ビジネス価値・技術的リスク・運用コストの定量評価
+   - ステークホルダー・ユーザーフィードバックの活用
+   - MVP・段階的デリバリによる調整
+
+### 継続的学習・改善プロセス
+
+#### AI協調効果の測定
+- **品質指標**: バグ数削減、レビュー指摘事項削減、テストカバレッジ向上
+- **効率指標**: 実装時間短縮、手戻り工数削減、リリース頻度向上
+- **顧客価値**: ユーザー満足度向上、パフォーマンス改善、機能充実度
+
+#### 知見共有・蓄積
+- AI協調成功事例・失敗事例の体系的蓄積
+- ベストプラクティス・アンチパターンの整理
+- チームメンバー・ステークホルダーへの知見共有
+
+このCLAUDE.mdを基盤として、マルチAI協調による高品質な開発を進めてください。

@@ -24,7 +24,7 @@
 #### 2.1 コンポーネント実装（1時間）
 ```
 Task: UserProfileCard コンポーネントの実装
-- Props 定義とTypeScript型作成（15分）
+- Props 定義とJSDoc型作成（15分）
 - テンプレート実装（20分）
 - スタイリング（DaisyUI適用）（15分）
 - 単体テスト作成（10分）
@@ -46,7 +46,7 @@ Task: users テーブルの作成
 環境構築:
   - プロジェクト初期化:
       - Vue 3 + Vite セットアップ（30分）
-      - TypeScript 設定（30分）
+      - JSDoc 設定（30分）
       - ESLint + Prettier 設定（30分）
   - Supabase 設定:
       - プロジェクト作成（15分）
