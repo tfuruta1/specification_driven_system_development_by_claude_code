@@ -17,14 +17,15 @@ Vue.js (Composition API) + ハイブリッド接続方式（REST API → Supabas
 - **ビルドツール**: Vite
 - **言語**: JavaScript (ES2015+)
 
-### バックエンド・インフラ（ハイブリッド接続）
-- **プライマリ接続**: REST API（Axios HTTP クライアント）→ FastAPI + SQLAlchemy
+### バックエンド・インフラ（ハイブリッド接続 + 既存システム統合）
+- **プライマリ接続**: REST API（Axios）→ FastAPI + SQLAlchemy + venv連携
 - **フォールバック接続**: Supabase（PostgreSQL + Auth + Realtime）
 - **オフライン対応**: JSONファイルベースローカルストレージ（./data/offline/）
-- **認証**: JWT トークン（REST API） / Supabase Auth（フォールバック）
-- **データベース**: SQL Server / PostgreSQL（FastAPI）、PostgreSQL（Supabase）
-- **ホスティング**: Vercel / Netlify
-- **接続管理**: 自動フェイルオーバー・復旧機能
+- **認証**: JWT（REST API）/ Supabase Auth（フォールバック）/ LDAP・既存認証連携
+- **データベース**: SQL Server/PostgreSQL/Oracle/DB2（FastAPI）、PostgreSQL（Supabase）
+- **既存システム統合**: SOAP・ETL・ESB・メインフレーム・レガシーDB統合
+- **ホスティング**: Vercel / Netlify / オンプレミス
+- **接続管理**: 自動フェイルオーバー・復旧・既存システム同期
 
 ## アーキテクチャ原則
 
@@ -81,13 +82,14 @@ src/
 - **コンポーザブル活用**: `use{StoreName}Store()` パターン
 - **永続化**: 必要に応じて `pinia-plugin-persistedstate` を使用
 
-### ハイブリッド接続ルール
-- **統一インターフェース**: どの接続方式でも同じAPIで操作
-- **自動フェイルオーバー**: REST API → Supabase → Offline の順で自動切り替え
+### ハイブリッド接続ルール（既存システム統合強化）
+- **統一インターフェース**: どの接続方式でも同じAPIで操作・既存システムも統一インターフェース
+- **自動フェイルオーバー**: REST API → Supabase → 既存システム → Offline の順で自動切り替え
 - **接続状態管理**: リアルタイムでの接続状態監視と復旧処理
-- **データ同期**: オフラインデータとオンラインデータの双方向同期
-- **認証連携**: 複数認証方式の統合管理（JWT ↔ Supabase Auth）
+- **データ同期**: オフラインデータとオンラインデータの双方向同期・既存システム同期
+- **認証連携**: JWT / Supabase Auth / LDAP・既存認証システムの統合管理
 - **キャッシュ戦略**: 各接続方式に最適化されたキャッシュとデータ永続化
+- **venv連携**: FastAPIバックエンドとのシームレス統合開発・デプロイ
 
 ### スタイリング・UI ルール
 - **DaisyUI優先**: 基本コンポーネントはDaisyUIを活用
@@ -114,6 +116,8 @@ src/
 3. **DaisyUI中心**: 統一されたデザインシステムの構築
 4. **API最適化**: Axiosインターセプターとキャッシュ戦略の積極活用
 5. **パフォーマンス重視**: Vue 3 の新機能（Suspense、Teleport等）の活用
+6. **既存システム統合優先**: レガシーシステムとのシームレス連携を重視
+7. **venv連携最適化**: Python仮想環境との効率的連携を実現
 
 ## よくある落とし穴
 

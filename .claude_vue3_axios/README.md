@@ -22,8 +22,9 @@ Vue.js + REST API を使用したWebアプリケーション開発のための�
 
 ### 🎯 技術最適化
 - **Vue.js + REST API特化**: エンタープライズ・API統合開発に最適化
+- **既存システム統合エキスパート**: レガシーシステム・外部API・データベース統合完全対応
 - **インテリジェント自動化**: AI統合による高品質コード生成・インフラ自動化
-- **包括的システム**: 戦略から運用まで一貫したエコシステム
+- **包括的エコシステム**: 戦略から運用まで一貫したシステム・既存統合完全対応
 
 ## 📋 技術スタック
 
@@ -34,11 +35,14 @@ Vue.js + REST API を使用したWebアプリケーション開発のための�
 - **スタイリング**: Tailwind CSS + DaisyUI
 - **ビルドツール**: Vite
 
-### バックエンド・インフラ
+### バックエンド・インフラ・既存システム統合
 - **HTTP クライアント**: Axios
-- **API 連携**: REST API / GraphQL
-- **認証**: JWT トークン / OAuth 2.0
-- **バックエンド**: 任意（Laravel、Express.js、FastAPI等）
+- **API 連携**: REST API / GraphQL / SOAP / 既存システムAPI
+- **認証**: JWT トークン / OAuth 2.0 / LDAP / 既存認証連携
+- **バックエンド**: FastAPI + SQLAlchemy（推奨）、Laravel、Express.js、既存システム
+- **データベース**: SQL Server / PostgreSQL / MySQL / Oracle / 既存DB
+- **統合パターン**: ETL / ESB / API Gateway / メッセージキュー
+- **venv連携**: Python仮想環境とのシームレス連携・自動化
 
 ## 🛠️ マルチAIカスタムコマンド一覧（17コマンド）
 
@@ -138,6 +142,9 @@ npm install
 npm install axios
 npm install @tailwindcss/typography daisyui
 
+# 既存システム統合用ライブラリ（必要に応じて）
+npm install soap xml2js
+
 # Claude Code環境でプロジェクトを開く
 claude .
 ```
@@ -157,6 +164,18 @@ export OPENAI_API_KEY="your_openai_api_key"
 
 # AI協調ワークスペースの初期化
 /multiAI project_init --ai_priority="balanced" --scope="all"
+
+# venv連携バックエンドのセットアップ（FastAPI + SQLAlchemy推奨）
+# Python仮想環境作成・有効化
+python -m venv backend_venv
+backend_venv\Scripts\activate.bat  # Windows
+# source backend_venv/bin/activate    # macOS/Linux
+
+# FastAPIプロジェクトセットアップ
+cd ..
+git clone https://github.com/your-org/fastapi-backend ./backend
+cd backend
+pip install -r requirements.txt
 ```
 
 ### 3. 開発フローの開始
@@ -286,10 +305,22 @@ export OPENAI_API_KEY="your_openai_api_key"
 - **ドキュメント充実度**: 従来比200-400%向上（自動生成+統合管理）
 
 ### 🎯 適用可能プロジェクト
-- **エンタープライズシステム**: 大規模・複雑システム・既存システム統合
-- **API ファーストアプリケーション**: マイクロサービス・RESTful API
-- **既存システム統合**: レガシーシステムとの連携・移行プロジェクト
-- **マルチプラットフォーム**: 複数システム間での統一フロントエンド
+
+#### 🏢 メインストリームエンタープライズ開発
+- **大規模業務システム**: ERP・CRM・統合業務システムのフロントエンド開発
+- **管理システム**: ダッシュボード・監視システム・報告システム
+- **API ファーストアプリケーション**: マイクロサービス・RESTful API統合
+
+#### 🔄 既存システム統合スペシャリスト
+- **レガシーシステム統合**: メインフレーム・COBOL・古いJavaシステムとの連携
+- **データベース統合**: SQL Server・Oracle・DB2・既存DBとのシームレス統合
+- **外部API統合**: SOAP・REST・GraphQL・独自プロトコル対応
+- **移行プロジェクト**: 既存システムからの段階的移行・モダン化
+
+#### 🌐 マルチプラットフォーム統合
+- **統一フロントエンド**: 複数システムを統一インターフェースで管理
+- **ハイブリッドアーキテクチャ**: クラウド+オンプレミス統合システム
+- **フェデレーション**: 異なる組織・システム間のシームレス連携
 
 ## 🤝 貢献方法
 

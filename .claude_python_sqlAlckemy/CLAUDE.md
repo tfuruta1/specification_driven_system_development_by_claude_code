@@ -1,10 +1,10 @@
-# CLAUDE.md - FastAPI + SQLAlchemy 製造業システム仕様書駆動開発
+# CLAUDE.md - FastAPI + SQLAlchemy エンタープライズシステム仕様書駆動開発
 
-このファイルは、Claude Code がこの製造業向け品質保管・管理システムで作業する際のガイダンスを提供します。
+このファイルは、Claude Code がこのエンタープライズ向け統合管理システムで作業する際のガイダンスを提供します。
 
 ## プロジェクト概要
 
-FastAPI + SQLAlchemy を使用した製造業向け統合品質管理システムの開発プロジェクトです。マルチAI協調による仕様書駆動開発により、品質と保守性を重視したマイクロサービスアーキテクチャを構築します。
+FastAPI + SQLAlchemy を使用したエンタープライズ向け統合業務管理システムの開発プロジェクトです。マルチAI協調による仕様書駆動開発により、品質と保守性を重視したマイクロサービスアーキテクチャを構築し、既存システムとの統合を実現します。
 
 ## 技術スタック
 
@@ -28,7 +28,8 @@ FastAPI + SQLAlchemy を使用した製造業向け統合品質管理システ�
 - **設定管理**: PyYAML
 - **ホスティング**: IIS (Windows Server)
 - **監視**: 構造化ログ + メトリクス収集
-- **フルスタック統合**: Docker Compose + Nginx
+- **開発環境**: venv + pip (Python仮想環境)
+- **既存システム統合**: REST API + データ変換レイヤー
 
 ## アーキテクチャ原則
 
@@ -52,31 +53,32 @@ api_module/
 3. **Service Layer Pattern**: ビジネスロジックの集約
 4. **Dependency Injection**: 疎結合な設計
 
-## 製造業ドメイン知識
+## エンタープライズドメイン知識
 
 ### 主要業務領域
-1. **出荷管理**: チェックシート管理、品質データ分析
-2. **生産管理**: 実績管理、統計的工程管理(SPC)、作業者管理
-3. **在庫管理**: QRコード連携、入出庫履歴、トレーサビリティ
-4. **品質管理**: 不適合管理、CAPA、過去事例データベース
+1. **顧客管理**: 顧客データ統合、CRM連携、セグメント分析
+2. **業務プロセス管理**: ワークフロー自動化、承認プロセス、パフォーマンス管理
+3. **データ統合**: 既存システム連携、データ変換、リアルタイム同期
+4. **分析・レポート**: BI統合、ダッシュボード、KPI監視
 
 ### 規制・コンプライアンス要件
-- **ISO 9001:2015**: 品質管理システム
-- **FDA 21 CFR Part 11**: 電子記録・電子署名
-- **ALCOA+原則**: データ整合性 (Attributable, Legible, Contemporaneous, Original, Accurate + Complete, Consistent, Enduring, Available)
-- **トレーサビリティ**: 製品追跡可能性の確保
+- **ISO 27001**: 情報セキュリティ管理システム
+- **SOX法**: 内部統制・財務報告の透明性
+- **GDPR**: 個人データ保護規則
+- **データガバナンス**: データ品質・系譜・アクセス制御の確保
+- **既存システム統合**: レガシーシステムとの互換性・データ移行
 
 ## 開発ワークフロー - 仕様書駆動開発
 
 ### 4段階ワークフロー
-1. **要件定義** (`/requirements`) - 製造業要件の明確化
+1. **要件定義** (`/requirements`) - エンタープライズ要件の明確化
 2. **設計** (`/design`) - FastAPI + SQLAlchemy設計
 3. **タスク分割** (`/tasks`) - 実装可能な単位への分解
 4. **実装** - マルチAI協調による実装
 
 ### ワークフローコマンド
 - `/spec` - 完全な仕様書駆動開発ワークフローを開始
-- `/requirements` - 製造業要件定義のみ実行
+- `/requirements` - エンタープライズ要件定義のみ実行
 - `/design` - 技術設計フェーズのみ実行
 - `/tasks` - タスク分割のみ実行
 
@@ -130,7 +132,7 @@ api_module/
 2. **マイクロサービス**: 機能別サービス分割
 3. **Clean Architecture**: レイヤー分離によるテスタビリティ
 4. **JWT認証**: ステートレスな認証機能
-5. **製造業特化**: ドメイン知識の深い統合
+5. **エンタープライズ特化**: ドメイン知識と既存システム統合の深い統合
 
 ## よくある落とし穴
 
@@ -172,7 +174,7 @@ api_module/
 | データベース変更 | データベース設計 → SQLAlchemyパターン |
 | 認証機能 | API設計 → セキュリティ設計 → エラーハンドリング |
 | テスト作成 | テスト戦略 → SQLAlchemyパターン |
-| 製造業要件 | プロジェクトコンセプト → 各種設計書 |
+| エンタープライズ要件 | プロジェクトコンセプト → 各種設計書 |
 
 ## マルチAIチーム構成
 
@@ -191,20 +193,20 @@ api_module/
   - QAエンジニア（テスト・品質保証）
 
 #### Gemini CLI チーム（分析・戦略）
-- **製造業ドメインエキスパート**:
-  - 専門領域: 製造業務分析・品質管理・生産管理要件
-  - 強み: 大規模データ処理、製造業ナレッジ、戦略的思考
+- **エンタープライズドメインエキスパート**:
+  - 専門領域: エンタープライズ業務分析・データ管理・システム統合要件
+  - 強み: 大規模データ処理、エンタープライズナレッジ、戦略的思考
   - 主要活用: 業務フロー分析、KPI定義、レポート要件、ユーザー分析
 
 - **データアナリスト**:
-  - 専門領域: 生産データ分析・統計的品質管理・予知保全
+  - 専門領域: ビジネスデータ分析・ビジネスインテリジェンス・予測分析
   - 強み: マルチモーダル分析、パターン認識、統計解析
-  - 主要活用: SPC分析、異常検知、トレンド分析、ダッシュボード設計
+  - 主要活用: BI分析、異常検知、トレンド分析、ダッシュボード設計
 
 - **プロダクトマネージャー**:
-  - 専門領域: 製造業システム要件管理・ロードマップ策定
+  - 専門領域: エンタープライズシステム要件管理・ロードマップ策定
   - 強み: 長文コンテキスト保持、総合判断、ステークホルダー調整
-  - 主要活用: 複雑要件整理、優先順位付け、製造業規制対応
+  - 主要活用: 複雑要件整理、優先順位付け、エンタープライズ規制対応
 
 #### o3 MCP チーム（インフラ・運用・データベース）
 - **データベーススペシャリスト**:
@@ -218,7 +220,7 @@ api_module/
   - 主要活用: デプロイパイプライン、インフラコード管理、監視システム
 
 - **セキュリティスペシャリスト**:
-  - 専門領域: 製造業セキュリティ・コンプライアンス・監査
+  - 専門領域: エンタープライズセキュリティ・コンプライアンス・監査
   - 強み: セキュリティツール連携、脅威検知、規制対応
   - 主要活用: セキュリティ監査、脅威モデリング、コンプライアンス確保
 
@@ -244,7 +246,7 @@ api_module/
 1. **Gemini CLI成果物の活用**
    - `/research` 結果を要件定義・技術仕様に活用
    - `/analyze` 成果を設計・実装の優先順位決定に反映
-   - `/requirements` 製造業要件を技術仕様に落とし込み
+   - `/requirements` エンタープライズ要件を技術仕様に落とし込み
 
 2. **o3 MCP成果物の活用**
    - `/architecture` 設計をFastAPI実装に反映
@@ -265,13 +267,13 @@ api_module/
 
 #### 受信データフォーマット
 ```python
-# Gemini CLI からの製造業分析結果
+# Gemini CLI からのエンタープライズ分析結果
 {
     "source": "gemini_cli",
-    "type": "manufacturing_analysis",
+    "type": "enterprise_analysis",
     "insights": {
         "business_flows": "dict",
-        "quality_requirements": "array",
+        "integration_requirements": "array",
         "compliance_needs": "object"
     },
     "implementation_suggestions": "array",
@@ -310,7 +312,7 @@ api_module/
 1. **業務vs技術の対立**: Gemini CLI業務要件 vs Claude Code実装可能性
    - プロトタイプ・PoC実装による検証
    - 段階的実装による リスク軽減
-   - 製造業標準・ベストプラクティス参照
+   - エンタープライズ標準・ベストプラクティス参照
 
 2. **実装vsインフラの対立**: Claude Code設計 vs o3 MCPインフラ制約
    - パフォーマンス・コスト トレードオフ分析
@@ -319,7 +321,7 @@ api_module/
 
 3. **優先順位の調整**: 機能要件 vs 非機能要件 vs コンプライアンス要件
    - ビジネス価値・技術的リスク・規制要求の定量評価
-   - 製造業ユーザーフィードバックの活用
+   - エンタープライズユーザーフィードバックの活用
    - MVP・段階的デリバリによる調整
 
 ### 継続的学習・改善プロセス
@@ -327,55 +329,54 @@ api_module/
 #### AI協調効果の測定
 - **品質指標**: バグ数削減、レビュー指摘事項削減、テストカバレッジ向上
 - **効率指標**: 実装時間短縮、手戻り工数削減、リリース頻度向上
-- **製造業価値**: 業務効率向上、データ品質向上、コンプライアンス適合
+- **ビジネス価値**: 業務効率向上、データ品質向上、コンプライアンス適合、既存システム統合
 
 #### 知見共有・蓄積
 - AI協調成功事例・失敗事例の体系的蓄積
-- 製造業特有の技術パターン・アンチパターンの整理
-- チームメンバー・製造業ユーザーへの知見共有
+- エンタープライズ特有の技術パターン・アンチパターンの整理
+- チームメンバー・エンタープライズユーザーへの知見共有
 
-## 製造業特化開発指針
+## エンタープライズ特化開発指針
 
-### 製造業データモデリング
+### エンタープライズデータモデリング
 ```python
-# 製造業特有のモデル例
-class ProductionResult(BaseModel):
-    """生産実績モデル"""
-    work_order_no: str          # 作業指示番号
-    product_id: int             # 製品ID
-    batch_no: Optional[str]     # バッチ番号（トレーサビリティ）
-    lot_no: Optional[str]       # ロット番号
-    planned_quantity: int       # 計画数量
-    actual_quantity: int        # 実績数量
-    defect_quantity: int        # 不良数量
-    yield_rate: float          # 歩留まり率
-    cycle_time: float          # サイクルタイム
-    operator_id: int           # 作業者ID
-    line_id: int              # 生産ライン
-    start_time: datetime       # 開始時間
-    end_time: datetime         # 終了時間
-    quality_check: bool        # 品質チェック済み
+# エンタープライズ特有のモデル例
+class BusinessProcess(BaseModel):
+    """業務プロセスモデル"""
+    process_id: str             # プロセスID
+    process_name: str           # プロセス名
+    department_id: int          # 部門ID
+    owner_id: int              # プロセスオーナー
+    status: str                # ステータス
+    priority: int              # 優先度
+    start_date: datetime       # 開始日時
+    due_date: Optional[datetime] # 期限
+    completion_rate: float     # 完了率
+    approval_status: str       # 承認状況
+    related_systems: List[str] # 関連システム
+    data_sources: List[str]    # データソース
+    integration_points: List[str] # 統合ポイント
     audit_trail: str          # 監査ログ
 ```
 
-### 製造業API設計パターン
+### エンタープライズAPI設計パターン
 ```python
-# 製造業特化エンドポイント例
-@router.get("/production/efficiency/daily")
-async def get_daily_efficiency(
-    date: date = Query(...),
-    line_id: Optional[int] = Query(None),
-    shift: Optional[str] = Query(None, regex="^(A|B|C)$")
+# エンタープライズ特化エンドポイント例
+@router.get("/business/processes/dashboard")
+async def get_process_dashboard(
+    department_id: Optional[int] = Query(None),
+    date_range: Optional[str] = Query(None),
+    status_filter: Optional[str] = Query(None)
 ):
-    """日次生産効率取得"""
+    """業務プロセスダッシュボード取得"""
     pass
 
-@router.post("/quality/inspection/record")
-async def record_inspection(
-    inspection: InspectionCreate,
+@router.post("/integration/sync/external")
+async def sync_external_system(
+    system_config: ExternalSystemConfig,
     current_user: User = Depends(get_current_user)
 ):
-    """品質検査記録"""
+    """外部システム同期"""
     pass
 ```
 
@@ -391,12 +392,12 @@ class AuditMixin:
     audit_reason: Optional[str] = Column(String(500))
     electronic_signature: Optional[str] = Column(String(1000))
 
-# ALCOA+原則対応
-def validate_alcoa_plus(data: dict) -> bool:
-    """ALCOA+データ整合性検証"""
-    # Attributable, Legible, Contemporaneous, Original, Accurate
-    # Complete, Consistent, Enduring, Available
+# データガバナンス対応
+def validate_data_governance(data: dict) -> bool:
+    """データガバナンス検証"""
+    # データ品質、アクセス制御、データ系譜、プライバシー保護
+    # データ保持期間、削除ポリシー、暗号化要件
     pass
 ```
 
-このCLAUDE.mdを基盤として、マルチAI協調による高品質な製造業システム開発を進めてください。
+このCLAUDE.mdを基盤として、マルチAI協調による高品質なエンタープライズシステム開発を進めてください。

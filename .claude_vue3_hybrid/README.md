@@ -22,10 +22,11 @@ Vue.js + ハイブリッド接続（REST API → Supabase → JSONファイル�
 
 ### 🎯 技術最適化
 - **ハイブリッド接続アーキテクチャ**: 3層フォールバック（REST API → Supabase → JSONファイル）で99.9%可用性実現
+- **既存システム統合マスター**: レガシーDB・外部API・メインフレーム統合完全対応
 - **適応的接続管理**: ネットワーク状況に応じた自動切り替えとデータ同期
 - **オフライン対応**: JSONファイルベースローカルストレージによる完全オフライン機能
 - **インテリジェント自動化**: AI統合による高品質コード生成・インフラ自動化
-- **包括的システム**: 戦略から運用まで一貫したエコシステム
+- **包括的エコシステム**: 戦略から運用まで一貫したシステム・既存統合完全対応
 
 ## 📋 技術スタック
 
@@ -36,13 +37,14 @@ Vue.js + ハイブリッド接続（REST API → Supabase → JSONファイル�
 - **スタイリング**: Tailwind CSS + DaisyUI
 - **ビルドツール**: Vite
 
-### バックエンド・インフラ（ハイブリッド接続）
-- **プライマリ接続**: REST API（Axios）→ FastAPI + SQLAlchemy
+### バックエンド・インフラ（ハイブリッド接続 + 既存システム統合）
+- **プライマリ接続**: REST API（Axios）→ FastAPI + SQLAlchemy + venv連携
 - **フォールバック接続**: Supabase（PostgreSQL + Auth + Realtime）
 - **オフライン対応**: JSONファイルベースローカルストレージ（./data/offline/）
-- **認証**: JWT（REST API）/ Supabase Auth（フォールバック）
-- **データベース**: SQL Server/PostgreSQL（FastAPI）、PostgreSQL（Supabase）
-- **接続管理**: 自動フェイルオーバー・復旧・データ同期
+- **認証**: JWT（REST API）/ Supabase Auth（フォールバック）/ LDAP・既存認証連携
+- **データベース**: SQL Server/PostgreSQL/Oracle/DB2（FastAPI）、PostgreSQL（Supabase）
+- **既存システム統合**: ETL/ESB/SOAP/メインフレーム・レガシーDB統合
+- **接続管理**: 自動フェイルオーバー・復旧・データ同期・既存システム同期
 
 ## 🛠️ マルチAIカスタムコマンド一覧（20コマンド）
 
@@ -140,13 +142,20 @@ Vue.js + ハイブリッド接続（REST API → Supabase → JSONファイル�
 ### 1. プロジェクトのセットアップ
 ```bash
 # 新規プロジェクト作成
-npm create vue@latest my-api-project
-cd my-api-project
+npm create vue@latest my-hybrid-project
+cd my-hybrid-project
 
 # 依存関係のインストール
 npm install
 npm install axios
 npm install @tailwindcss/typography daisyui
+
+# ハイブリッド接続用ライブラリ
+npm install @supabase/supabase-js
+npm install localforage
+
+# 既存システム統合用ライブラリ（必要に応じて）
+npm install soap xml2js csv-parser
 
 # Claude Code環境でプロジェクトを開く
 claude .
@@ -167,6 +176,22 @@ export OPENAI_API_KEY="your_openai_api_key"
 
 # AI協調ワークスペースの初期化
 /multiAI project_init --ai_priority="balanced" --scope="all"
+
+# ハイブリッド接続バックエンドのセットアップ（FastAPI + SQLAlchemy + venv）
+# Python仮想環境作成・有効化
+python -m venv hybrid_backend_venv
+hybrid_backend_venv\Scripts\activate.bat  # Windows
+# source hybrid_backend_venv/bin/activate    # macOS/Linux
+
+# FastAPIハイブリッドプロジェクトセットアップ
+cd ..
+git clone https://github.com/your-org/fastapi-hybrid-backend ./backend
+cd backend
+pip install -r requirements.txt
+
+# Supabaseプロジェクトセットアップ（フォールバック用）
+npx supabase init
+npx supabase start
 ```
 
 ### 3. 開発フローの開始
@@ -355,10 +380,22 @@ graph TB
 - **ドキュメント充実度**: 従来比200-400%向上（自動生成+統合管理）
 
 ### 🎯 適用可能プロジェクト
-- **エンタープライズシステム**: 大規模・複雑システム・既存システム統合
-- **API ファーストアプリケーション**: マイクロサービス・RESTful API
-- **既存システム統合**: レガシーシステムとの連携・移行プロジェクト
-- **マルチプラットフォーム**: 複数システム間での統一フロントエンド
+
+#### 🏭 ミッションクリティカルシステム
+- **金融システム**: 高可用性金融システム・リアルタイム取引システム
+- **メディカルシステム**: 患者管理・医療情報システム・緊急対応
+- **インフラ管理**: 電力・水道・通信インフラの監視・制御システム
+
+#### 🔄 既存システム統合スペシャリスト
+- **メインフレーム統合**: IBM z/OS・COBOL・JCLシステムとの3層フォールバック統合
+- **レガシーDB統合**: DB2・Oracle・SQL Server既存DBとのリアルタイム同期
+- **ERP統合**: SAP・Oracle EBS・Microsoft Dynamics既存ERPとのハイブリッド接続
+- **データ移行**: 段階的データ移行・ゼロダウンタイム移行プロジェクト
+
+#### 🌐 マルチプラットフォーム・高可用性
+- **ハイブリッドクラウド**: クラウド+オンプレミス統合アーキテクチャ
+- **ディザスターリカバリ**: バックアップサイト・自動フェイルオーバーシステム
+- **オフラインファースト**: 現場作業・移動環境・ネットワーク不安定環境対応
 
 ## 🤝 貢献方法
 

@@ -11,24 +11,24 @@
 **用途・技術・規模に応じて最適なプロジェクトを選択してください**：
 
 #### 🏭 [FastAPI + SQLAlchemy バックエンド](.claude_python_sqlAlckemy/)
-- **対象**: 製造業・エンタープライズ・業務システム・バックエンドAPI開発
+- **対象**: エンタープライズ・業務システム・バックエンドAPI開発・既存システム統合
 - **技術**: FastAPI + SQLAlchemy + SQL Server + JWT認証
-- **特徴**: 製造業特化機能・マイクロサービス・Clean Architecture・Vue3統合対応
+- **特徴**: エンタープライズ対応・マイクロサービス・Clean Architecture・Vue3統合対応・既存システム統合
 
 #### 🔗 [Vue3 + Axios フロントエンド](.claude_vue3_axios/)  
-- **対象**: エンタープライズ・既存システム統合・REST API連携
+- **対象**: エンタープライズ・既存システム統合・REST API連携・レガシーシステム統合
 - **技術**: Vue.js 3 + Axios + REST API + JWT認証 + FastAPI統合
-- **特徴**: API ファースト・既存インフラ連携・フルスタック統合対応
+- **特徴**: API ファースト・既存インフラ連携・フルスタック統合対応・レガシーシステム対応
 
 #### ⚡ [Vue3 + ハイブリッド接続](.claude_vue3_hybrid/)
-- **対象**: 高可用性システム・オフライン対応・ミッションクリティカル
+- **対象**: 高可用性システム・オフライン対応・ミッションクリティカル・既存システム統合
 - **技術**: Vue.js 3 + ハイブリッド接続（REST API → Supabase → JSONファイル）
-- **特徴**: 99.9%可用性・3層フォールバック・完全オフライン対応・FastAPI統合
+- **特徴**: 99.9%可用性・3層フォールバック・完全オフライン対応・FastAPI統合・既存システム統合
 
 #### 📦 [Vue3 + Supabase (アーカイブ)](.claude_vue3_supabase/)
-- **対象**: スタートアップ・MVP・新規プロジェクト・プロトタイピング
+- **対象**: スタートアップ・MVP・新規プロジェクト・プロトタイピング・既存システム統合
 - **技術**: Vue.js 3 + Supabase (PostgreSQL, Auth, Storage, Realtime)
-- **特徴**: 迅速な開発・BaaS活用・リアルタイム機能
+- **特徴**: 迅速な開発・BaaS活用・リアルタイム機能・既存システム統合
 
 ## 🚀 特徴
 
@@ -47,7 +47,7 @@
 ### 🎯 技術最適化
 - **フルスタック統合**: Vue3 + FastAPI完全統合によるエンドツーエンド開発
 - **ハイブリッド接続**: 3層フォールバック（REST API → Supabase → JSON）で99.9%可用性
-- **製造業特化**: 業務システム・品質管理・トレーサビリティ完全対応
+- **既存システム統合**: レガシーシステム・外部API・データベース統合完全対応
 - **インテリジェント自動化**: AI統合による高品質コード生成・インフラ自動化
 - **包括的エコシステム**: バックエンド→フロントエンド→統合まで一貫したシステム
 
@@ -79,7 +79,7 @@
 ### バックエンド技術（プロジェクト別）
 
 ### 🔧 統合・デプロイ技術
-- **コンテナ化**: Docker + Docker Compose
+- **仮想環境**: venv + pip（Python）
 - **CI/CD**: GitHub Actions / GitLab CI
 - **ホスティング**: Vercel / Netlify（フロントエンド）、AWS / GCP（バックエンド）
 - **監視**: 構造化ログ + メトリクス収集
@@ -88,7 +88,7 @@
 ## 🛠️ マルチAIカスタムコマンド統合体系
 
 ### プロジェクト別コマンド数
-- **🏭 .claude_python_sqlAlckemy**: **17コマンド**（製造業・バックエンド特化）
+- **🏭 .claude_python_sqlAlckemy**: **17コマンド**（エンタープライズ・バックエンド特化）
 - **🔗 .claude_vue3_axios**: **17コマンド**（REST API・フロントエンド特化）
 - **⚡ .claude_vue3_hybrid**: **20コマンド**（ハイブリッド接続・高可用性特化）
 - **📦 .claude_vue3_supabase**: **17コマンド**（Supabase・BaaS特化）
@@ -104,7 +104,7 @@
 - `/refactor` - コードリファクタリング
 - `/document` - 自動ドキュメント生成
 - `/standardize` - コード標準化とベストプラクティス適用
-- **🏭 製造業特化**: `/manufacturing-optimize` - 製造業システム最適化
+- **🏭 バックエンド特化**: `/backend-optimize` - バックエンドシステム最適化
 - **⚡ ハイブリッド特化**: `/rest-api-optimize`, `/backend-sync` - ハイブリッド接続最適化
 
 ### 📊 Gemini CLI - データ分析・戦略系（3コマンド）
@@ -150,7 +150,7 @@ project-root/
 │   ├── document.md            # ドキュメント生成コマンド
 │   ├── standardize.md         # 標準化コマンド
 │   ├── # プロジェクト特化コマンド
-│   ├── manufacturing-optimize.md  # 製造業特化（.claude_python_sqlAlckemy）
+│   ├── backend-optimize.md        # バックエンド特化（.claude_python_sqlAlckemy）
 │   ├── rest-api-optimize.md       # ハイブリッド特化（.claude_vue3_hybrid）
 │   ├── backend-sync.md            # ハイブリッド特化（.claude_vue3_hybrid）
 │   ├── # Gemini CLI系（3コマンド）
@@ -239,14 +239,14 @@ export OPENAI_API_KEY="your_openai_api_key"
 
 #### 🏭 FastAPI + SQLAlchemy バックエンド開発
 ```bash
-# 製造業向けマルチAI開発フローを開始
+# エンタープライズ向けマルチAI開発フローを開始
 /spec multiAI
 
 # または専門AI別の個別フェーズから開始
-/research manufacturing_analysis    # Gemini CLI: 製造業分析
-/requirements "製造管理システム"      # Claude Code: 要件定義  
+/research enterprise_analysis      # Gemini CLI: エンタープライズ分析
+/requirements "業務管理システム"        # Claude Code: 要件定義  
 /architecture enterprise_design    # o3 MCP: エンタープライズ設計
-/manufacturing-optimize comprehensive # 製造業最適化
+/backend-optimize comprehensive    # バックエンド最適化
 ```
 
 #### 🔗 Vue3 + Axios フロントエンド開発
@@ -481,10 +481,11 @@ graph TB
 ### 🎯 適用可能プロジェクト
 
 #### 🏭 FastAPI + SQLAlchemy バックエンド
-- **製造業・エンタープライズシステム**: 生産管理・品質管理・トレーサビリティ
+- **エンタープライズシステム**: 業務システム・管理システム・データ管理
 - **業務システム・基幹システム**: ERP・CRM・在庫管理・販売管理
 - **大規模APIサーバー**: マイクロサービス・分散アーキテクチャ
 - **データ集約・分析基盤**: BI・レポーティング・データウェアハウス
+- **既存システム統合**: レガシーシステム統合・外部API連携・データ移行
 
 #### 🔗 Vue3 + Axios フロントエンド
 - **エンタープライズWebアプリ**: 管理画面・ダッシュボード・業務システム
@@ -526,7 +527,7 @@ graph TB
 - ✅ **4つの専門特化プロジェクト完成**: バックエンド・フロントエンド・ハイブリッド・Supabase版
 - ✅ **フルスタック統合**: Vue3 + FastAPI完全統合対応
 - ✅ **ハイブリッド接続システム**: 99.9%可用性・3層フォールバック実現
-- ✅ **製造業特化機能**: 業務システム・品質管理・トレーサビリティ完全対応
+- ✅ **既存システム統合**: レガシーシステム・外部API・データベース統合完全対応
 
 ### 📈 成果指標の達成
 - ✅ **開発効率**: 50-75%向上達成
@@ -539,7 +540,7 @@ graph TB
 **🎉 プロジェクト状況**: マルチAI協調開発システムの**4つの専門特化版**が実用レベルで完成しました。用途・技術・規模に応じて最適なプロジェクトを選択し、戦略立案から技術実装、運用保守まで一貫した次世代開発フローが利用可能です。
 
 **🚀 Next Step**: 
-- **🏭 バックエンド版**: 製造業・エンタープライズでの実践適用
+- **🏭 バックエンド版**: エンタープライズ・既存システム統合での実践適用
 - **🔗 フロントエンド版**: エンタープライズ・既存システム統合での実践適用
 - **⚡ ハイブリッド版**: 高可用性・ミッションクリティカルシステムでの実践適用
 - **📦 Supabase版**: スタートアップ・MVP開発での実践適用

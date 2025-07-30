@@ -1,46 +1,46 @@
-# Spec Command - 製造業統合仕様駆動開発
+# Spec Command - エンタープライズ統合仕様駆動開発
 
 ## 概要
-製造業要件定義から実装まで、FastAPI + SQLAlchemy製造業システムプロジェクトの全工程を段階的に進行する統合コマンドです。製造業特有の複雑な業務要求・規制要求・安全要求に対応した体系的開発プロセスを実現します。
+エンタープライズ要件定義から実装まで、FastAPI + SQLAlchemyエンタープライズシステムプロジェクトの全工程を段階的に進行する統合コマンドです。エンタープライズ特有の複雑な業務要求・規制要求・既存システム統合要求に対応した体系的開発プロセスを実現します。
 
 ## 使用方法
 ```
 /spec [フェーズ名]
 ```
 
-### 製造業フェーズ一覧
-- `init` - 製造業プロジェクト初期化（マルチAI協調）
-- `manufacturing_requirements` - 製造業要件定義・業務分析
-- `manufacturing_design` - 製造業技術設計・アーキテクチャ
-- `manufacturing_tasks` - 製造業タスク分割・実装計画
-- `manufacturing_implement` - 製造業実装開始・品質管理
-- `status` - 製造業プロジェクト状態確認
-- `multiAI` - 製造業マルチAI協調管理
+### エンタープライズフェーズ一覧
+- `init` - エンタープライズプロジェクト初期化（マルチAI協調）
+- `enterprise_requirements` - エンタープライズ要件定義・業務分析
+- `enterprise_design` - エンタープライズ技術設計・アーキテクチャ
+- `enterprise_tasks` - エンタープライズタスク分割・実装計画
+- `enterprise_implement` - エンタープライズ実装開始・品質管理
+- `status` - エンタープライズプロジェクト状態確認
+- `multiAI` - エンタープライズマルチAI協調管理
 
-## 製造業マルチAI連携統合フロー
+## エンタープライズマルチAI連携統合フロー
 
-各フェーズで製造業専門AIチームメンバーと連携し、製造業ドメイン知識・技術専門性を活かした開発を実現します。
+各フェーズでエンタープライズ専門AIチームメンバーと連携し、エンタープライズドメイン知識・技術専門性・既存システム統合を活かした開発を実現します。
 
-### 製造業拡張フェーズ構成
+### エンタープライズ拡張フェーズ構成
 ```mermaid
 graph TB
-    subgraph "Phase 1: 製造業分析・戦略 (Gemini CLI)"
-        A1[/research - 製造業データ分析・業務調査]
-        A2[/content-strategy - 製造業ブランド・産業戦略]
-        A3[/product-plan - 製造業プロダクト管理・要件管理]
+    subgraph "Phase 1: エンタープライズ分析・戦略 (Gemini CLI)"
+        A1[/research - ビジネスデータ分析・業務調査]
+        A2[/content-strategy - エンタープライズブランド・戦略]
+        A3[/product-plan - エンタープライズプロダクト管理・要件管理]
     end
     
-    subgraph "Phase 2: 製造業設計・実装 (Claude Code)"
-        B1[/requirements - 製造業要件定義]
-        B2[/design - 製造業技術設計]
-        B3[/tasks - 製造業タスク分割]
-        B4[Manufacturing Implementation - 製造業実装]
+    subgraph "Phase 2: エンタープライズ設計・実装 (Claude Code)"
+        B1[/requirements - エンタープライズ要件定義]
+        B2[/design - エンタープライズ技術設計]
+        B3[/tasks - エンタープライズタスク分割]
+        B4[Enterprise Implementation - エンタープライズ実装]
     end
     
-    subgraph "Phase 3: 製造業インフラ・運用 (o3 MCP)"
-        C1[/architecture - 製造業システム設計]
-        C2[/devops - 製造業CI/CD・運用]
-        C3[/security - 製造業セキュリティ]
+    subgraph "Phase 3: エンタープライズインフラ・運用 (o3 MCP)"
+        C1[/architecture - エンタープライズシステム設計]
+        C2[/devops - エンタープライズCI/CD・運用]
+        C3[/security - エンタープライズセキュリティ]
     end
     
     A1 --> A2
