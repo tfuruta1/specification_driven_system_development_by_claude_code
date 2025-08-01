@@ -6,7 +6,7 @@
 
 このリポジトリは、**Claude Code + Gemini CLI + OpenAI o3 MCP**の3つのAIシステムを専門分野別に活用し、戦略立案から技術実装まで一貫した高品質な開発を実現する革新的な統合開発システムです。フロントエンド・バックエンド・ハイブリッド接続・デスクトップアプリケーションの6つの専門領域をカバーする包括的開発エコシステムを提供します。
 
-### 🔀 6つの専門特化プロジェクト
+### 🔀 7つの専門特化プロジェクト
 
 **用途・技術・規模に応じて最適なプロジェクトを選択してください**：
 
@@ -34,6 +34,11 @@
 - **対象**: Windows XP/2003環境・レガシーシステム・既存企業インフラ統合
 - **技術**: .NET Framework 4.0 + Windows Forms + BackgroundWorker + WebClient
 - **特徴**: Windows XP SP3対応・Windows Server 2003 R2対応・小規模ランタイム・COM+統合・レガシーDB連携
+
+#### 📷 [.NET Framework 4.0 ISP-673 OCR統合版](.claude_dotnetFramework4.0_ISP673_OCR/)
+- **対象**: 帳票OCRシステム・ISP-673統合・レガシー環境OCR対応
+- **技術**: .NET Framework 4.0 + ISP-673 GloryOcrMain4.dll + x86プラットフォーム
+- **特徴**: 帳票認識・エリアOCR・画像処理・バーコード認識・COM DLL統合・高度な前処理機能
 
 #### 📦 [Vue3 + Supabase (アーカイブ)](.claude_vue3_supabase/)
 - **対象**: スタートアップ・MVP・新規プロジェクト・プロトタイピング・既存システム統合
@@ -103,6 +108,7 @@
 - **⚡ .claude_vue3_hybrid**: **20コマンド**（ハイブリッド接続・高可用性特化）
 - **🖥️ .claude_dotnetFramework4.8**: **18コマンド**（Windows Forms・デスクトップ特化）
 - **💻 .claude_dotnetFramework4.0**: **18コマンド**（Windows XP/2003・レガシー環境特化）
+- **📷 .claude_dotnetFramework4.0_ISP673_OCR**: **36コマンド**（ISP-673 OCR統合・前処理最適化特化）
 - **📦 .claude_vue3_supabase**: **17コマンド**（Supabase・BaaS特化）
 
 ### 🧠 Claude Code - 技術実装・品質保証系（基本10-12コマンド）
@@ -142,9 +148,9 @@ project-root/
 ├── .claude_vue3_hybrid/         # Vue3 + ハイブリッド接続版
 ├── .claude_dotnetFramework4.8/  # .NET Framework 4.8 デスクトップ
 ├── .claude_dotnetFramework4.0/  # .NET Framework 4.0 レガシー対応
+├── .claude_dotnetFramework4.0_ISP673_OCR/  # ISP-673 OCR統合版
 ├── .claude_vue3_supabase/       # Vue3 + Supabase版（アーカイブ）
-├── README.md                    # メインプロジェクト概要
-└── .tmp/                        # マルチAI協調作業領域
+└── README.md                    # メインプロジェクト概要
 ```
 
 ### 各プロジェクト内構造
@@ -238,6 +244,12 @@ cd .claude_dotnetFramework4.0
 claude .
 ```
 
+#### 📷 .NET Framework 4.0 ISP-673 OCR統合版の場合
+```bash
+cd .claude_dotnetFramework4.0_ISP673_OCR
+claude .
+```
+
 #### 📦 Vue3 + Supabase（アーカイブ）の場合
 ```bash
 cd .claude_vue3_supabase
@@ -321,6 +333,19 @@ export OPENAI_API_KEY="your_openai_api_key"
 /requirements "Windows XP対応業務アプリ" # Claude Code: 要件定義  
 /architecture legacy_design       # o3 MCP: レガシーアーキテクチャ設計
 /legacy-integration com_wrapper   # COM+統合パターン適用
+```
+
+#### 📷 .NET Framework 4.0 ISP-673 OCR開発
+```bash
+# ISP-673 OCR統合開発フローを開始
+/spec ocr-development
+
+# または専門AI別の個別フェーズから開始
+/analyze-ocr-image {image_path}   # Gemini CLI + o3 MCP: 画像分析
+/ocr-setup                        # Claude Code: OCR環境セットアップ  
+/form-recognition                 # 帳票認識機能実装
+/area-ocr                        # エリアOCR機能実装
+/implement-custom-preprocessing   # カスタム前処理実装
 ```
 
 ## 📖 使用方法
@@ -561,6 +586,12 @@ graph TB
 - **COM+完全統合**: 既存COMコンポーネント・ActiveX連携
 - **レガシーDB対応**: SQL Server 2000/2005・Oracle 10g/11g
 
+#### 📷 .NET Framework 4.0 ISP-673 OCR統合版
+- **帳票OCRシステム**: ISP-673統合・帳票認識・エリアOCR
+- **画像処理機能**: 前処理最適化・ノイズ除去・文字強調
+- **x86プラットフォーム**: COM DLL完全統合・Windows XP対応
+- **マルチAI前処理**: Gemini CLI + o3 MCPによる画像最適化
+
 #### 📦 Vue3 + Supabase（アーカイブ）
 - **スタートアップMVP**: 迅速な仮説検証・市場投入
 - **プロトタイピング**: 高速開発・BaaS活用
@@ -581,12 +612,17 @@ graph TB
 
 ## 📅 プロジェクトマイルストーン・最新更新
 
+### 🎆 2025年2月 - ISP-673 OCR統合版追加
+- ✅ **ISP-673 OCR統合プロジェクト完成**: 帳票認識・エリアOCR・画像前処理最適化
+- ✅ **36個の専門OCRコマンド実装**: 前処理・品質評価・マルチAI連携最適化
+- ✅ **高度な画像前処理機能**: モアレ除去・裏写り除去・ドットマトリクス強調等
+
 ### 🎆 2025年1月 - マルチAI協調システム完成
 - ✅ **3階層AI連携システム稼働開始**: Claude Code + Gemini CLI + o3 MCP
-- ✅ **107個のマルチAIカスタムコマンド完成**: 6プロジェクト×17-20コマンド
+- ✅ **143個のマルチAIカスタムコマンド完成**: 7プロジェクト×17-36コマンド
 - ✅ **マルチAI協調ドキュメント体系完成**: 包括的ガイド・テンプレート
 - ✅ **AI間データ交換プロトコル実装**: JSON形式で統一化
-- ✅ **6つの専門特化プロジェクト完成**: バックエンド・フロントエンド・ハイブリッド・.NET 4.8・.NET 4.0・Supabase版
+- ✅ **7つの専門特化プロジェクト完成**: バックエンド・フロントエンド・ハイブリッド・.NET 4.8・.NET 4.0・ISP-673 OCR・Supabase版
 - ✅ **フルスタック統合**: Vue3 + FastAPI完全統合対応
 - ✅ **ハイブリッド接続システム**: 99.9%可用性・3層フォールバック実現
 - ✅ **既存システム統合**: レガシーシステム・外部API・データベース統合完全対応
@@ -599,7 +635,7 @@ graph TB
 
 ---
 
-**🎉 プロジェクト状況**: マルチAI協調開発システムの**6つの専門特化版**が実用レベルで完成しました。用途・技術・規模に応じて最適なプロジェクトを選択し、戦略立案から技術実装、運用保守まで一貫した次世代開発フローが利用可能です。
+**🎉 プロジェクト状況**: マルチAI協調開発システムの**7つの専門特化版**が実用レベルで完成しました。用途・技術・規模に応じて最適なプロジェクトを選択し、戦略立案から技術実装、運用保守まで一貫した次世代開発フローが利用可能です。
 
 **🚀 Next Step**: 
 - **🏭 バックエンド版**: エンタープライズ・既存システム統合での実践適用
@@ -607,5 +643,6 @@ graph TB
 - **⚡ ハイブリッド版**: 高可用性・ミッションクリティカルシステムでの実践適用
 - **🖥️ .NET 4.8版**: Windows Forms・エンタープライズデスクトップアプリでの実践適用
 - **💻 .NET 4.0版**: Windows XP/2003・レガシー環境での実践適用
+- **📷 ISP-673 OCR版**: 帳票OCR・画像処理・レガシー環境OCRでの実践適用
 - **📦 Supabase版**: スタートアップ・MVP開発での実践適用
 - 効果測定・継続改善・新機能追加・プロジェクト間統合
