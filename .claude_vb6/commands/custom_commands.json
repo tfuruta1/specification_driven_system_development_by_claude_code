@@ -1,0 +1,295 @@
+{
+  "vb6_legacy_commands": {
+    "analyze-vb6-code": {
+      "description": "VB6コード静的解析 - 複雑度、品質メトリクス、技術的負債の測定",
+      "usage": "/analyze-vb6-code {project_path}",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス",
+        "options": "--metrics, --unused-code, --globals, --complexity"
+      },
+      "example": "/analyze-vb6-code \"C:\\Legacy\\MyVB6Project\" --complexity",
+      "output": "解析レポート（HTML/JSON形式）"
+    },
+    
+    "dependency-analysis": {
+      "description": "プロジェクト間依存関係の可視化 - DLL、OCX、参照の完全マッピング",
+      "usage": "/dependency-analysis {project_path}",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス",
+        "options": "--output-format graphviz|json|html, --include-system"
+      },
+      "example": "/dependency-analysis \"C:\\Legacy\\MyVB6Project\" --output-format graphviz"
+    },
+    
+    "find-obsolete-code": {
+      "description": "廃止予定/未使用コードの検出 - デッドコード、到達不能コードの特定",
+      "usage": "/find-obsolete-code {project_path}",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス",
+        "options": "--include-private, --include-comments"
+      },
+      "example": "/find-obsolete-code \"C:\\Legacy\\MyVB6Project\" --include-private"
+    },
+    
+    "api-usage-scan": {
+      "description": "Win32 API使用箇所の一覧化 - API宣言と呼び出し箇所のマッピング",
+      "usage": "/api-usage-scan {project_path}",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス",
+        "options": "--group-by-dll, --check-deprecated"
+      },
+      "example": "/api-usage-scan \"C:\\Legacy\\MyVB6Project\" --check-deprecated"
+    },
+    
+    "com-inventory": {
+      "description": "COM/ActiveXコンポーネント依存関係調査 - 登録状況、バージョン確認",
+      "usage": "/com-inventory {project_path}",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス",
+        "options": "--include-versions, --check-registration"
+      },
+      "example": "/com-inventory \"C:\\Legacy\\MyVB6Project\" --include-versions"
+    },
+    
+    "database-schema-extract": {
+      "description": "データベーススキーマ抽出 - ADO/DAO/RDO接続からスキーマ情報取得",
+      "usage": "/database-schema-extract {project_path}",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス",
+        "options": "--connection-strings, --include-procedures"
+      },
+      "example": "/database-schema-extract \"C:\\Legacy\\MyVB6Project\" --include-procedures"
+    },
+    
+    "ui-controls-map": {
+      "description": "使用コントロールとプロパティのマッピング - フォーム解析、サードパーティ特定",
+      "usage": "/ui-controls-map {project_path}",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス",
+        "options": "--include-properties, --third-party-only"
+      },
+      "example": "/ui-controls-map \"C:\\Legacy\\MyVB6Project\" --third-party-only"
+    },
+    
+    "code-metrics": {
+      "description": "循環的複雑度、結合度、凝集度の測定 - 保守性指標の算出",
+      "usage": "/code-metrics {project_path}",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス",
+        "options": "--threshold complexity:10, --export csv"
+      },
+      "example": "/code-metrics \"C:\\Legacy\\MyVB6Project\" --threshold complexity:10"
+    },
+    
+    "fix-vb6": {
+      "description": "VB6コードの安全な修正支援 - 影響範囲分析、自動バックアップ",
+      "usage": "/fix-vb6 {issue_description}",
+      "parameters": {
+        "issue_description": "修正内容の説明",
+        "options": "--analyze-impact, --generate-tests, --backup"
+      },
+      "example": "/fix-vb6 \"CustomerID型をLongからStringに変更\" --analyze-impact"
+    },
+    
+    "add-error-handling": {
+      "description": "エラーハンドリングの追加・改善 - On Error構文の自動挿入",
+      "usage": "/add-error-handling {scope}",
+      "parameters": {
+        "scope": "対象範囲 (project|module|procedure)",
+        "options": "--pattern basic|comprehensive|logging"
+      },
+      "example": "/add-error-handling module --pattern comprehensive"
+    },
+    
+    "refactor-vb6": {
+      "description": "VB6コード内でのリファクタリング - メソッド抽出、変数名変更",
+      "usage": "/refactor-vb6 {refactor_type}",
+      "parameters": {
+        "refactor_type": "リファクタリング種別",
+        "options": "--extract-method, --rename-variable, --remove-goto"
+      },
+      "example": "/refactor-vb6 --extract-method \"ProcessOrder:200-300\""
+    },
+    
+    "add-logging": {
+      "description": "ログ機能の追加 - デバッグ・監査用ログの統合",
+      "usage": "/add-logging {log_level}",
+      "parameters": {
+        "log_level": "ログレベル (debug|info|warning|error)",
+        "options": "--output file|eventlog|debug, --include-params"
+      },
+      "example": "/add-logging debug --output eventlog --include-params"
+    },
+    
+    "optimize-performance": {
+      "description": "パフォーマンスボトルネックの改善 - 遅い処理の特定と最適化",
+      "usage": "/optimize-performance {target}",
+      "parameters": {
+        "target": "最適化対象 (database|loops|strings|memory)",
+        "options": "--profile-first, --suggest-only"
+      },
+      "example": "/optimize-performance database --profile-first"
+    },
+    
+    "fix-memory-leaks": {
+      "description": "メモリリーク箇所の特定と修正 - オブジェクト解放漏れの検出",
+      "usage": "/fix-memory-leaks {scan_type}",
+      "parameters": {
+        "scan_type": "スキャン種別 (quick|thorough)",
+        "options": "--auto-fix, --report-only"
+      },
+      "example": "/fix-memory-leaks thorough --auto-fix"
+    },
+    
+    "update-db-connection": {
+      "description": "データベース接続の更新・最適化 - 接続文字列の一括更新",
+      "usage": "/update-db-connection {connection_type}",
+      "parameters": {
+        "connection_type": "接続種別 (ado|dao|rdo)",
+        "options": "--update-string, --add-timeout, --pool-connections"
+      },
+      "example": "/update-db-connection ado --add-timeout --pool-connections"
+    },
+    
+    "modernize-ui": {
+      "description": "UIの部分的なモダナイゼーション - XPスタイル適用、レイアウト改善",
+      "usage": "/modernize-ui {ui_element}",
+      "parameters": {
+        "ui_element": "UI要素 (forms|controls|menus)",
+        "options": "--xp-theme, --improve-layout, --add-tooltips"
+      },
+      "example": "/modernize-ui forms --xp-theme --improve-layout"
+    },
+    
+    "migration-assessment": {
+      "description": ".NET移行の実現可能性評価 - 自動移行率、手動作業量の見積もり",
+      "usage": "/migration-assessment {project_path}",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス",
+        "options": "--detailed-report, --cost-estimate"
+      },
+      "example": "/migration-assessment \"C:\\Legacy\\MyVB6Project\" --detailed-report",
+      "ai": "gemini_cli"
+    },
+    
+    "migration-plan": {
+      "description": "段階的移行計画の策定 - フェーズ分割、依存関係考慮の移行順序",
+      "usage": "/migration-plan {strategy}",
+      "parameters": {
+        "strategy": "移行戦略 (incremental|big-bang|hybrid)",
+        "options": "--timeline, --resource-plan"
+      },
+      "example": "/migration-plan incremental --timeline",
+      "ai": "o3_mcp"
+    },
+    
+    "migrate-to-net": {
+      "description": "VB6から.NET Framework 4.8への変換実行 - 自動変換と手動修正ガイド",
+      "usage": "/migrate-to-net --phase {phase} --project {path}",
+      "parameters": {
+        "phase": "移行フェーズ (data_access|business_logic|ui)",
+        "path": "プロジェクトパス",
+        "options": "--validate, --compatibility-mode, --preserve-com"
+      },
+      "example": "/migrate-to-net --phase data_access --project \"C:\\Legacy\\MyVB6Project\" --validate"
+    },
+    
+    "validate-compatibility": {
+      "description": "移行後の互換性検証 - 機能テスト、パフォーマンス比較",
+      "usage": "/validate-compatibility {test_type}",
+      "parameters": {
+        "test_type": "テスト種別 (functional|performance|integration)",
+        "options": "--compare-results, --generate-report"
+      },
+      "example": "/validate-compatibility functional --compare-results"
+    },
+    
+    "parallel-run-test": {
+      "description": "VB6/.NET並行実行テスト - 結果比較、差異検出",
+      "usage": "/parallel-run-test {test_scenario}",
+      "parameters": {
+        "test_scenario": "テストシナリオファイル",
+        "options": "--capture-outputs, --compare-performance"
+      },
+      "example": "/parallel-run-test \"scenarios.json\" --capture-outputs"
+    },
+    
+    "data-migration": {
+      "description": "データ移行スクリプト生成 - スキーマ変換、データ変換ルール",
+      "usage": "/data-migration {source_db} {target_db}",
+      "parameters": {
+        "source_db": "移行元データベース",
+        "target_db": "移行先データベース",
+        "options": "--generate-rollback, --validate-data"
+      },
+      "example": "/data-migration \"Access\" \"SQLServer\" --generate-rollback"
+    },
+    
+    "com-wrapper-gen": {
+      "description": "COM相互運用ラッパー生成 - .NETからVB6 COM呼び出し支援",
+      "usage": "/com-wrapper-gen {com_dll}",
+      "parameters": {
+        "com_dll": "COMコンポーネントDLL",
+        "options": "--strong-name, --embed-interop"
+      },
+      "example": "/com-wrapper-gen \"BusinessLogic.dll\" --strong-name"
+    },
+    
+    "rollback-plan": {
+      "description": "移行失敗時のロールバック計画 - 復旧手順、チェックポイント設定",
+      "usage": "/rollback-plan {phase}",
+      "parameters": {
+        "phase": "対象フェーズ",
+        "options": "--create-checkpoints, --test-rollback"
+      },
+      "example": "/rollback-plan data_access --create-checkpoints"
+    }
+  },
+  
+  "analysis_workflows": {
+    "comprehensive_analysis": [
+      "/analyze-vb6-code --metrics",
+      "/dependency-analysis --output-format html",
+      "/com-inventory --check-registration",
+      "/api-usage-scan --check-deprecated",
+      "/code-metrics --export csv"
+    ],
+    
+    "pre_migration_check": [
+      "/migration-assessment --detailed-report",
+      "/find-obsolete-code --include-private",
+      "/database-schema-extract --connection-strings",
+      "/ui-controls-map --third-party-only"
+    ],
+    
+    "maintenance_workflow": [
+      "/fix-vb6 --analyze-impact",
+      "/add-error-handling --pattern comprehensive",
+      "/add-logging info --output file",
+      "/optimize-performance --profile-first"
+    ]
+  },
+  
+  "migration_phases": {
+    "phase1_data": [
+      "/database-schema-extract",
+      "/migrate-to-net --phase data_access",
+      "/data-migration --validate-data",
+      "/validate-compatibility functional"
+    ],
+    
+    "phase2_logic": [
+      "/refactor-vb6 --extract-method",
+      "/migrate-to-net --phase business_logic",
+      "/com-wrapper-gen --embed-interop",
+      "/parallel-run-test"
+    ],
+    
+    "phase3_ui": [
+      "/modernize-ui --xp-theme",
+      "/migrate-to-net --phase ui",
+      "/validate-compatibility performance",
+      "/rollback-plan --test-rollback"
+    ]
+  }
+}
