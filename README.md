@@ -141,8 +141,9 @@
 - `/devops` - CI/CD・インフラ自動化・監視・デプロイメント
 - `/security` - セキュリティ設計・脅威分析・監査・インシデント対応
 
-### 🔧 統合テスト・管理系（1コマンド）  
+### 🔧 統合テスト・管理系（2コマンド）  
 - `/modeltest` - マルチAI連携テスト・統合確認・パフォーマンス評価
+- `/build-diagnose` - ビルド/コンパイルエラーのマルチAI協調診断・自動修復
 
 ## 📁 プロジェクト構造
 
@@ -458,6 +459,23 @@ export OPENAI_API_KEY="your_openai_api_key"
 /devops automation --automation_level="advanced"
 ```
 
+### 🔨 ビルド/コンパイルエラー対応
+
+#### ビルドエラーが発生した場合
+```bash
+# 自動診断・修復
+/build-diagnose --auto-detect       # プロジェクトタイプ自動判定
+/fix-build-errors --auto            # Claude Code による自動修正
+/analyze-build-log                  # Gemini CLI によるログ分析
+/check-build-environment            # o3 MCP による環境診断
+
+# プロジェクト別診断
+/net48-build-diagnose               # .NET Framework 4.8専用
+/net40-build-diagnose               # .NET Framework 4.0専用
+/ocr-build-diagnose                 # ISP-673 OCR専用
+/vb6-compile-diagnose               # VB6専用
+```
+
 ## 🎯 マルチAI連携ワークフロー図
 
 ```mermaid
@@ -644,6 +662,15 @@ graph TB
 - **OpenAI o3 MCP**: 高度推論・インフラ・セキュリティシステム
 
 ## 📅 プロジェクトマイルストーン・最新更新
+
+### 🎆 2025年2月 - 開発品質強化アップデート
+- ✅ **ビルド/コンパイル必須ルール追加**: 全プロジェクトでソースコード修正後の即時ビルド実行を義務化
+- ✅ **VB6 SJIS文字コード対応強化**: 文字化け防止のための詳細ガイドライン追加
+- ✅ **包括的トラブルシューティングガイド作成**: 
+  - .NET Framework 4.8/4.0 ビルドエラー対応
+  - ISP-673 OCR x86プラットフォーム・COM参照エラー対応
+  - VB6 コンパイルエラー・SJIS文字コード問題対応
+- ✅ **マルチAI協調ビルドサポートコマンド追加**: `/build-diagnose`による自動診断・修復
 
 ### 🎆 2025年2月 - VB6レガシー解析・移行プロジェクト追加
 - ✅ **VB6レガシー解析・移行プロジェクト完成**: 既存VB6資産の解析・保守・.NET移行支援
