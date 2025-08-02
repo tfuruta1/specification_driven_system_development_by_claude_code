@@ -1,311 +1,245 @@
 {
-  "vb6_legacy_commands": {
-    "analyze-vb6-code": {
-      "description": "VB6コード静的解析 - 複雑度、品質メトリクス、技術的負債の測定",
-      "usage": "/analyze-vb6-code {project_path}",
+  "commands": [
+    {
+      "name": "/vb6-analyze-code",
+      "description": "VB6コードの静的解析を実行 - 複雑度、品質メトリクス、技術的負債の測定",
+      "pattern": "/vb6-analyze-code <project_path>",
       "parameters": {
         "project_path": "VB6プロジェクトのパス",
         "options": "--metrics, --unused-code, --globals, --complexity"
       },
-      "example": "/analyze-vb6-code \"C:\\Legacy\\MyVB6Project\" --complexity",
-      "output": "解析レポート（HTML/JSON形式）"
+      "action": "1. プロジェクト内の全ファイルを走査\n2. コードメトリクスを計算\n3. 問題箇所を特定\n4. 解析レポートを生成"
     },
-    
-    "dependency-analysis": {
-      "description": "プロジェクト間依存関係の可視化 - DLL、OCX、参照の完全マッピング",
-      "usage": "/dependency-analysis {project_path}",
-      "parameters": {
-        "project_path": "VB6プロジェクトのパス",
-        "options": "--output-format graphviz|json|html, --include-system"
-      },
-      "example": "/dependency-analysis \"C:\\Legacy\\MyVB6Project\" --output-format graphviz"
+    {
+      "name": "/vb6-check-dependencies",
+      "description": "VB6プロジェクトの依存関係を完全チェック",
+      "pattern": "/vb6-check-dependencies",
+      "action": "1. プロジェクトファイル(.vbp)から参照を抽出\n2. COMコンポーネントの登録状態確認\n3. DLL/OCXのバージョン情報取得\n4. 不足している依存関係をリスト化"
     },
-    
-    "find-obsolete-code": {
-      "description": "廃止予定/未使用コードの検出 - デッドコード、到達不能コードの特定",
-      "usage": "/find-obsolete-code {project_path}",
+    {
+      "name": "/vb6-add-module",
+      "description": "VB6プロジェクトに新しいモジュールを追加（※ファイルはSJISで保存）",
+      "pattern": "/vb6-add-module <type> <name>",
       "parameters": {
-        "project_path": "VB6プロジェクトのパス",
-        "options": "--include-private, --include-comments"
+        "type": "モジュールタイプ (bas/cls/frm)",
+        "name": "モジュール名"
       },
-      "example": "/find-obsolete-code \"C:\\Legacy\\MyVB6Project\" --include-private"
-    },
-    
-    "api-usage-scan": {
-      "description": "Win32 API使用箇所の一覧化 - API宣言と呼び出し箇所のマッピング",
-      "usage": "/api-usage-scan {project_path}",
-      "parameters": {
-        "project_path": "VB6プロジェクトのパス",
-        "options": "--group-by-dll, --check-deprecated"
-      },
-      "example": "/api-usage-scan \"C:\\Legacy\\MyVB6Project\" --check-deprecated"
-    },
-    
-    "com-inventory": {
-      "description": "COM/ActiveXコンポーネント依存関係調査 - 登録状況、バージョン確認",
-      "usage": "/com-inventory {project_path}",
-      "parameters": {
-        "project_path": "VB6プロジェクトのパス",
-        "options": "--include-versions, --check-registration"
-      },
-      "example": "/com-inventory \"C:\\Legacy\\MyVB6Project\" --include-versions"
-    },
-    
-    "database-schema-extract": {
-      "description": "データベーススキーマ抽出 - ADO/DAO/RDO接続からスキーマ情報取得",
-      "usage": "/database-schema-extract {project_path}",
-      "parameters": {
-        "project_path": "VB6プロジェクトのパス",
-        "options": "--connection-strings, --include-procedures"
-      },
-      "example": "/database-schema-extract \"C:\\Legacy\\MyVB6Project\" --include-procedures"
-    },
-    
-    "ui-controls-map": {
-      "description": "使用コントロールとプロパティのマッピング - フォーム解析、サードパーティ特定",
-      "usage": "/ui-controls-map {project_path}",
-      "parameters": {
-        "project_path": "VB6プロジェクトのパス",
-        "options": "--include-properties, --third-party-only"
-      },
-      "example": "/ui-controls-map \"C:\\Legacy\\MyVB6Project\" --third-party-only"
-    },
-    
-    "code-metrics": {
-      "description": "循環的複雑度、結合度、凝集度の測定 - 保守性指標の算出",
-      "usage": "/code-metrics {project_path}",
-      "parameters": {
-        "project_path": "VB6プロジェクトのパス",
-        "options": "--threshold complexity:10, --export csv"
-      },
-      "example": "/code-metrics \"C:\\Legacy\\MyVB6Project\" --threshold complexity:10"
-    },
-    
-    "fix-vb6": {
-      "description": "VB6コードの安全な修正支援 - 影響範囲分析、自動バックアップ、SJIS文字コード保持",
-      "usage": "/fix-vb6 {issue_description}",
-      "parameters": {
-        "issue_description": "修正内容の説明",
-        "options": "--analyze-impact, --generate-tests, --backup"
-      },
-      "example": "/fix-vb6 \"CustomerID型をLongからStringに変更\" --analyze-impact",
-      "encoding": "SJIS",
-      "note": "VB6ソースファイルは必ずSJIS文字コードで読み書きします。文字化け防止のため、他の文字コードでの保存は行いません。"
-    },
-    
-    "add-error-handling": {
-      "description": "エラーハンドリングの追加・改善 - On Error構文の自動挿入、SJIS文字コード保持",
-      "usage": "/add-error-handling {scope}",
-      "parameters": {
-        "scope": "対象範囲 (project|module|procedure)",
-        "options": "--pattern basic|comprehensive|logging"
-      },
-      "example": "/add-error-handling module --pattern comprehensive",
+      "action": "1. 指定されたタイプのモジュールテンプレートを作成\n2. プロジェクトファイルに参照を追加\n3. SJIS文字コードで保存",
       "encoding": "SJIS",
       "note": "VB6ソースファイルは必ずSJIS文字コードで読み書きします。"
     },
-    
-    "refactor-vb6": {
-      "description": "VB6コード内でのリファクタリング - メソッド抽出、変数名変更、SJIS文字コード保持",
-      "usage": "/refactor-vb6 {refactor_type}",
+    {
+      "name": "/vb6-add-error-handling",
+      "description": "VB6プロシージャに包括的エラーハンドリングを追加",
+      "pattern": "/vb6-add-error-handling <file> <procedure>",
       "parameters": {
-        "refactor_type": "リファクタリング種別",
-        "options": "--extract-method, --rename-variable, --remove-goto"
+        "file": "対象ファイルパス",
+        "procedure": "プロシージャ名 (省略時は全プロシージャ)"
       },
-      "example": "/refactor-vb6 --extract-method \"ProcessOrder:200-300\"",
-      "encoding": "SJIS",
-      "note": "VB6ソースファイルは必ずSJIS文字コードで読み書きします。"
+      "action": "1. 指定されたプロシージャを検索\n2. 標準的なエラーハンドリングコードを挿入\n3. エラーログ出力処理を追加\n4. Exit Sub/Functionの適切な配置",
+      "encoding": "SJIS"
     },
-    
-    "add-logging": {
-      "description": "ログ機能の追加 - デバッグ・監査用ログの統合、SJIS文字コード保持",
-      "usage": "/add-logging {log_level}",
+    {
+      "name": "/vb6-create-dao",
+      "description": "VB6 データアクセスオブジェクト(DAO)クラスを生成",
+      "pattern": "/vb6-create-dao <entity>",
       "parameters": {
-        "log_level": "ログレベル (debug|info|warning|error)",
-        "options": "--output file|eventlog|debug, --include-params"
+        "entity": "エンティティ名 (例: Customer, Order)"
       },
-      "example": "/add-logging debug --output eventlog --include-params",
-      "encoding": "SJIS",
-      "note": "VB6ソースファイルは必ずSJIS文字コードで読み書きします。"
+      "action": "1. DAOクラステンプレートを生成\n2. CRUD操作メソッドを実装\n3. エラーハンドリングを含む\n4. トランザクションサポート",
+      "encoding": "SJIS"
     },
-    
-    "optimize-performance": {
-      "description": "パフォーマンスボトルネックの改善 - 遅い処理の特定と最適化、SJIS文字コード保持",
-      "usage": "/optimize-performance {target}",
+    {
+      "name": "/vb6-create-project",
+      "description": "新しいVB6プロジェクトを標準構造で作成",
+      "pattern": "/vb6-create-project <name> <type>",
       "parameters": {
-        "target": "最適化対象 (database|loops|strings|memory)",
-        "options": "--profile-first, --suggest-only"
+        "name": "プロジェクト名",
+        "type": "プロジェクトタイプ (exe/dll/ocx)"
       },
-      "example": "/optimize-performance database --profile-first",
-      "encoding": "SJIS",
-      "note": "VB6ソースファイルは必ずSJIS文字コードで読み書きします。"
+      "action": "1. プロジェクトディレクトリ構造を作成\n2. 基本的な.vbpファイルを生成\n3. 標準モジュール・フォームを追加\n4. 必要な参照設定を追加"
     },
-    
-    "fix-memory-leaks": {
-      "description": "メモリリーク箇所の特定と修正 - オブジェクト解放漏れの検出、SJIS文字コード保持",
-      "usage": "/fix-memory-leaks {scan_type}",
+    {
+      "name": "/vb6-optimize-db",
+      "description": "VB6データベースアクセスコードを最適化",
+      "pattern": "/vb6-optimize-db <file>",
       "parameters": {
-        "scan_type": "スキャン種別 (quick|thorough)",
-        "options": "--auto-fix, --report-only"
+        "file": "最適化対象ファイル"
       },
-      "example": "/fix-memory-leaks thorough --auto-fix",
-      "encoding": "SJIS",
-      "note": "VB6ソースファイルは必ずSJIS文字コードで読み書きします。"
+      "action": "1. データベースアクセスコードを分析\n2. N+1問題の検出\n3. 接続プーリングの実装提案\n4. パラメータ化クエリへの変換",
+      "encoding": "SJIS"
     },
-    
-    "update-db-connection": {
-      "description": "データベース接続の更新・最適化 - 接続文字列の一括更新、SJIS文字コード保持",
-      "usage": "/update-db-connection {connection_type}",
+    {
+      "name": "/vb6-convert-to-net",
+      "description": "VB6コードを.NET Framework 4.0/4.8向けに変換準備",
+      "pattern": "/vb6-convert-to-net <file>",
       "parameters": {
-        "connection_type": "接続種別 (ado|dao|rdo)",
-        "options": "--update-string, --add-timeout, --pool-connections"
+        "file": "変換対象のVB6ファイル"
       },
-      "example": "/update-db-connection ado --add-timeout --pool-connections",
-      "encoding": "SJIS",
-      "note": "VB6ソースファイルは必ずSJIS文字コードで読み書きします。"
+      "action": "1. VB6特有の構文を特定\n2. .NET非互換コードをマーク\n3. 変換に必要な修正提案を生成\n4. 移行ガイドラインを提供",
+      "encoding": "SJIS"
     },
-    
-    "modernize-ui": {
-      "description": "UIの部分的なモダナイゼーション - XPスタイル適用、レイアウト改善、SJIS文字コード保持",
-      "usage": "/modernize-ui {ui_element}",
+    {
+      "name": "/vb6-create-unittest",
+      "description": "VB6ユニットテストをVB6Unitフレームワークで生成",
+      "pattern": "/vb6-create-unittest <class>",
       "parameters": {
-        "ui_element": "UI要素 (forms|controls|menus)",
-        "options": "--xp-theme, --improve-layout, --add-tooltips"
+        "class": "テスト対象クラス名"
       },
-      "example": "/modernize-ui forms --xp-theme --improve-layout",
-      "encoding": "SJIS",
-      "note": "VB6ソースファイルは必ずSJIS文字コードで読み書きします。"
+      "action": "1. VB6Unitフレームワーク用テストクラス生成\n2. 主要メソッドのテストケース作成\n3. セットアップ・ティアダウン実装\n4. アサーションメソッドの定義",
+      "encoding": "SJIS"
     },
-    
-    "migration-assessment": {
-      "description": ".NET移行の実現可能性評価 - 自動移行率、手動作業量の見積もり",
-      "usage": "/migration-assessment {project_path}",
+    {
+      "name": "/vb6-add-com-reference",
+      "description": "VB6プロジェクトにCOM参照を追加",
+      "pattern": "/vb6-add-com-reference <project> <component>",
       "parameters": {
-        "project_path": "VB6プロジェクトのパス",
-        "options": "--detailed-report, --cost-estimate"
+        "project": "プロジェクトファイル(.vbp)パス",
+        "component": "COMコンポーネント名またはGUID"
       },
-      "example": "/migration-assessment \"C:\\Legacy\\MyVB6Project\" --detailed-report",
-      "ai": "gemini_cli"
+      "action": "1. 指定されたCOMコンポーネントを検索\n2. プロジェクトファイルに参照を追加\n3. 必要な依存関係も確認\n4. バージョン互換性をチェック"
     },
-    
-    "migration-plan": {
-      "description": "段階的移行計画の策定 - フェーズ分割、依存関係考慮の移行順序",
-      "usage": "/migration-plan {strategy}",
+    {
+      "name": "/vb6-generate-interface",
+      "description": "VB6インターフェースクラスを生成",
+      "pattern": "/vb6-generate-interface <name> <methods>",
       "parameters": {
-        "strategy": "移行戦略 (incremental|big-bang|hybrid)",
-        "options": "--timeline, --resource-plan"
+        "name": "インターフェース名",
+        "methods": "メソッド名リスト（カンマ区切り）"
       },
-      "example": "/migration-plan incremental --timeline",
-      "ai": "o3_mcp"
+      "action": "1. インターフェースクラスを作成\n2. 指定されたメソッドのスタブを生成\n3. 実装クラスのテンプレートも作成\n4. Implements文の追加",
+      "encoding": "SJIS"
     },
-    
-    "migrate-to-net": {
-      "description": "VB6から.NET Framework 4.8への変換実行 - 自動変換と手動修正ガイド",
-      "usage": "/migrate-to-net --phase {phase} --project {path}",
+    {
+      "name": "/vb6-create-form",
+      "description": "VB6フォームを標準テンプレートで作成",
+      "pattern": "/vb6-create-form <name> <type>",
       "parameters": {
-        "phase": "移行フェーズ (data_access|business_logic|ui)",
-        "path": "プロジェクトパス",
-        "options": "--validate, --compatibility-mode, --preserve-com"
+        "name": "フォーム名",
+        "type": "フォームタイプ (standard/mdi/child/dialog)"
       },
-      "example": "/migrate-to-net --phase data_access --project \"C:\\Legacy\\MyVB6Project\" --validate"
+      "action": "1. 指定されたタイプのフォームを作成\n2. 基本的なコントロールを配置\n3. イベントハンドラのスタブを生成\n4. エラーハンドリングを含む",
+      "encoding": "SJIS"
     },
-    
-    "validate-compatibility": {
-      "description": "移行後の互換性検証 - 機能テスト、パフォーマンス比較",
-      "usage": "/validate-compatibility {test_type}",
+    {
+      "name": "/vb6-analyze-performance",
+      "description": "VB6コードのパフォーマンス分析と最適化提案",
+      "pattern": "/vb6-analyze-performance <file>",
       "parameters": {
-        "test_type": "テスト種別 (functional|performance|integration)",
-        "options": "--compare-results, --generate-report"
+        "file": "分析対象ファイル"
       },
-      "example": "/validate-compatibility functional --compare-results"
+      "action": "1. パフォーマンスボトルネックを特定\n2. 文字列連結の最適化提案\n3. ループ処理の改善点\n4. オブジェクト生成の最適化"
     },
-    
-    "parallel-run-test": {
-      "description": "VB6/.NET並行実行テスト - 結果比較、差異検出",
-      "usage": "/parallel-run-test {test_scenario}",
+    {
+      "name": "/vb6-generate-report",
+      "description": "VB6 Crystal Reportsレポートテンプレート生成",
+      "pattern": "/vb6-generate-report <name> <datasource>",
       "parameters": {
-        "test_scenario": "テストシナリオファイル",
-        "options": "--capture-outputs, --compare-performance"
+        "name": "レポート名",
+        "datasource": "データソース（テーブル/ビュー名）"
       },
-      "example": "/parallel-run-test \"scenarios.json\" --capture-outputs"
+      "action": "1. Crystal Reports連携コードを生成\n2. レポート表示フォームを作成\n3. パラメータ処理を実装\n4. エクスポート機能を追加"
     },
-    
-    "data-migration": {
-      "description": "データ移行スクリプト生成 - スキーマ変換、データ変換ルール",
-      "usage": "/data-migration {source_db} {target_db}",
+    {
+      "name": "/vb6-create-installer",
+      "description": "VB6アプリケーション用Inno Setupインストーラー作成",
+      "pattern": "/vb6-create-installer <project>",
       "parameters": {
-        "source_db": "移行元データベース",
-        "target_db": "移行先データベース",
-        "options": "--generate-rollback, --validate-data"
+        "project": "プロジェクトファイル(.vbp)パス"
       },
-      "example": "/data-migration \"Access\" \"SQLServer\" --generate-rollback"
+      "action": "1. 依存ファイルリストを生成\n2. Inno Setupスクリプトを作成\n3. レジストリ設定を含む\n4. アンインストール処理も実装"
     },
-    
-    "com-wrapper-gen": {
-      "description": "COM相互運用ラッパー生成 - .NETからVB6 COM呼び出し支援",
-      "usage": "/com-wrapper-gen {com_dll}",
+    {
+      "name": "/vb6-migration-assessment",
+      "description": "VB6から.NETへの移行評価レポート作成",
+      "pattern": "/vb6-migration-assessment <project>",
       "parameters": {
-        "com_dll": "COMコンポーネントDLL",
-        "options": "--strong-name, --embed-interop"
+        "project": "プロジェクトディレクトリパス"
       },
-      "example": "/com-wrapper-gen \"BusinessLogic.dll\" --strong-name"
+      "action": "1. 移行難易度を評価\n2. 非互換機能をリストアップ\n3. 推定作業時間を算出\n4. 移行戦略を提案"
     },
-    
-    "rollback-plan": {
-      "description": "移行失敗時のロールバック計画 - 復旧手順、チェックポイント設定",
-      "usage": "/rollback-plan {phase}",
+    {
+      "name": "/vb6-generate-documentation",
+      "description": "VB6プロジェクトのドキュメント自動生成",
+      "pattern": "/vb6-generate-documentation <project>",
       "parameters": {
-        "phase": "対象フェーズ",
-        "options": "--create-checkpoints, --test-rollback"
+        "project": "プロジェクトディレクトリパス"
       },
-      "example": "/rollback-plan data_access --create-checkpoints"
+      "action": "1. クラス・モジュール一覧を作成\n2. メソッド・プロパティの説明を抽出\n3. 依存関係図を生成\n4. Markdown形式で出力"
+    },
+    {
+      "name": "/vb6-refactor-to-patterns",
+      "description": "VB6コードをデザインパターンにリファクタリング",
+      "pattern": "/vb6-refactor-to-patterns <file> <pattern>",
+      "parameters": {
+        "file": "対象ファイル",
+        "pattern": "適用パターン (singleton/factory/observer)"
+      },
+      "action": "1. 現在のコード構造を分析\n2. 指定パターンへの変換計画\n3. リファクタリング実行\n4. テストコードも更新",
+      "encoding": "SJIS"
+    },
+    {
+      "name": "/vb6-setup-ci",
+      "description": "VB6プロジェクト用CI/CDパイプライン設定",
+      "pattern": "/vb6-setup-ci <project> <platform>",
+      "parameters": {
+        "project": "プロジェクトファイル(.vbp)パス",
+        "platform": "CIプラットフォーム (jenkins/azure-devops)"
+      },
+      "action": "1. ビルドスクリプトを生成\n2. テスト自動化設定\n3. デプロイメント設定\n4. パイプライン設定ファイル作成"
+    },
+    {
+      "name": "/vb6-check-security",
+      "description": "VB6コードのセキュリティ脆弱性チェック",
+      "pattern": "/vb6-check-security <path>",
+      "parameters": {
+        "path": "チェック対象パス"
+      },
+      "action": "1. SQLインジェクション脆弱性検出\n2. ハードコードされた認証情報\n3. 安全でないファイル操作\n4. 修正提案の提供"
+    },
+    {
+      "name": "/vb6-com-inventory",
+      "description": "COM/ActiveXコンポーネント依存関係調査",
+      "pattern": "/vb6-com-inventory <project_path>",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス"
+      },
+      "action": "1. プロジェクトが使用するCOMコンポーネントをリスト\n2. 各コンポーネントのバージョン情報\n3. レジストリ登録状態\n4. Registration-Free COMへの変換可能性"
+    },
+    {
+      "name": "/vb6-api-usage-scan",
+      "description": "Win32 API使用箇所の一覧化",
+      "pattern": "/vb6-api-usage-scan <project_path>",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス"
+      },
+      "action": "1. Declare文を検索\n2. API関数の呼び出し箇所を特定\n3. DLL別にグルーピング\n4. .NETでの代替手段を提示"
+    },
+    {
+      "name": "/vb6-database-extract",
+      "description": "データベーススキーマ抽出",
+      "pattern": "/vb6-database-extract <project_path>",
+      "parameters": {
+        "project_path": "VB6プロジェクトのパス"
+      },
+      "action": "1. 接続文字列を抽出\n2. 使用テーブル・ビューを特定\n3. ストアドプロシージャの使用状況\n4. ER図の生成"
     }
-  },
-  
-  "analysis_workflows": {
-    "comprehensive_analysis": [
-      "/analyze-vb6-code --metrics",
-      "/dependency-analysis --output-format html",
-      "/com-inventory --check-registration",
-      "/api-usage-scan --check-deprecated",
-      "/code-metrics --export csv"
-    ],
-    
-    "pre_migration_check": [
-      "/migration-assessment --detailed-report",
-      "/find-obsolete-code --include-private",
-      "/database-schema-extract --connection-strings",
-      "/ui-controls-map --third-party-only"
-    ],
-    
-    "maintenance_workflow": [
-      "/fix-vb6 --analyze-impact",
-      "/add-error-handling --pattern comprehensive",
-      "/add-logging info --output file",
-      "/optimize-performance --profile-first"
-    ]
-  },
-  
-  "migration_phases": {
-    "phase1_data": [
-      "/database-schema-extract",
-      "/migrate-to-net --phase data_access",
-      "/data-migration --validate-data",
-      "/validate-compatibility functional"
-    ],
-    
-    "phase2_logic": [
-      "/refactor-vb6 --extract-method",
-      "/migrate-to-net --phase business_logic",
-      "/com-wrapper-gen --embed-interop",
-      "/parallel-run-test"
-    ],
-    
-    "phase3_ui": [
-      "/modernize-ui --xp-theme",
-      "/migrate-to-net --phase ui",
-      "/validate-compatibility performance",
-      "/rollback-plan --test-rollback"
-    ]
-  }
+  ],
+  "build_commands": [
+    {
+      "name": "/vb6-build",
+      "description": "VB6プロジェクトをビルド",
+      "pattern": "/vb6-build <project>",
+      "parameters": {
+        "project": "プロジェクトファイル(.vbp)パス"
+      },
+      "action": "VB6.exe /make \"{project}\" /out \"{log_file}\""
+    },
+    {
+      "name": "/vb6-compile-check",
+      "description": "VB6プロジェクトのコンパイルチェック",
+      "pattern": "/vb6-compile-check",
+      "action": "1. 現在の.vbpファイルを検出\n2. VB6コンパイラでビルド\n3. エラーを表示\n4. 修正提案を提供"
+    }
+  ]
 }
