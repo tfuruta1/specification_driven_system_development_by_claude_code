@@ -585,6 +585,26 @@ graph TB
    - `git status`で不要なファイルが含まれていないか確認
    - `.gitignore`を適切に設定して一時ファイルを除外
 
+5. **GitHubへのpush前の必須確認事項**
+   ```bash
+   # push前の最終チェックリスト
+   
+   # 1. 空ディレクトリの確認と削除
+   find . -type d -empty -not -path "./.git/*" -exec rmdir {} \;
+   
+   # 2. 一時ファイルの確認
+   find . -name "*.tmp" -o -name "*.log" -o -name "*.bak" -o -name "*~"
+   
+   # 3. ビルド成果物やキャッシュの確認
+   find . -name "*.cache" -o -name "*.temp" -o -name "*.old"
+   
+   # 4. 最終的なgit statusの確認
+   git status --porcelain
+   ```
+   
+   ⚠️ **重要**: 上記のチェックで不要なファイル・フォルダが見つかった場合は、
+   必ず削除してからcommit・pushを行ってください。
+
 ## 🤝 貢献方法
 
 1. このリポジトリをフォーク
