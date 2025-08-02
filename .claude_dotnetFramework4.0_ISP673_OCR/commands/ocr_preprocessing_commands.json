@@ -1,5 +1,10 @@
 {
   "ocr_preprocessing_commands": {
+    "ocr_help": {
+      "description": "ISP-673 OCRカスタムコマンドのヘルプと.claude認識状態を確認",
+      "command": "echo '=== ISP-673 OCR Help ===' && echo '利用可能なOCRコマンド:' && echo '  /analyze-ocr-image - OCR画像分析' && echo '  /implement-custom-preprocessing - カスタム前処理実装' && echo '  他14個のOCR専用コマンド' && echo '' && echo '.claude認識状態:' && echo '  現在の作業ディレクトリ: %CD%' && echo '  .claudeフォルダ検索中...' && if exist .claude (echo '  ✓ .claudeフォルダが見つかりました') else (echo '  ✗ .claudeフォルダが見つかりません') && echo '' && echo 'トラブルシューティング:' && echo '  1. フォルダ名が正しいか確認 (.claude_dotnetFramework4.0_ISP673_OCR → .claude)' && echo '  2. 現在のディレクトリが正しいか確認' && echo '  3. custom_commands.jsonファイルが存在するか確認'",
+      "usage_example": "/ocr-help"
+    },
     "analyze_ocr_image": {
       "description": "OCR対象画像を分析して最適な前処理方法を提案（マルチAI連携）",
       "command": "echo 'Starting multi-AI image analysis...' && echo.",

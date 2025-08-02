@@ -1,6 +1,12 @@
 {
   "commands": [
     {
+      "name": "/vb6-help",
+      "description": "VB6カスタムコマンドのヘルプと.claude認識状態を確認",
+      "pattern": "/vb6-help",
+      "action": "1. 利用可能なVB6コマンド一覧を表示\n2. .claudeフォルダの認識状態を確認\n3. カスタムコマンドの読み込み状態を表示\n4. トラブルシューティング情報を提供"
+    },
+    {
       "name": "/vb6-analyze-code",
       "description": "VB6コードの静的解析を実行 - 複雑度、品質メトリクス、技術的負債の測定",
       "pattern": "/vb6-analyze-code <project_path>",
