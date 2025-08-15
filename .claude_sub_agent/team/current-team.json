@@ -1,0 +1,91 @@
+﻿{
+    "hierarchy_version":  "7.0.0",
+    "usage_instructions":  {
+                               "access_restrictions":  {
+                                                           "rule3":  "Team members are managed by their respective leaders",
+                                                           "rule4":  "All technical work flows through CTO",
+                                                           "rule2":  "Internal leaders are NOT accessible with @ commands",
+                                                           "rule1":  "Users can ONLY interact with @cto, @人事部, @経営企画部"
+                                                       },
+                               "for_users":  {
+                                                 "team_composition":  "Use @人事部 for team organization and resource planning",
+                                                 "strategic_planning":  "Use @経営企画部 for business strategy and innovation",
+                                                 "technical_requests":  "Use @cto for all technical projects and decisions"
+                                             }
+                           },
+    "access_control":  {
+                           "internal_leaders":  {
+                                                    "qa-lead":  {
+                                                                    "manages":  "QA specialists",
+                                                                    "status":  "standby",
+                                                                    "access":  "CTO delegation only"
+                                                                },
+                                                    "legacy-lead":  {
+                                                                        "manages":  "Legacy system specialists",
+                                                                        "status":  "standby",
+                                                                        "access":  "CTO delegation only"
+                                                                    },
+                                                    "devops-lead":  {
+                                                                        "manages":  "DevOps specialists",
+                                                                        "status":  "standby",
+                                                                        "access":  "CTO delegation only"
+                                                                    },
+                                                    "backend-lead":  {
+                                                                         "manages":  "Backend specialists",
+                                                                         "status":  "standby",
+                                                                         "access":  "CTO delegation only"
+                                                                     },
+                                                    "review-lead":  {
+                                                                        "manages":  "Review specialists",
+                                                                        "status":  "standby",
+                                                                        "access":  "CTO delegation only"
+                                                                    },
+                                                    "frontend-lead":  {
+                                                                          "manages":  "Frontend specialists",
+                                                                          "status":  "standby",
+                                                                          "access":  "CTO delegation only"
+                                                                      }
+                                                },
+                           "user_facing_agents":  {
+                                                      "cto":  {
+                                                                  "status":  "active",
+                                                                  "color_theme":  {
+                                                                                      "hex":  "#00FFFF",
+                                                                                      "primary":  "Cyan",
+                                                                                      "emoji":  "🎯",
+                                                                                      "role":  "Chief Technology Officer"
+                                                                                  },
+                                                                  "specialization":  "Strategic technology leadership and coordination",
+                                                                  "emoji":  "🎯",
+                                                                  "role":  "Chief Technology Officer"
+                                                              },
+                                                      "経営企画部":  {
+                                                                    "status":  "active",
+                                                                    "color_theme":  {
+                                                                                        "hex":  "#FFFFFF",
+                                                                                        "primary":  "White",
+                                                                                        "emoji":  "💡",
+                                                                                        "role":  "Strategic Planning \u0026 Innovation"
+                                                                                    },
+                                                                    "specialization":  "Business strategy and innovation",
+                                                                    "emoji":  "💡",
+                                                                    "role":  "Strategic Planning Department"
+                                                                },
+                                                      "人事部":  {
+                                                                  "status":  "active",
+                                                                  "color_theme":  {
+                                                                                      "hex":  "#FF00FF",
+                                                                                      "primary":  "Magenta",
+                                                                                      "emoji":  "🏢",
+                                                                                      "role":  "Human Resources \u0026 Team Organization"
+                                                                                  },
+                                                                  "specialization":  "Team organization and recruitment (人員配置・異動計画、組織効率化、体制最適化)",
+                                                                  "emoji":  "🏢",
+                                                                  "role":  "Human Resources Department"
+                                                              }
+                                                  }
+                       },
+    "last_updated":  "2025-08-15 23:52",
+    "status":  "ready-for-deployment",
+    "project":  "Awaiting Project Assignment"
+}

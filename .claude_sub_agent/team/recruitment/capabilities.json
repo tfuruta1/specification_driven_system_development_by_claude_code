@@ -1,0 +1,103 @@
+﻿{
+    "team_composition_templates":  {
+                                       "small_project":  {
+                                                             "backend":  1,
+                                                             "frontend":  1,
+                                                             "qa":  1
+                                                         },
+                                       "medium_project":  {
+                                                              "backend":  2,
+                                                              "frontend":  2,
+                                                              "devops":  1,
+                                                              "qa":  1
+                                                          },
+                                       "large_project":  {
+                                                             "review":  1,
+                                                             "backend":  3,
+                                                             "frontend":  3,
+                                                             "devops":  1,
+                                                             "qa":  2
+                                                         }
+                                   },
+    "skill_database":  {
+                           "backend":  {
+                                           "python_specialists":  [
+                                                                      "FastAPI",
+                                                                      "Django",
+                                                                      "Flask",
+                                                                      "Data Science"
+                                                                  ],
+                                           "dotnet_specialists":  [
+                                                                      ".NET 8",
+                                                                      "ASP.NET Core",
+                                                                      "Entity Framework",
+                                                                      "Microservices"
+                                                                  ],
+                                           "node_specialists":  [
+                                                                    "Express",
+                                                                    "NestJS",
+                                                                    "GraphQL",
+                                                                    "Serverless"
+                                                                ]
+                                       },
+                           "frontend":  {
+                                            "vue_specialists":  [
+                                                                    "Vue 3",
+                                                                    "Composition API",
+                                                                    "Pinia",
+                                                                    "Nuxt.js"
+                                                                ],
+                                            "react_specialists":  [
+                                                                      "React 18",
+                                                                      "Next.js",
+                                                                      "Redux",
+                                                                      "React Native"
+                                                                  ],
+                                            "angular_specialists":  [
+                                                                        "Angular 15+",
+                                                                        "RxJS",
+                                                                        "NgRx",
+                                                                        "Ionic"
+                                                                    ]
+                                        },
+                           "devops":  {
+                                          "cicd_specialists":  [
+                                                                   "Jenkins",
+                                                                   "GitLab CI",
+                                                                   "GitHub Actions",
+                                                                   "ArgoCD"
+                                                               ],
+                                          "cloud_specialists":  [
+                                                                    "AWS",
+                                                                    "Azure",
+                                                                    "GCP",
+                                                                    "Multi-cloud"
+                                                                ],
+                                          "container_specialists":  [
+                                                                        "Docker",
+                                                                        "Kubernetes",
+                                                                        "Service Mesh",
+                                                                        "Helm"
+                                                                    ]
+                                      },
+                           "qa":  {
+                                      "performance_specialists":  [
+                                                                      "JMeter",
+                                                                      "K6",
+                                                                      "LoadRunner",
+                                                                      "Profiling"
+                                                                  ],
+                                      "security_specialists":  [
+                                                                   "OWASP",
+                                                                   "Penetration Testing",
+                                                                   "Security Scanning"
+                                                               ],
+                                      "automation_specialists":  [
+                                                                     "Selenium",
+                                                                     "Cypress",
+                                                                     "Playwright",
+                                                                     "API Testing"
+                                                                 ]
+                                  }
+                       }
+}
