@@ -1,0 +1,60 @@
+# Environment variables
+.env
+*.env
+.env.*
+
+# .claude_sub_agent specific
+.claude_sub_agent/.env
+.claude_sub_agent/*.env
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+.tmp/
+
+# Logs
+*.log
+logs/
+
+# Node modules (if applicable)
+node_modules/
+
+# Python (if applicable)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+
+# Build outputs
+dist/
+build/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# API Keys and Secrets
+*.key
+*.pem
+*.cert
+secrets/
+credentials/
+
+# Claude specific temporary files
+.claudexx/
+nul

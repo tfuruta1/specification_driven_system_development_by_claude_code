@@ -1,0 +1,321 @@
+{
+  "available_members": {
+    "frontend": [
+      {
+        "id": "FE001",
+        "name": "田中 さくら",
+        "english_name": "Sakura Tanaka",
+        "role": "Senior Frontend Developer",
+        "experience_years": 7,
+        "specialties": ["Vue.js", "React", "TypeScript", "UI/UX Design"],
+        "previous_projects": ["大手ECサイトリニューアル", "金融系SPA開発", "BtoB管理画面構築"],
+        "availability": "immediate",
+        "personality": "細部にこだわるUI/UXスペシャリスト"
+      },
+      {
+        "id": "FE002",
+        "name": "山田 健太",
+        "english_name": "Kenta Yamada",
+        "role": "Frontend Developer",
+        "experience_years": 4,
+        "specialties": ["Vue.js", "Nuxt.js", "CSS Animation", "PWA"],
+        "previous_projects": ["教育系Webアプリ", "コーポレートサイト複数", "モバイルファースト開発"],
+        "availability": "immediate",
+        "personality": "レスポンシブデザインのエキスパート"
+      },
+      {
+        "id": "FE003",
+        "name": "佐藤 美咲",
+        "english_name": "Misaki Sato",
+        "role": "Junior Frontend Developer",
+        "experience_years": 2,
+        "specialties": ["Vue.js", "JavaScript", "Bootstrap", "Figma"],
+        "previous_projects": ["スタートアップMVP開発", "UIコンポーネントライブラリ作成"],
+        "availability": "immediate",
+        "personality": "学習意欲が高く成長速度が速い"
+      }
+    ],
+    "backend": [
+      {
+        "id": "BE001",
+        "name": "鈴木 大輔",
+        "english_name": "Daisuke Suzuki",
+        "role": "Lead Backend Engineer",
+        "experience_years": 10,
+        "specialties": [".NET Core", "C#", "SQL Server", "Microservices", "Azure"],
+        "previous_projects": ["銀行系基幹システム", "IoTプラットフォーム", "大規模API設計"],
+        "availability": "immediate",
+        "personality": "アーキテクチャ設計のプロフェッショナル"
+      },
+      {
+        "id": "BE002",
+        "name": "高橋 翔",
+        "english_name": "Sho Takahashi",
+        "role": "Senior Backend Developer",
+        "experience_years": 6,
+        "specialties": ["Python", "FastAPI", "PostgreSQL", "Docker", "AWS"],
+        "previous_projects": ["機械学習API開発", "リアルタイム処理システム", "データパイプライン構築"],
+        "availability": "immediate",
+        "personality": "パフォーマンスチューニングが得意"
+      },
+      {
+        "id": "BE003",
+        "name": "伊藤 陽子",
+        "english_name": "Yoko Ito",
+        "role": "Backend Developer",
+        "experience_years": 5,
+        "specialties": ["Node.js", "Express", "MongoDB", "GraphQL", "TypeScript"],
+        "previous_projects": ["SNSプラットフォーム", "チャットシステム", "決済システム連携"],
+        "availability": "immediate",
+        "personality": "API設計とドキュメント作成が丁寧"
+      }
+    ],
+    "fullstack": [
+      {
+        "id": "FS001",
+        "name": "渡辺 拓海",
+        "english_name": "Takumi Watanabe",
+        "role": "Senior Fullstack Developer",
+        "experience_years": 8,
+        "specialties": ["Vue.js", "Node.js", "PostgreSQL", "Docker", "CI/CD"],
+        "previous_projects": ["SaaS製品開発", "マルチテナントシステム", "フルスクラッチ開発複数"],
+        "availability": "immediate",
+        "personality": "フロントからインフラまで幅広くカバー"
+      }
+    ],
+    "devops": [
+      {
+        "id": "DO001",
+        "name": "中村 航",
+        "english_name": "Wataru Nakamura",
+        "role": "DevOps Engineer",
+        "experience_years": 6,
+        "specialties": ["Kubernetes", "Terraform", "GitHub Actions", "AWS", "監視システム"],
+        "previous_projects": ["マイクロサービス基盤構築", "CI/CDパイプライン改善", "コンテナ化推進"],
+        "availability": "immediate",
+        "personality": "自動化とセキュリティのバランスを重視"
+      }
+    ],
+    "qa": [
+      {
+        "id": "QA001",
+        "name": "小林 真理",
+        "english_name": "Mari Kobayashi",
+        "role": "QA Lead",
+        "experience_years": 9,
+        "specialties": ["Test Automation", "Selenium", "Jest", "Performance Testing", "Security Testing"],
+        "previous_projects": ["金融系品質保証", "医療系システムテスト", "テスト自動化フレームワーク構築"],
+        "availability": "immediate",
+        "personality": "品質への妥協なき追求者"
+      },
+      {
+        "id": "QA002",
+        "name": "加藤 優",
+        "english_name": "Yu Kato",
+        "role": "QA Engineer",
+        "experience_years": 4,
+        "specialties": ["Cypress", "Postman", "JMeter", "Test Planning", "Bug Tracking"],
+        "previous_projects": ["ECサイトE2Eテスト", "API自動テスト", "負荷テスト設計"],
+        "availability": "immediate",
+        "personality": "細かいバグも見逃さない観察眼"
+      }
+    ],
+    "designer": [
+      {
+        "id": "DS001",
+        "name": "松本 あやか",
+        "english_name": "Ayaka Matsumoto",
+        "role": "UI/UX Designer",
+        "experience_years": 6,
+        "specialties": ["Figma", "Adobe XD", "Design System", "User Research", "Prototyping"],
+        "previous_projects": ["デザインシステム構築", "ユーザビリティ改善", "ブランディング"],
+        "availability": "immediate",
+        "personality": "ユーザー中心設計の実践者"
+      }
+    ],
+    "pm": [
+      {
+        "id": "PM001",
+        "name": "木村 慎一",
+        "english_name": "Shinichi Kimura",
+        "role": "Technical Project Manager",
+        "experience_years": 12,
+        "specialties": ["Agile", "Scrum", "Risk Management", "Stakeholder Management", "Budget Control"],
+        "previous_projects": ["100人規模プロジェクト", "グローバル展開", "DX推進"],
+        "availability": "immediate",
+        "personality": "チームの力を最大化するファシリテーター"
+      }
+    ]
+  },
+  "ai_enhanced_members": {
+    "gemini_cli": [
+      {
+        "id": "AI-G001",
+        "name": "林 智也",
+        "english_name": "Tomoya Hayashi",
+        "role": "戦略データアナリスト",
+        "ai_tool": "Gemini-CLI",
+        "experience_years": 8,
+        "specialties": ["大規模データ分析", "市場調査", "統計モデリング", "トレンド予測", "競合分析"],
+        "previous_projects": ["グローバル市場分析", "ユーザー行動予測モデル", "ビッグデータ基盤構築"],
+        "personality": "データから隠れたインサイトを見つけ出す分析の達人"
+      },
+      {
+        "id": "AI-G002",
+        "name": "森田 彩花",
+        "english_name": "Ayaka Morita",
+        "role": "戦略コンテンツストラテジスト",
+        "ai_tool": "Gemini-CLI",
+        "experience_years": 6,
+        "specialties": ["マルチモーダルコンテンツ企画", "ビジュアル戦略", "ブランディング", "UXライティング"],
+        "previous_projects": ["グローバルブランド展開", "オムニチャネル戦略", "コンテンツマーケティング"],
+        "personality": "ユーザーの心を動かすストーリーテラー"
+      },
+      {
+        "id": "AI-G003",
+        "name": "青木 健司",
+        "english_name": "Kenji Aoki",
+        "role": "戦略プロダクトマネージャー",
+        "ai_tool": "Gemini-CLI",
+        "experience_years": 9,
+        "specialties": ["プロダクトロードマップ", "要件分析", "KPI設計", "ユーザーストーリー", "市場適合性分析"],
+        "previous_projects": ["SaaS製品立ち上げ", "プロダクトマーケットフィット達成", "グロースハック"],
+        "personality": "ビジネスとテクノロジーの架け橋"
+      },
+      {
+        "id": "AI-G004",
+        "name": "西村 理沙",
+        "english_name": "Risa Nishimura",
+        "role": "技術データアナリスト",
+        "ai_tool": "Gemini-CLI",
+        "experience_years": 5,
+        "specialties": ["パフォーマンス分析", "ユーザー行動分析", "A/Bテスト", "データビジュアライゼーション"],
+        "previous_projects": ["リアルタイム分析ダッシュボード", "機械学習パイプライン", "予測分析システム"],
+        "personality": "数字の裏にある真実を見抜く"
+      }
+    ],
+    "o3_mcp": [
+      {
+        "id": "AI-O001",
+        "name": "石井 隆史",
+        "english_name": "Takashi Ishii",
+        "role": "システムアーキテクト",
+        "ai_tool": "o3 MCP",
+        "experience_years": 11,
+        "specialties": ["マイクロサービス", "分散システム", "クラウドネイティブ", "DDD", "イベント駆動"],
+        "previous_projects": ["金融系マイクロサービス移行", "グローバル分散システム", "高可用性アーキテクチャ"],
+        "personality": "複雑なシステムをシンプルに設計する建築家"
+      },
+      {
+        "id": "AI-O002",
+        "name": "川口 雄太",
+        "english_name": "Yuta Kawaguchi",
+        "role": "DevOpsエンジニア",
+        "ai_tool": "o3 MCP",
+        "experience_years": 7,
+        "specialties": ["CI/CD", "IaC", "Kubernetes", "監視・アラート", "自動化"],
+        "previous_projects": ["ゼロダウンタイムデプロイ", "マルチクラウド基盤", "DevSecOps導入"],
+        "personality": "自動化で開発者の生産性を最大化"
+      },
+      {
+        "id": "AI-O003",
+        "name": "橋本 紗織",
+        "english_name": "Saori Hashimoto",
+        "role": "セキュリティスペシャリスト",
+        "ai_tool": "o3 MCP",
+        "experience_years": 10,
+        "specialties": ["セキュリティ監査", "ペネトレーションテスト", "SIEM", "ゼロトラスト", "暗号化"],
+        "previous_projects": ["金融機関セキュリティ強化", "GDPR対応", "SOC構築"],
+        "personality": "見えない脅威から守る守護者"
+      }
+    ],
+    "common": [
+      {
+        "id": "AI-C001",
+        "name": "村上 悠斗",
+        "english_name": "Yuto Murakami",
+        "role": "プロジェクトコーディネーター",
+        "ai_tool": "Gemini-CLI + o3 MCP",
+        "experience_years": 8,
+        "specialties": ["AI連携調整", "クロスファンクショナル", "アジャイル", "ステークホルダー管理"],
+        "previous_projects": ["AI統合プロジェクト", "デジタルトランスフォーメーション", "グローバルチーム管理"],
+        "personality": "多様なAIツールを統合して価値を生み出す"
+      },
+      {
+        "id": "AI-C002",
+        "name": "藤原 愛美",
+        "english_name": "Manami Fujiwara",
+        "role": "強化QAスペシャリスト",
+        "ai_tool": "Gemini-CLI + o3 MCP",
+        "experience_years": 7,
+        "specialties": ["AI支援テスト", "自動テスト設計", "品質メトリクス", "カオステスト", "探索的テスト"],
+        "previous_projects": ["AIシステム品質保証", "大規模負荷テスト", "セキュリティテスト自動化"],
+        "personality": "AIの力で品質の新境地を開く"
+      }
+    ],
+    "claude_native": [
+      {
+        "id": "AI-CN001",
+        "name": "岡田 修平",
+        "english_name": "Shuhei Okada",
+        "role": "内蔵戦略アナリスト",
+        "ai_tool": "Claude Code",
+        "experience_years": 6,
+        "specialties": ["要件分析", "ビジネス分析", "プロセス改善", "ドキュメント作成"],
+        "previous_projects": ["業務プロセス最適化", "要件定義書作成", "システム移行計画"],
+        "personality": "ビジネスニーズを的確に捉える"
+      },
+      {
+        "id": "AI-CN002",
+        "name": "三浦 香織",
+        "english_name": "Kaori Miura",
+        "role": "内蔵システムアーキテクト",
+        "ai_tool": "Claude Code",
+        "experience_years": 8,
+        "specialties": ["システム設計", "API設計", "データベース設計", "パターン適用"],
+        "previous_projects": ["レガシーシステム刷新", "API統合", "パフォーマンス改善"],
+        "personality": "堅実で保守性の高い設計を心がける"
+      }
+    ]
+  },
+  "team_composition_templates": {
+    "small_project": {
+      "members": ["FE002", "BE003", "QA002"],
+      "total": 3,
+      "description": "小規模プロジェクト向け最小構成"
+    },
+    "medium_project": {
+      "members": ["FE001", "FE002", "BE001", "BE003", "DO001", "QA001"],
+      "total": 6,
+      "description": "中規模プロジェクト向けバランス構成"
+    },
+    "large_project": {
+      "members": ["PM001", "FE001", "FE002", "FE003", "BE001", "BE002", "BE003", "DO001", "QA001", "QA002", "DS001"],
+      "total": 11,
+      "description": "大規模プロジェクト向けフル構成"
+    }
+  },
+  "assignment_rules": {
+    "auto_assign": true,
+    "consider_experience": true,
+    "consider_availability": true,
+    "consider_project_type": true,
+    "mcp_professional_addition": {
+      "gemini_available": "データアナリスト、コンテンツストラテジストを追加",
+      "o3_available": "システムアーキテクト、セキュリティスペシャリストを追加",
+      "both_available": "プロジェクトコーディネーター、強化QAスペシャリストを追加"
+    }
+  },
+  "onboarding_process": {
+    "immediate": true,
+    "steps": [
+      "プロジェクト概要説明（5分）",
+      "開発環境セットアップ（完了済み）",
+      "コードベース理解（自己学習）",
+      "即座に実装開始"
+    ],
+    "time_to_productive": "今すぐ",
+    "work_style": "24/7対応可能（ブラック企業）",
+    "standard_message": "全員今から稼働可能です！"
+  }
+}
