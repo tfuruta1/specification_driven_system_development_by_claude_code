@@ -8,18 +8,16 @@
 
 ## 📋 システム構成
 
-### メインプロジェクト群
-- `.claude_python_sqlAlckemy/` - FastAPI + SQLAlchemyバックエンド
-- `.claude_vue3_axios/` - Vue3 + Axiosフロントエンド  
-- `.claude_vue3_hybrid/` - Vue3 + ハイブリッド接続版
-- `.claude_dotnetFramework4.8/` - .NET Framework 4.8デスクトップ
-- `.claude_dotnetFramework4.0/` - .NET Framework 4.0レガシー対応
-- `.claude_dotnetFramework4.0_ISP673_OCR/` - ISP-673 OCR統合版
-- `.claude_vb6/` - VB6レガシー解析・移行
-- `.claude_vue3_supabase/` - Vue3 + Supabase版（アーカイブ）
+### 統合開発システム
+`.claude_sub_agent/` - 階層型エージェントシステム（全技術スタック統合版）
 
-### 階層型エージェントシステム（Active）
-`.claude_sub_agent/` - 企業組織型AIエージェント（SDD+TDD統合版）
+**統合された技術スタック:**
+- .NET Framework (4.0/4.8) + Entity Framework
+- Python + FastAPI + SQLAlchemy 2.0
+- Vue.js 3 (Axios/Hybrid/Supabase対応)
+- VB6レガシー解析・移行
+- ISP-673 OCR統合
+- SignalR/WebRTC リアルタイム通信
 
 ## 🎯 階層型エージェントシステムの特徴
 
@@ -81,11 +79,11 @@ CTO: "最適なチームを編成します。"
     → 内部: 人事部実行 /tasks assign → ...
 ```
 
-### 各プロジェクトを直接使う場合
+### 開発を始める
 ```bash
-cd .claude_[project_name]
+cd .claude_sub_agent
 claude .
-/spec  # 統合開発フローを開始
+# CTOに自然言語で依頼するだけ
 ```
 
 ## 📊 導入効果
