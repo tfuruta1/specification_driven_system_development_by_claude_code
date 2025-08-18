@@ -1,0 +1,15 @@
+{
+  "checkpoint_interval_minutes": 30,
+  "temp_cleanup_interval_minutes": 60,
+  "daily_cleanup_hour": 3,
+  "max_checkpoint_count": 10,
+  "max_backup_age_days": 7,
+  "auto_cleanup_enabled": true,
+  "protected_dirs": [
+    ".git",
+    "node_modules",
+    ".ActivityReport",
+    "docs",
+    "specs"
+  ]
+}
