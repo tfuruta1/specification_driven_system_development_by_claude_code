@@ -9,7 +9,7 @@
 ## 📋 システム構成
 
 ### 統合開発システム
-`.claude_sub_agent/` - 階層型エージェントシステム（全技術スタック統合版）
+`.claude/` - 階層型エージェントシステム（全技術スタック統合版）
 
 **統合された技術スタック:**
 - .NET Framework (4.0/4.8) + Entity Framework
@@ -63,7 +63,7 @@
 
 ### 階層型エージェントシステムを使う場合
 ```bash
-cd .claude_sub_agent
+cd .claude
 
 # ユーザーはCTOに日本語で自然に依頼（コマンドは内部で自動実行）
 ユーザー: "@cto 新しいECサイトプロジェクトを始めたい"
@@ -81,7 +81,7 @@ CTO: "最適なチームを編成します。"
 
 ### 開発を始める
 ```bash
-cd .claude_sub_agent
+cd .claude
 claude .
 # CTOに自然言語で依頼するだけ
 ```
@@ -115,7 +115,7 @@ git status --porcelain
 
 ### ActivityReportによる一元管理
 ```
-.claude_sub_agent/
+.claude/
 ├── .ActivityReport/              # エージェント間情報共有
 │   ├── tasks/                   # 全員が読み書き可能な共有タスクリスト
 │   │   └── shared_tasks.md      # リアルタイム作業調整
@@ -273,5 +273,16 @@ MITライセンス
 - レポート: `2025-08-18 14:30:00 JST`
 - ファイル名: `backup_20250818_143000_JST.zip`
 
+## 🔧 重要な修正情報（2025-08-18更新）
+
+### Windows環境でのエンコーディング問題対応
+- **問題**: cp932エンコーディングで絵文字が表示できない
+- **対応**: 主要システムファイルの絵文字をASCII表記に変更
+  - agent_monitor.py: Enum値の絵文字を[TAG]形式に変更
+  - cleanup_system.py: 30箇所の絵文字を修正
+  - analysis_cache.py: すべての出力絵文字を修正
+  - team_formation.py: print文の絵文字を修正
+- **結果**: Windows環境でも正常動作確認済み
+
 ---
-*Version 8.8.0 - SDD+TDD統合版 with 完全監視作業日誌システム・日本標準時統一対応*
+*Version 8.9.0 - SDD+TDD統合版 with 完全監視作業日誌システム・日本標準時統一対応・Windows対応強化*

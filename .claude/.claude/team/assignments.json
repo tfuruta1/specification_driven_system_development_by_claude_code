@@ -1,0 +1,157 @@
+{
+  "Python開発プロジェクト": {
+    "project_name": "Python開発プロジェクト",
+    "timestamp": "2025-08-18 17:26:42 JST",
+    "members": [
+      {
+        "name": "渡辺真理",
+        "specialization": "フロントエンド",
+        "skill_level": "アーキテクト",
+        "years_experience": 15,
+        "technologies": [
+          "Tailwind",
+          "TypeScript",
+          "React",
+          "Nuxt.js"
+        ],
+        "availability": "即座",
+        "hourly_rate": 8000,
+        "overtime_capacity": 140,
+        "current_workload": 66,
+        "personality_traits": [
+          "協調的",
+          "コミュニケーション重視",
+          "分析的"
+        ]
+      },
+      {
+        "name": "山田愛",
+        "specialization": "フロントエンド",
+        "skill_level": "アーキテクト",
+        "years_experience": 14,
+        "technologies": [
+          "Nuxt.js",
+          "CSS",
+          "Tailwind",
+          "React"
+        ],
+        "availability": "即座",
+        "hourly_rate": 7800,
+        "overtime_capacity": 163,
+        "current_workload": 128,
+        "personality_traits": [
+          "品質重視",
+          "締切厳守",
+          "効率重視"
+        ]
+      },
+      {
+        "name": "伊藤隆",
+        "specialization": "バックエンド",
+        "skill_level": "シニア",
+        "years_experience": 6,
+        "technologies": [
+          "FastAPI",
+          "Django",
+          "Go",
+          ".NET"
+        ],
+        "availability": "即座",
+        "hourly_rate": 5200,
+        "overtime_capacity": 131,
+        "current_workload": 59,
+        "personality_traits": [
+          "締切厳守",
+          "コミュニケーション重視",
+          "リーダー気質"
+        ]
+      },
+      {
+        "name": "小林美咲",
+        "specialization": "バックエンド",
+        "skill_level": "ミドル",
+        "years_experience": 4,
+        "technologies": [
+          "Python",
+          ".NET",
+          "Django",
+          "FastAPI"
+        ],
+        "availability": "即座",
+        "hourly_rate": 4300,
+        "overtime_capacity": 119,
+        "current_workload": 74,
+        "personality_traits": [
+          "協調的",
+          "分析的",
+          "完璧主義"
+        ]
+      },
+      {
+        "name": "田中真理",
+        "specialization": "バックエンド",
+        "skill_level": "ミドル",
+        "years_experience": 3,
+        "technologies": [
+          "Django",
+          ".NET",
+          "FastAPI",
+          "Node.js"
+        ],
+        "availability": "即座",
+        "hourly_rate": 4100,
+        "overtime_capacity": 193,
+        "current_workload": 159,
+        "personality_traits": [
+          "分析的",
+          "協調的",
+          "コミュニケーション重視"
+        ]
+      },
+      {
+        "name": "佐藤優子",
+        "specialization": "品質保証",
+        "skill_level": "アーキテクト",
+        "years_experience": 15,
+        "technologies": [
+          "Selenium",
+          "Jest",
+          "Pytest",
+          "JMeter"
+        ],
+        "availability": "即座",
+        "hourly_rate": 8000,
+        "overtime_capacity": 181,
+        "current_workload": 175,
+        "personality_traits": [
+          "リーダー気質",
+          "分析的",
+          "マルチタスク得意"
+        ]
+      },
+      {
+        "name": "山田愛",
+        "specialization": "品質保証",
+        "skill_level": "ジュニア",
+        "years_experience": 2,
+        "technologies": [
+          "Selenium",
+          "Pytest",
+          "Jest",
+          "Postman"
+        ],
+        "availability": "即座",
+        "hourly_rate": 3400,
+        "overtime_capacity": 80,
+        "current_workload": 88,
+        "personality_traits": [
+          "完璧主義",
+          "協調的",
+          "効率重視"
+        ]
+      }
+    ],
+    "monthly_cost": 6528000,
+    "status": "active"
+  }
+}
