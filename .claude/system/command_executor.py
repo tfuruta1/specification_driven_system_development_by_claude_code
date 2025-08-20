@@ -12,6 +12,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
 from daily_log_writer import DailyLogWriter
+sys.path.insert(0, str(Path(__file__).parent))
+from jst_config import format_jst_date, format_jst_datetime, format_jst_timestamp
 
 class CommandExecutor:
     """カスタムコマンド実行エンジン"""
@@ -118,7 +120,7 @@ class CommandExecutor:
         print("📝 要件定義を開始します...")
         
         requirements = f"""# 要件定義書
-**作成日**: {datetime.now().strftime('%Y-%m-%d')}
+**作成日**: {format_jst_date()}
 **作成者**: 経営企画部
 
 ## 1. プロジェクト概要
@@ -156,7 +158,7 @@ class CommandExecutor:
 - 技術スタック: Python, Vue.js, PostgreSQL
 """
         
-        req_file = Path(f".claude/docs/requirements/requirements_{datetime.now().strftime('%Y%m%d')}.md")
+        req_file = Path(f".claude/docs/requirements/requirements_{format_jst_date().replace('-', '')}.md")
         req_file.parent.mkdir(parents=True, exist_ok=True)
         req_file.write_text(requirements, encoding='utf-8')
         
@@ -168,7 +170,7 @@ class CommandExecutor:
         print("🏗️ 技術設計を開始します...")
         
         design = f"""# 技術設計書
-**作成日**: {datetime.now().strftime('%Y-%m-%d')}
+**作成日**: {format_jst_date()}
 **作成者**: システム開発部
 
 ## 1. アーキテクチャ概要
@@ -214,7 +216,7 @@ CREATE TABLE users (
 - 監視・ログ収集
 """
         
-        design_file = Path(f".claude/docs/design/design_{datetime.now().strftime('%Y%m%d')}.md")
+        design_file = Path(f".claude/docs/design/design_{format_jst_date().replace('-', '')}.md")
         design_file.parent.mkdir(parents=True, exist_ok=True)
         design_file.write_text(design, encoding='utf-8')
         
@@ -226,7 +228,7 @@ CREATE TABLE users (
         print("📋 タスクを分割します...")
         
         tasks = f"""# タスク分割書
-**作成日**: {datetime.now().strftime('%Y-%m-%d')}
+**作成日**: {format_jst_date()}
 **作成者**: 人事部
 
 ## スプリント1（2週間）
@@ -261,7 +263,7 @@ CREATE TABLE users (
 - QA: 小林
 """
         
-        tasks_file = Path(f".claude/docs/tasks/tasks_{datetime.now().strftime('%Y%m%d')}.md")
+        tasks_file = Path(f".claude/docs/tasks/tasks_{format_jst_date().replace('-', '')}.md")
         tasks_file.parent.mkdir(parents=True, exist_ok=True)
         tasks_file.write_text(tasks, encoding='utf-8')
         
@@ -375,7 +377,7 @@ def test_create_user():
         
         # 解析結果を保存
         analysis = f"""# プロジェクト解析結果
-**解析日時**: {datetime.now().strftime('%Y-%m-%d %H:%M')}
+**解析日時**: {format_jst_datetime()}
 
 ## ファイル統計
 - Python: {len(list(Path('.').rglob('*.py')))} files
@@ -391,7 +393,7 @@ def test_create_user():
         
         cache_dir = Path(".claude/cache")
         cache_dir.mkdir(parents=True, exist_ok=True)
-        cache_file = cache_dir / f"analysis_{datetime.now().strftime('%Y%m%d_%H%M')}.md"
+        cache_file = cache_dir / f"analysis_{format_jst_timestamp()}.md"
         cache_file.write_text(analysis, encoding='utf-8')
         
         print(f"\n✅ 解析完了: {cache_file.name}")

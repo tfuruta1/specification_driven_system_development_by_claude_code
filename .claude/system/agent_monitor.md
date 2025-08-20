@@ -78,7 +78,8 @@ class AgentActivity:
         self.log_file = ".tmp/agent_logs/activity_stream.log"
     
     def log_activity(self, agent, action, details="", progress=None):
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        from jst_config import format_jst_datetime
+        timestamp = format_jst_datetime()
         
         # ターミナル出力
         if progress:
@@ -98,7 +99,8 @@ class AgentActivity:
 ### 部門間通信の可視化
 ```python
 def log_communication(from_agent, to_agent, message_type, content):
-    timestamp = datetime.now().strftime("%H:%M:%S")
+    from jst_config import format_jst_time
+    timestamp = format_jst_time()
     arrow = communication_patterns[message_type]
     
     print(f"[{timestamp}] {from_agent.emoji} {from_agent.name} {arrow} "
@@ -157,7 +159,8 @@ monitor.log_activity(strategy_dept, "ANALYZING", "ビジネス影響度: 中")
 ```python
 def cleanup_old_logs():
     log_dir = Path(".tmp/agent_logs")
-    cutoff_date = datetime.now() - timedelta(days=7)
+    from jst_config import get_jst_now
+    cutoff_date = get_jst_now() - timedelta(days=7)
     
     for log_file in log_dir.glob("daily/*.log"):
         if datetime.fromtimestamp(log_file.stat().st_mtime) < cutoff_date:

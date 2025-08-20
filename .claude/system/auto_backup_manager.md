@@ -68,13 +68,13 @@ class ChangeTracker:
         self.history_file = ".tmp/backups/change_history.json"
         self.current_session = {
             "session_id": generate_session_id(),
-            "start_time": datetime.now(),
+            "start_time": get_jst_now(),
             "changes": []
         }
     
     def track_change(self, file_path, action, agent, reason=""):
         change_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": format_jst_datetime(),
             "file": file_path,
             "action": action,  # CREATE, MODIFY, DELETE, RENAME
             "agent": f"{agent.emoji} {agent.name}",

@@ -48,7 +48,8 @@ class Hook:
         try:
             self.handler(context)
             self.execution_count += 1
-            self.last_executed = datetime.now()
+            from jst_config import get_jst_now
+            self.last_executed = get_jst_now()
             return True
         except Exception as e:
             print(f"フック実行エラー [{self.name}]: {e}")

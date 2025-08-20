@@ -121,7 +121,8 @@ class AnalysisCache:
             if ' JST' in cache_time_str:
                 cache_time_str = cache_time_str.replace(' JST', '')
             cache_time = datetime.strptime(cache_time_str, '%Y-%m-%d %H:%M:%S')
-            if datetime.now() - cache_time > timedelta(days=self.max_cache_age):
+            from jst_config import get_jst_now
+            if get_jst_now() - cache_time > timedelta(days=self.max_cache_age):
                 cache_file.unlink()
                 self.cache_hit_rate.append(False)
                 return None
@@ -202,11 +203,13 @@ class AnalysisCache:
     
     def cleanup_old_cache(self):
         """古いキャッシュを削除"""
-        cutoff_date = datetime.now() - timedelta(days=self.max_cache_age)
+        from jst_config import get_jst_now
+        cutoff_date = get_jst_now() - timedelta(days=self.max_cache_age)
         deleted_count = 0
         
         for cache_file in self.detailed_cache_dir.glob("*.pkl"):
-            if datetime.fromtimestamp(cache_file.stat().st_mtime) < cutoff_date:
+            from jst_config import JST
+            if datetime.fromtimestamp(cache_file.stat().st_mtime, JST) < cutoff_date:
                 cache_file.unlink()
                 deleted_count += 1
         

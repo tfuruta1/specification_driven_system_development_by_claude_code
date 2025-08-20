@@ -138,11 +138,13 @@ class AutoCleanupManager:
         freed_space = 0
         
         for pattern, hours_old in cleanup_targets:
-            cutoff_time = datetime.now() - timedelta(hours=hours_old)
+            from jst_config import get_jst_now
+            cutoff_time = get_jst_now() - timedelta(hours=hours_old)
             
             for file_path in self.tmp_dir.rglob(pattern):
                 try:
-                    if datetime.fromtimestamp(file_path.stat().st_mtime) < cutoff_time:
+                    from jst_config import JST
+                    if datetime.fromtimestamp(file_path.stat().st_mtime, JST) < cutoff_time:
                         file_size = file_path.stat().st_size
                         file_path.unlink()
                         deleted_count += 1
@@ -196,7 +198,8 @@ class AutoCleanupManager:
     
     def _create_daily_backup(self):
         """日次バックアップを作成"""
-        timestamp = datetime.now().strftime("%Y%m%d")
+        from jst_config import format_jst_date
+        timestamp = format_jst_date().replace('-', '')
         backup_name = f"daily_backup_{timestamp}_JST.zip"
         backup_path = self.daily_backup_dir / backup_name
         
@@ -230,11 +233,13 @@ class AutoCleanupManager:
     
     def _cleanup_old_backups(self):
         """古いバックアップを削除"""
-        cutoff_date = datetime.now() - timedelta(days=self.config["max_backup_age_days"])
+        from jst_config import get_jst_now
+        cutoff_date = get_jst_now() - timedelta(days=self.config["max_backup_age_days"])
         
         for backup_dir in [self.daily_backup_dir, self.error_backup_dir]:
             for backup_file in backup_dir.glob("*.zip"):
-                if datetime.fromtimestamp(backup_file.stat().st_mtime) < cutoff_date:
+                from jst_config import JST
+                if datetime.fromtimestamp(backup_file.stat().st_mtime, JST) < cutoff_date:
                     backup_file.unlink()
                     print(f"🗑️ 古いバックアップ削除: {backup_file.name}")
     
@@ -242,27 +247,33 @@ class AutoCleanupManager:
         """解析キャッシュをクリーンアップ"""
         cache_dir = self.base_dir / "cache"
         if cache_dir.exists():
-            cutoff_date = datetime.now() - timedelta(days=7)
+            from jst_config import get_jst_now
+            cutoff_date = get_jst_now() - timedelta(days=7)
             for cache_file in cache_dir.rglob("*.pkl"):
-                if datetime.fromtimestamp(cache_file.stat().st_mtime) < cutoff_date:
+                from jst_config import JST
+                if datetime.fromtimestamp(cache_file.stat().st_mtime, JST) < cutoff_date:
                     cache_file.unlink()
     
     def _cleanup_agent_logs(self):
         """エージェントログをクリーンアップ"""
         log_dir = self.tmp_dir / "agent_logs"
         if log_dir.exists():
-            cutoff_date = datetime.now() - timedelta(days=3)
+            from jst_config import get_jst_now
+            cutoff_date = get_jst_now() - timedelta(days=3)
             for log_file in log_dir.rglob("*.log"):
-                if datetime.fromtimestamp(log_file.stat().st_mtime) < cutoff_date:
+                from jst_config import JST
+                if datetime.fromtimestamp(log_file.stat().st_mtime, JST) < cutoff_date:
                     log_file.unlink()
     
     def _cleanup_generated_docs(self):
         """生成されたドキュメントをクリーンアップ"""
         docs_dir = self.tmp_dir / "generated_docs"
         if docs_dir.exists():
-            cutoff_date = datetime.now() - timedelta(days=7)
+            from jst_config import get_jst_now
+            cutoff_date = get_jst_now() - timedelta(days=7)
             for doc_file in docs_dir.rglob("*"):
-                if doc_file.is_file() and datetime.fromtimestamp(doc_file.stat().st_mtime) < cutoff_date:
+                from jst_config import JST
+                if doc_file.is_file() and datetime.fromtimestamp(doc_file.stat().st_mtime, JST) < cutoff_date:
                     doc_file.unlink()
     
     def _cleanup_workspace(self):
@@ -272,9 +283,11 @@ class AutoCleanupManager:
             for agent_dir in workspace_dir.iterdir():
                 if agent_dir.is_dir():
                     # 24時間以上古いファイルを削除
-                    cutoff_date = datetime.now() - timedelta(hours=24)
+                    from jst_config import get_jst_now
+                    cutoff_date = get_jst_now() - timedelta(hours=24)
                     for file_path in agent_dir.rglob("*"):
-                        if file_path.is_file() and datetime.fromtimestamp(file_path.stat().st_mtime) < cutoff_date:
+                        from jst_config import JST
+                        if file_path.is_file() and datetime.fromtimestamp(file_path.stat().st_mtime, JST) < cutoff_date:
                             file_path.unlink()
     
     def _report_disk_usage(self):

@@ -11,17 +11,19 @@ import shutil
 from pathlib import Path
 from datetime import datetime
 import hashlib
+sys.path.insert(0, str(Path(__file__).parent))
+from jst_config import get_jst_now, format_jst_timestamp, format_jst_datetime, JST
 
 class SystemInitializer:
     def __init__(self):
         self.root = Path(".claude")
         self.tmp_root = self.root / ".tmp"
         self.session_id = self._generate_session_id()
-        self.start_time = datetime.now()
+        self.start_time = get_jst_now()
         
     def _generate_session_id(self):
         """セッションIDを生成"""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = format_jst_timestamp()
         random_part = hashlib.md5(timestamp.encode()).hexdigest()[:8]
         return f"ses_{timestamp}_{random_part}"
     
@@ -133,7 +135,7 @@ class SystemInitializer:
             for backup in instant_backups.iterdir():
                 if backup.is_file():
                     # 24時間以上経過したものを削除
-                    age = datetime.now() - datetime.fromtimestamp(backup.stat().st_mtime)
+                    age = get_jst_now() - datetime.fromtimestamp(backup.stat().st_mtime, JST)
                     if age.days >= 1:
                         backup.unlink()
                         print(f"   🗑️ 古いバックアップ削除: {backup.name}")
@@ -234,7 +236,7 @@ class SystemInitializer:
         mcp_status = {
             "gemini_cli": False,
             "o3_mcp": False,
-            "checked_at": datetime.now().isoformat()
+            "checked_at": format_jst_datetime()
         }
         
         # MCP利用可能性チェック（実際にはコマンド実行が必要）

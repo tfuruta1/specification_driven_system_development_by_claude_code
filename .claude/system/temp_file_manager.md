@@ -105,7 +105,7 @@ class TempFileManager:
         
         # アクティブファイルとして登録
         self.active_files[str(file_path)] = {
-            "created": datetime.now(),
+            "created": get_jst_now(),
             "agent": agent.name,
             "purpose": purpose,
             "auto_delete": True

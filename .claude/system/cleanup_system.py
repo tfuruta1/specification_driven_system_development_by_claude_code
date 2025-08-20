@@ -11,6 +11,8 @@ import shutil
 from pathlib import Path
 from datetime import datetime, timedelta
 import fnmatch
+sys.path.insert(0, str(Path(__file__).parent))
+from jst_config import format_jst_datetime, get_jst_now, JST
 
 class SystemCleanup:
     def __init__(self, mode="normal"):
@@ -22,7 +24,7 @@ class SystemCleanup:
         self.tmp_root = self.root / ".tmp"
         self.mode = mode
         self.cleanup_report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": format_jst_datetime(),
             "mode": mode,
             "deleted_files": [],
             "deleted_folders": [],
@@ -81,7 +83,7 @@ class SystemCleanup:
                     session_data = json.load(f)
                 
                 # 終了時刻を追加
-                session_data["end_time"] = datetime.now().isoformat()
+                session_data["end_time"] = format_jst_datetime()
                 session_data["status"] = "completed"
                 
                 # 履歴に保存
@@ -126,7 +128,7 @@ class SystemCleanup:
             return
         
         # 古いキャッシュファイルを削除
-        cutoff_date = datetime.now() - timedelta(days=7)
+        cutoff_date = get_jst_now() - timedelta(days=7)
         
         for cache_file in cache_dir.rglob("*"):
             if cache_file.is_file():
@@ -161,9 +163,9 @@ class SystemCleanup:
                 
                 # 古いファイルを削除
                 if "max_age_hours" in policy:
-                    cutoff = datetime.now() - timedelta(hours=policy["max_age_hours"])
+                    cutoff = get_jst_now() - timedelta(hours=policy["max_age_hours"])
                 else:
-                    cutoff = datetime.now() - timedelta(days=policy["max_age_days"])
+                    cutoff = get_jst_now() - timedelta(days=policy["max_age_days"])
                 
                 for file in files:
                     if file.is_file():
@@ -189,7 +191,8 @@ class SystemCleanup:
         stream_log = logs_dir / "activity_stream.log"
         if stream_log.exists() and stream_log.stat().st_size > 100 * 1024 * 1024:  # 100MB
             # アーカイブ
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            from jst_config import format_jst_timestamp
+            timestamp = format_jst_timestamp()
             archive_name = logs_dir / "daily" / f"activity_{timestamp}.log"
             shutil.move(str(stream_log), str(archive_name))
             print(f"   [ARCH] ログローテーション: {archive_name.name}")
@@ -197,7 +200,7 @@ class SystemCleanup:
         # 古い日次ログを削除
         daily_logs = logs_dir / "daily"
         if daily_logs.exists():
-            cutoff = datetime.now() - timedelta(days=7)
+            cutoff = get_jst_now() - timedelta(days=7)
             for log_file in daily_logs.glob("*.log"):
                 file_time = datetime.fromtimestamp(log_file.stat().st_mtime)
                 if file_time < cutoff:
@@ -271,7 +274,7 @@ class SystemCleanup:
         report_dir = self.root / "system" / "cleanup_reports"
         report_dir.mkdir(parents=True, exist_ok=True)
         
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = format_jst_timestamp()
         report_file = report_dir / f"cleanup_{timestamp}.json"
         
         with open(report_file, 'w', encoding='utf-8') as f:

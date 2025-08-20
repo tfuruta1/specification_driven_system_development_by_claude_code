@@ -9,6 +9,8 @@ import sys
 import time
 from pathlib import Path
 from datetime import datetime
+sys.path.insert(0, str(Path(__file__).parent / "system"))
+from jst_config import format_jst_datetime
 
 # システムパスに追加
 sys.path.insert(0, str(Path(__file__).parent / "system"))
@@ -19,7 +21,7 @@ def print_header():
     print("    階層型エージェントシステム v8.7 - 完全動作版")
     print("    SDD+TDD統合開発 with 完全監視作業日誌システム")
     print("=" * 80)
-    print(f"起動時刻: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"起動時刻: {format_jst_datetime()}")
     print("=" * 80 + "\n")
 
 def test_all_systems():
@@ -278,7 +280,8 @@ def main():
                 formation.generate_skill_matrix()
             
             elif choice == "6":
-                log_file = Path(".claude/.ActivityReport/daily_log") / f"{datetime.now().strftime('%Y-%m-%d')}_workingLog.md"
+                from jst_config import format_jst_date
+                log_file = Path(".claude/.ActivityReport/daily_log") / f"{format_jst_date()}_workingLog.md"
                 if log_file.exists():
                     print(f"\n📄 本日の作業日誌: {log_file.name}")
                     print("※ ユーザーのみ閲覧可能です")

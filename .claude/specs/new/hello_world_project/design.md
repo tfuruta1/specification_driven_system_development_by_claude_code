@@ -56,7 +56,7 @@ Hello World Python System
 
 def main():
     """メイン関数"""
-    print("Hello world")
+    print("Hellow World!")
 
 if __name__ == "__main__":
     main()

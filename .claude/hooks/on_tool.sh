@@ -17,13 +17,13 @@ case "$TOOL_NAME" in
             if [ -f "$FILE_PATH" ]; then
                 BACKUP_FILE="$BACKUP_DIR/$(basename $FILE_PATH).$(date +%Y%m%d_%H%M%S).bak"
                 cp "$FILE_PATH" "$BACKUP_FILE" 2>/dev/null
-                echo "📦 バックアップ作成: $BACKUP_FILE"
+                # echo "📦 バックアップ作成: $BACKUP_FILE"  # サイレントモード
             fi
             
-            # レビュー対象に追加
+            # レビュー対象に追加（サイレントモード）
             echo "$FILE_PATH" >> "$PENDING_REVIEWS"
             sort -u "$PENDING_REVIEWS" -o "$PENDING_REVIEWS" 2>/dev/null
-            echo "📝 レビュー対象に追加: $FILE_PATH"
+            # echo "📝 レビュー対象に追加: $FILE_PATH"  # サイレントモード
         fi
         ;;
         

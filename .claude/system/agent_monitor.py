@@ -56,7 +56,8 @@ class AgentMonitor:
                      activity_type: ActivityType, details: str = "", 
                      progress: Optional[int] = None):
         """エージェントの活動をログに記録"""
-        timestamp = datetime.now()
+        from jst_config import get_jst_now
+        timestamp = get_jst_now()
         timestamp_str = format_jst_datetime(timestamp)
         
         # フィルター適用
@@ -87,8 +88,9 @@ class AgentMonitor:
     def log_communication(self, from_agent: Dict, to_agent: Dict, 
                          comm_type: CommunicationType, content: str):
         """部門間通信を記録"""
-        timestamp = datetime.now()
-        timestamp_str = timestamp.strftime("%H:%M:%S")
+        from jst_config import get_jst_now, format_jst_time
+        timestamp = get_jst_now()
+        timestamp_str = format_jst_time()
         
         # フィルター適用
         if self.filter_agents:
@@ -155,10 +157,12 @@ class AgentMonitor:
     
     def cleanup_old_logs(self):
         """古いログファイルを削除"""
-        cutoff_date = datetime.now() - timedelta(days=7)
+        from jst_config import get_jst_now
+        cutoff_date = get_jst_now() - timedelta(days=7)
         
         for log_file in self.daily_dir.glob("*.log"):
-            file_date = datetime.fromtimestamp(log_file.stat().st_mtime)
+            from jst_config import JST
+            file_date = datetime.fromtimestamp(log_file.stat().st_mtime, JST)
             if file_date < cutoff_date:
                 log_file.unlink()
                 print(f"古いログを削除: {log_file.name}")
