@@ -1,164 +1,241 @@
-# タスク分解書 - Hello World Python System
+# 実装計画書 - Hello World Python System
 
-## 🎯 CTO・人事部によるタスク管理
+## 📋 Step 3: Implementation Plan（SDD+TDD統合）
 
-### 1. タスク一覧
+### 1. TDD実装フロー
 
-| タスクID | タスク名 | 担当者 | 優先度 | 見積時間 | 状態 |
-|----------|---------|--------|--------|----------|------|
-| TASK-001 | プロジェクトディレクトリ作成 | 伊藤浩（バックエンド） | 高 | 5分 | 未着手 |
-| TASK-002 | Python仮想環境（venv）作成 | 伊藤浩（バックエンド） | 高 | 5分 | 未着手 |
-| TASK-003 | requirements.txt作成 | 小林誠（バックエンド） | 中 | 5分 | 未着手 |
-| TASK-004 | main.py実装 | 田中太郎（バックエンド） | 高 | 10分 | 未着手 |
-| TASK-005 | README.md作成 | 高橋真理（フロントエンド） | 中 | 10分 | 未着手 |
-| TASK-006 | 単体テスト実行 | 佐藤優子（QA） | 高 | 10分 | 未着手 |
-| TASK-007 | 統合テスト実行 | 鈴木翔（QA） | 高 | 10分 | 未着手 |
-| TASK-008 | 最終動作確認 | 全員 | 高 | 5分 | 未着手 |
+| フェーズ | タスク | 担当 | 見積時間 | TDDステップ |
+|----------|--------|------|----------|-------------|
+| PHASE-1 | プロジェクト環境準備 | アレックス | 5分 | 準備 |
+| PHASE-2 | テスト作成（RED） | アレックス | 10分 | Red |
+| PHASE-3 | 実装（GREEN） | アレックス | 10分 | Green |
+| PHASE-4 | リファクタリング | アレックス | 5分 | Refactor |
+| PHASE-5 | 最終レビュー | CTO + アレックス | 5分 | 完了 |
 
-### 2. 詳細タスク定義
+**総所要時間**: 約35分
 
-#### TASK-001: プロジェクトディレクトリ作成
-**担当**: 伊藤浩
+### 2. 詳細フェーズ定義
+
+#### PHASE-1: プロジェクト環境準備
+**担当**: アレックス  
+**TDDステップ**: 準備フェーズ
+
+**作業内容**:
+1. プロジェクトディレクトリ作成
+2. 仮想環境セットアップ
+3. 基本ファイル構成作成
+
 ```bash
-mkdir hello_world_python
-cd hello_world_python
-```
-**完了条件**: ディレクトリが作成され、移動できること
-
-#### TASK-002: Python仮想環境（venv）作成
-**担当**: 伊藤浩
-```bash
+mkdir hello_world_project
+cd hello_world_project
 python -m venv venv
-# Windows: venv\Scripts\activate
-# Linux/Mac: source venv/bin/activate
+venv\Scripts\activate  # Windows
+mkdir tests
 ```
-**完了条件**: venv環境が有効化されること
 
-#### TASK-003: requirements.txt作成
-**担当**: 小林誠
-```txt
-# 依存パッケージなし（標準ライブラリのみ使用）
-```
-**完了条件**: ファイルが作成されること
+**成果物**:
+- hello_world_project/ディレクトリ
+- venv仮想環境
+- tests/ディレクトリ
 
-#### TASK-004: main.py実装
-**担当**: 田中太郎
+**完了条件**: 開発環境が整備されること
+
+#### PHASE-2: テスト作成（TDD Red Phase）
+**担当**: アレックス  
+**TDDステップ**: Red（失敗するテストを先に作成）
+
+**作業内容**:
+1. test_main.py作成
+2. main()関数のテスト記述
+3. テスト実行して失敗確認
+
 ```python
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Hello World Python System
-階層型エージェントシステムによる実装
-"""
+# tests/test_main.py
+import unittest
+import sys
+import os
+from io import StringIO
 
-def main():
-    """メイン関数"""
-    print("Hello world")
+# プロジェクトルートを追加
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
+class TestMain(unittest.TestCase):
+    def test_main_returns_zero(self):
+        """main()が0を返すことを確認"""
+        from main import main
+        result = main()
+        self.assertEqual(result, 0)
+        
+    def test_main_prints_hello_world(self):
+        """main()が"Hello world"を出力することを確認"""
+        from main import main
+        captured_output = StringIO()
+        sys.stdout = captured_output
+        main()
+        sys.stdout = sys.__stdout__
+        self.assertEqual(captured_output.getvalue().strip(), "Hello world")
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+**成果物**:
+- tests/test_main.py
+
+**完了条件**: テストが作成され、実行して失敗することを確認
+
+#### PHASE-3: 実装（TDD Green Phase）
+**担当**: アレックス  
+**TDDステップ**: Green（テストを成功させる最小限の実装）
+
+**作業内容**:
+1. main.py作成
+2. テストが成功する最小実装
+3. テスト実行して成功確認
+
+```python
+# main.py
+import sys
+
+def main() -> int:
+    """
+    Hello Worldメッセージを表示するメイン関数
+    
+    Returns:
+        int: 実行結果（0: 正常終了, 1: エラー）
+    """
+    try:
+        print("Hello world")
+        return 0
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return 1
 
 if __name__ == "__main__":
-    main()
+    exit_code = main()
+    sys.exit(exit_code)
 ```
-**完了条件**: スクリプトが作成され、構文エラーがないこと
 
-#### TASK-005: README.md作成
-**担当**: 高橋真理
-```markdown
+**成果物**:
+- main.py
+
+**完了条件**: 全テストが成功すること
+
+#### PHASE-4: リファクタリング（TDD Refactor Phase）
+**担当**: アレックス  
+**TDDステップ**: Refactor（品質向上、テスト成功維持）
+
+**作業内容**:
+1. コード品質向上
+2. エラーハンドリング改善
+3. ドキュメント作成
+4. 最終テスト実行
+
+```python
+# requirements.txt
+# No external dependencies - using standard library only
+
+# README.md
 # Hello World Python System
 
-## 概要
-階層型エージェントシステムによって開発されたHello Worldアプリケーション
+Simple Hello World implementation following SDD+TDD methodology.
 
-## セットアップ
-1. Python仮想環境を有効化
-   - Windows: `venv\Scripts\activate`
-   - Linux/Mac: `source venv/bin/activate`
+## Setup
+1. Activate virtual environment:
+   ```
+   venv\Scripts\activate  # Windows
+   source venv/bin/activate  # Linux/macOS
+   ```
 
-2. 実行
-   ```bash
+2. Run the program:
+   ```
    python main.py
    ```
 
-## 出力
+## Expected Output
 ```
 Hello world
 ```
 ```
-**完了条件**: ドキュメントが完成すること
 
-#### TASK-006: 単体テスト実行
-**担当**: 佐藤優子
-- main.py の構文チェック
-- 関数の動作確認
-- エンコーディング確認
-**完了条件**: エラーなく実行できること
+**成果物**:
+- requirements.txt
+- README.md
+- 改良されたmain.py
 
-#### TASK-007: 統合テスト実行
-**担当**: 鈴木翔
-- venv環境での実行確認
-- 出力内容の確認
-- 終了コードの確認
-**完了条件**: 要件通りの動作を確認
+**完了条件**: テスト成功維持 + コード品質向上
 
-#### TASK-008: 最終動作確認
-**担当**: 全員
-- ユーザー視点での動作確認
-- ドキュメントの最終チェック
-**完了条件**: リリース可能状態
+#### PHASE-5: 最終レビュー
+**担当**: CTO + アレックス  
+**TDDステップ**: 完了
 
-### 3. タスク依存関係
+**作業内容**:
+1. 要件適合性確認
+2. テストカバレッジ確認
+3. 実行テスト
+4. ドキュメント確認
 
-```mermaid
-graph TD
-    TASK-001 --> TASK-002
-    TASK-002 --> TASK-003
-    TASK-002 --> TASK-004
-    TASK-002 --> TASK-005
-    TASK-004 --> TASK-006
-    TASK-006 --> TASK-007
-    TASK-003 --> TASK-007
-    TASK-005 --> TASK-007
-    TASK-007 --> TASK-008
+**成果物**:
+- 最終レビューレポート
+
+**完了条件**: CTO承認
+
+### 3. TDD実行順序
+
+```
+PHASE-1 (環境準備)
+    ↓
+PHASE-2 (Red: テスト作成)
+    ↓
+PHASE-3 (Green: 実装)
+    ↓
+PHASE-4 (Refactor: 品質向上)
+    ↓
+PHASE-5 (レビュー: 完了)
 ```
 
-### 4. スケジュール
+### 4. チェックポイント
 
-| 時間 | 実施内容 | 担当 |
-|------|---------|------|
-| 0:00-0:05 | 環境準備（TASK-001, 002） | 伊藤浩 |
-| 0:05-0:10 | ファイル作成（TASK-003, 004） | 小林誠、田中太郎 |
-| 0:10-0:15 | ドキュメント作成（TASK-005） | 高橋真理 |
-| 0:15-0:25 | テスト実行（TASK-006, 007） | 佐藤優子、鈴木翔 |
-| 0:25-0:30 | 最終確認（TASK-008） | 全員 |
+| フェーズ | チェック項目 | 確認方法 |
+|----------|-------------|----------|
+| PHASE-1 | 環境準備完了 | ディレクトリ・venv確認 |
+| PHASE-2 | テスト失敗確認 | `python -m pytest tests/` |
+| PHASE-3 | テスト成功確認 | `python -m pytest tests/` |
+| PHASE-4 | 品質向上確認 | コードレビュー + テスト |
+| PHASE-5 | 要件適合確認 | 受入テスト実行 |
 
-**総所要時間**: 約30分
+### 5. 品質基準
 
-### 5. リスク管理
+- **テストカバレッジ**: 100%（main関数）
+- **PEP8準拠**: flake8チェック通過
+- **型ヒント**: 関数戻り値に必須
+- **エラーハンドリング**: 想定例外に対応
 
-| リスク | 対策 | 責任者 |
-|--------|------|--------|
-| Python未インストール | 事前確認 | 伊藤浩 |
-| venv作成失敗 | 代替手段準備 | 伊藤浩 |
-| テスト失敗 | デバッグ体制 | 佐藤優子 |
+### 6. 最終成果物
 
-### 6. 成果物
+1. **プロダクションコード**
+   - hello_world_project/main.py
+   - hello_world_project/requirements.txt
+   - hello_world_project/README.md
 
-1. **ソースコード**
-   - main.py
-   - requirements.txt
+2. **テストコード**
+   - hello_world_project/tests/test_main.py
 
-2. **ドキュメント**
-   - README.md
-   - 仕様書一式（specs/new/hello_world_project/）
+3. **実行環境**
+   - hello_world_project/venv/
 
-3. **環境**
-   - venv仮想環境
+4. **設計ドキュメント**
+   - requirements.md（要件定義）
+   - design.md（技術設計）
+   - tasks.md（実装計画）
 
-### 7. 承認
+### 7. CTO承認事項
 
-- **タスク承認者**: CTO
-- **リソース承認**: 人事部
-- **品質承認**: 品質保証部
+**承認が必要なタイミング**:
+- Step 4: 設計レビュー（現在のステップ）
+- PHASE-2完了: テスト設計承認
+- PHASE-5完了: 最終成果物承認
 
 ---
-*作成者: CTO・人事部 - 階層型エージェントシステム v8.7*
-*担当調整: プロジェクトコーディネーター*
+*アレックス作成 - SDD+TDD統合開発手法*
+*CTO承認待ち: 設計レビューと実装開始許可*

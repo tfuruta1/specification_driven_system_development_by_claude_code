@@ -1,187 +1,171 @@
 # 技術設計書 - Hello World Python System
 
-## 🎯 CTO・システムアーキテクトによる技術設計
+## 🏗️ Step 2: Technical Design Document
 
 ### 1. システムアーキテクチャ
 
-#### 1.1 全体構成図
+#### 1.1 全体構成
 ```
-┌─────────────────────────────────────┐
-│         ユーザー環境                   │
-│  ┌─────────────────────────────┐      │
-│  │    コマンドライン (CLI)      │      │
-│  └────────────┬────────────────┘      │
-│               │                       │
-│               ▼                       │
-│  ┌─────────────────────────────┐      │
-│  │   Python インタープリタ      │      │
-│  │      (venv環境内)           │      │
-│  └────────────┬────────────────┘      │
-│               │                       │
-│               ▼                       │
-│  ┌─────────────────────────────┐      │
-│  │        main.py              │      │
-│  │   ┌──────────────────┐      │      │
-│  │   │  print("Hello     │      │      │
-│  │   │       world")     │      │      │
-│  │   └──────────────────┘      │      │
-│  └─────────────────────────────┘      │
-└─────────────────────────────────────┘
+hello_world_project/
+├── main.py              # メインエントリーポイント
+├── requirements.txt     # 依存関係（空ファイル）
+├── README.md           # 使用説明書
+└── tests/
+    └── test_main.py    # ユニットテスト
 ```
 
-#### 1.2 ディレクトリ構成
-```
-hello_world_python/
-├── venv/                    # Python仮想環境
-│   ├── Scripts/ (Windows)   # 実行可能ファイル
-│   ├── bin/ (Linux/Mac)     # 実行可能ファイル
-│   ├── Include/             # Cヘッダファイル
-│   ├── Lib/                 # Pythonライブラリ
-│   └── pyvenv.cfg           # 仮想環境設定
-├── main.py                  # メインプログラム
-├── requirements.txt         # パッケージ依存関係
-└── README.md               # プロジェクト説明書
-```
+#### 1.2 アーキテクチャパターン
+- **パターン**: Simple Script Pattern
+- **理由**: 単一機能のため、複雑なアーキテクチャは不要
+- **設計原則**: YAGNI（You Aren't Gonna Need It）を厳格に適用
 
-### 2. モジュール設計
+### 2. 関数設計
 
-#### 2.1 main.py
+#### 2.1 main関数仕様
 ```python
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Hello World Python System
-階層型エージェントシステムによる実装
-"""
+def main() -> int:
+    """
+    Hello Worldメッセージを表示するメイン関数
+    
+    Returns:
+        int: 実行結果（0: 正常終了, 1: エラー）
+    
+    Behavior:
+        - "Hello world"を標準出力に出力
+        - UTF-8エンコーディングで出力
+        - 末尾に改行を含む
+        - 例外は発生させない
+    """
+```
 
-def main():
-    """メイン関数"""
-    print("Hellow World!")
-
+#### 2.2 エントリーポイント設計
+```python
 if __name__ == "__main__":
-    main()
+    exit_code = main()
+    sys.exit(exit_code)
 ```
 
-**設計ポイント:**
-- Shebang行でPython3を明示
-- UTF-8エンコーディングを指定
-- Docstringでモジュール説明
-- main関数でロジックを分離
-- `if __name__ == "__main__":`でモジュール性を確保
+#### 2.3 関数責任
+| 関数 | 責任 | 入力 | 出力 | 副作用 |
+|------|------|------|------|--------|
+| main() | Hello world表示 | なし | int (0) | stdout出力 |
 
-### 3. データフロー
+### 3. エラーハンドリング方針
 
-```mermaid
-graph LR
-    A[プログラム開始] --> B[main関数呼び出し]
-    B --> C[print関数実行]
-    C --> D[標準出力へ出力]
-    D --> E[プログラム終了]
-```
+#### 3.1 基本方針
+- **Fail-Safe設計**: 例外が発生しても安全に終了
+- **ログレベル**: エラー時のみログ出力
+- **戻り値**: 0=正常, 1=異常終了
 
-### 4. 環境設定
+#### 3.2 想定される例外と対処
+| 例外タイプ | 発生条件 | 対処法 | 戻り値 |
+|------------|----------|--------|--------|
+| UnicodeEncodeError | 文字エンコーディングエラー | stderr出力 | 1 |
+| SystemExit | 意図的な終了 | 正常処理 | 設定値 |
+| KeyboardInterrupt | Ctrl+C | 適切な終了 | 1 |
+| Exception | その他の例外 | stderr出力 | 1 |
 
-#### 4.1 仮想環境作成手順
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
-# Linux/Mac
-python3 -m venv venv
-source venv/bin/activate
-```
-
-#### 4.2 requirements.txt
-```
-# 現時点では依存パッケージなし
-# 将来の拡張用にファイルを準備
-```
-
-### 5. エラーハンドリング
-
-#### 5.1 想定されるエラーと対処
-| エラー種別 | 原因 | 対処方法 |
-|-----------|------|----------|
-| ImportError | Python環境問題 | Python再インストール |
-| SyntaxError | コード記述ミス | 構文チェック |
-| UnicodeError | 文字エンコーディング | UTF-8指定確認 |
-
-#### 5.2 エラー処理実装
+#### 3.3 例外処理実装パターン
 ```python
-# 拡張版（オプション）
-import sys
-
-def main():
+def main() -> int:
     try:
         print("Hello world")
         return 0
-    except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
+    except UnicodeEncodeError as e:
+        print(f"Encoding error: {e}", file=sys.stderr)
         return 1
-
-if __name__ == "__main__":
-    sys.exit(main())
+    except KeyboardInterrupt:
+        print("\nInterrupted by user", file=sys.stderr)
+        return 1
+    except Exception as e:
+        print(f"Unexpected error: {e}", file=sys.stderr)
+        return 1
 ```
 
-### 6. テスト設計
+### 4. テスト戦略
 
-#### 6.1 単体テスト
+#### 4.1 TDD戦略
+1. **Red Phase**: テストを先に書く（失敗確認）
+2. **Green Phase**: 最小限の実装で成功させる
+3. **Refactor Phase**: コードを改善する
+
+#### 4.2 テスト範囲
+| テスト種別 | 対象 | カバレッジ | 実装優先度 |
+|------------|------|------------|------------|
+| ユニットテスト | main()関数 | 100% | 高 |
+| 統合テスト | スクリプト実行 | 100% | 中 |
+| システムテスト | 実行環境 | 主要OS | 低 |
+
+#### 4.3 テストケース設計
 ```python
-# test_main.py (オプション)
-import unittest
-from io import StringIO
-import sys
-
-class TestHelloWorld(unittest.TestCase):
-    def test_output(self):
-        captured_output = StringIO()
-        sys.stdout = captured_output
-        print("Hello world")
-        sys.stdout = sys.__stdout__
-        self.assertEqual(captured_output.getvalue().strip(), "Hello world")
+# Test Cases for main() function
+class TestMain:
+    def test_main_returns_zero(self):
+        """main()が0を返すことを確認"""
+        
+    def test_main_prints_hello_world(self):
+        """main()が"Hello world"を出力することを確認"""
+        
+    def test_main_output_encoding(self):
+        """出力がUTF-8エンコーディングであることを確認"""
+        
+    def test_main_output_newline(self):
+        """出力末尾に改行が含まれることを確認"""
 ```
 
-#### 6.2 統合テスト手順
-1. venv環境の有効化確認
-2. `python main.py`実行
-3. 出力確認
-4. 終了コード確認（0であること）
+#### 4.4 テストデータ
+- **期待値**: "Hello world\n"
+- **エンコーディング**: UTF-8
+- **戻り値**: 0
 
-### 7. デプロイメント
+### 5. パフォーマンス設計
 
-#### 7.1 配布方法
-- **ソースコード配布**: GitHubリポジトリ
-- **実行可能形式**: PyInstaller使用（オプション）
-- **コンテナ化**: Docker対応（将来拡張）
+#### 5.1 パフォーマンス要件対応
+| 要件ID | 目標値 | 設計対策 |
+|--------|--------|----------|
+| NFR-001 | 起動1秒以内 | 最小限のimport, 単純処理 |
+| NFR-002 | メモリ50MB以下 | 標準ライブラリのみ使用 |
+| NFR-003 | CPU瞬間使用 | I/O処理なし, 即座に終了 |
 
-#### 7.2 実行環境要件
-- Python 3.7以上
-- OS: Windows 10+, macOS 10.14+, Ubuntu 18.04+
-- メモリ: 128MB以上
-- ディスク: 100MB以上（venv含む）
+#### 5.2 最適化方針
+- **import最小化**: 必要最小限のモジュールのみ
+- **処理最適化**: print()一回のみの実行
+- **メモリ効率**: 変数の最小使用
 
-### 8. セキュリティ考慮事項
+### 6. 実装指針
 
-- 外部入力なし（セキュリティリスク最小）
-- ファイルアクセスなし
-- ネットワーク通信なし
-- システムコール最小限
+#### 6.1 コーディング規約
+- **PEP 8準拠**: Python公式スタイルガイド
+- **型ヒント**: 関数の戻り値に必須
+- **docstring**: Google形式で記述
+- **変数命名**: 明確で簡潔な名前
 
-### 9. 拡張性設計
+#### 6.2 品質基準
+- **テストカバレッジ**: 100%
+- **コードレビュー**: CTO承認必須
+- **静的解析**: flake8チェック通過
+- **実行テスト**: 主要OS（Windows, macOS, Linux）で確認
 
-#### 将来の機能追加ポイント
-1. **多言語対応**: i18n対応
-2. **設定ファイル**: config.json追加
-3. **ロギング**: logging モジュール導入
-4. **GUI対応**: tkinter統合
+### 7. デプロイメント設計
 
-### 10. 承認事項
+#### 7.1 環境要件
+- **Python**: 3.7以上
+- **OS**: Windows, macOS, Linux
+- **依存関係**: 標準ライブラリのみ
 
-- **技術承認者**: CTO
-- **レビュー実施**: システムアーキテクト、DevOpsエンジニア
-- **承認日**: 即時承認
+#### 7.2 実行手順
+```bash
+# 1. 仮想環境作成
+python -m venv venv
+
+# 2. 仮想環境有効化
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
+
+# 3. 実行
+python main.py
+```
 
 ---
-*作成者: CTO・システム開発部 - 階層型エージェントシステム v8.7*
-*技術レビュー: システムアーキテクト、DevOpsエンジニア*
+*CTO承認待ち - アレックス作成*
+*次ステップ: 実装計画（tasks.md）作成*
