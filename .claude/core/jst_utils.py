@@ -46,6 +46,27 @@ def get_datetime_str():
     """
     return get_jst_now().strftime("%Y-%m-%d %H:%M:%S")
 
+def format_jst_datetime(dt=None):
+    """
+    JST日時をフォーマット (YYYY-MM-DD HH:MM:SS形式)
+    
+    Args:
+        dt: datetime オブジェクト (省略時は現在時刻)
+    
+    Returns:
+        str: フォーマット済み日時文字列
+    """
+    if dt is None:
+        dt = get_jst_now()
+    elif dt.tzinfo is None:
+        # タイムゾーン情報がない場合はJSTとして扱う
+        dt = dt.replace(tzinfo=JST)
+    else:
+        # JSTに変換
+        dt = dt.astimezone(JST)
+    
+    return dt.strftime("%Y-%m-%d %H:%M:%S")
+
 def get_session_time():
     """
     セッション開始時刻を取得 (HHMM形式)
@@ -74,6 +95,52 @@ def get_filename_timestamp():
     """
     now = get_jst_now()
     return now.strftime("%Y-%m-%d_%H%M")
+
+def format_jst_time(dt=None, format_str="%Y-%m-%d %H:%M:%S JST"):
+    """
+    JST時刻をフォーマット（統合テスト用）
+    
+    Args:
+        dt: フォーマットする日時（Noneの場合は現在時刻）
+        format_str: フォーマット文字列
+        
+    Returns:
+        フォーマットされた時刻文字列
+    """
+    if dt is None:
+        dt = get_jst_now()
+    elif dt.tzinfo is None:
+        # タイムゾーン未指定の場合はJSTとして扱う
+        dt = dt.replace(tzinfo=JST)
+    elif dt.tzinfo != JST:
+        # 他のタイムゾーンの場合はJSTに変換
+        dt = dt.astimezone(JST)
+    
+    return dt.strftime(format_str)
+
+
+def format_jst_date(dt=None):
+    """
+    JST日付をフォーマット（統合テスト用）
+    
+    Args:
+        dt: フォーマットする日時（Noneの場合は現在時刻）
+        
+    Returns:
+        フォーマットされた日付文字列
+    """
+    return format_jst_time(dt, "%Y-%m-%d")
+
+
+def get_jst_yesterday():
+    """JST昨日の日時を取得（統合テスト用）"""
+    return get_jst_now() - timedelta(days=1)
+
+
+def get_jst_tomorrow():
+    """JST明日の日時を取得（統合テスト用）"""
+    return get_jst_now() + timedelta(days=1)
+
 
 def format_jst_header(date_str=None, session_time=None):
     """

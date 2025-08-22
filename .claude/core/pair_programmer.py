@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-ペアプログラマー - なんちゃってペアプログラミング
-1人のエージェントが「相棒」として対話しながら開発
+強化版ペアプログラマー（アレックス） - Claude Code Core v11.0
+SDD+TDD+開発ルール統合対応の知的ペアプログラミングパートナー
+
+CTOとの完璧な連携でYAGNI、DRY、KISS原則を実践
 """
 
-from typing import Dict, Any, Optional
-from logger import logger
+from typing import Dict, Any, Optional, List
+from .logger import logger
+from .config import get_config
+from .development_rules import dev_rules, TDDPhase
+from .emoji_validator import emoji_validator
 
 
 class PairProgrammer:
-    """ペアプログラマー（相棒）"""
+    """強化版ペアプログラマー（アレックス）- 知的開発パートナー"""
     
     def __init__(self, name: str = "アレックス", style: str = "friendly"):
         """
@@ -22,11 +27,48 @@ class PairProgrammer:
         self.style = style
         self.context = {}
         
-        # ペアプロの役割
+        # 設定とルールエンジンの統合
+        self.config = get_config()
+        self.pair_config = self.config.get_pair_config()
+        
+        # ペアプロの役割（拡張版）
         self.roles = {
-            "driver": "コードを書く人（あなた）",
-            "navigator": "レビューと提案をする人（私）"
+            "driver": "コードを書く人（CTO）",
+            "navigator": "レビューと提案をする人（アレックス）",
+            "rules_enforcer": "開発ルールの監視（アレックス）",
+            "quality_guardian": "品質管理（アレックス）"
         }
+        
+        # 開発フェーズの理解
+        self.development_phases = {
+            "requirements": "要件定義",
+            "design": "設計",
+            "test_writing": "テスト作成",
+            "implementation": "実装",
+            "refactoring": "リファクタリング",
+            "review": "レビュー"
+        }
+        
+        # アレックスの知識ベース（強化）
+        self.knowledge_base = {
+            "sdd_tdd": {
+                "red_phase": "失敗するテストを書く段階",
+                "green_phase": "テストを通す最小実装",
+                "refactor_phase": "品質向上のためのリファクタリング"
+            },
+            "development_rules": {
+                "checklist": "修正前の完全理解",
+                "test_first": "実装前にテストを書く",
+                "incremental": "一度に一つのタスクに集中"
+            },
+            "quality_principles": {
+                "yagni": "必要になるまで実装しない",
+                "dry": "重複を避ける",
+                "kiss": "シンプルに保つ"
+            }
+        }
+        
+        logger.info(f"強化版{self.name}が参加しました", "PAIR")
         
     def greet(self) -> str:
         """挨拶"""

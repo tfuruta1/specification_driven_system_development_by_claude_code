@@ -1,0 +1,258 @@
+{
+  "task_20250821_105848_4e367758": {
+    "id": "task_20250821_105848_4e367758",
+    "description": "Fix critical login bug",
+    "type": "critical_bug",
+    "files": [
+      "src/auth/login.js"
+    ],
+    "priority": "critical",
+    "status": "pending",
+    "created_at": "2025-08-21T10:58:48.579185",
+    "updated_at": "2025-08-21T10:58:48.579185",
+    "deadline": null,
+    "tags": [],
+    "progress": {
+      "steps_completed": [],
+      "current_step": null,
+      "completion_percentage": 0
+    },
+    "time_tracking": {
+      "estimated_hours": null,
+      "actual_hours": 0,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+  "task_20250821_105848_1e2050d1": {
+    "id": "task_20250821_105848_1e2050d1",
+    "description": "Optimize database queries",
+    "type": "performance",
+    "files": [
+      "src/services/database.js",
+      "src/queries/user.js"
+    ],
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2025-08-21T10:58:48.591861",
+    "updated_at": "2025-08-21T10:58:48.591861",
+    "deadline": null,
+    "tags": [],
+    "progress": {
+      "steps_completed": [],
+      "current_step": null,
+      "completion_percentage": 0
+    },
+    "time_tracking": {
+      "estimated_hours": null,
+      "actual_hours": 0,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+  "task_20250821_105848_456f66fa": {
+    "id": "task_20250821_105848_456f66fa",
+    "description": "Refactor component structure",
+    "type": "refactor",
+    "files": [
+      "src/components/UserProfile.vue"
+    ],
+    "priority": "low",
+    "status": "pending",
+    "created_at": "2025-08-21T10:58:48.609709",
+    "updated_at": "2025-08-21T10:58:48.609709",
+    "deadline": null,
+    "tags": [],
+    "progress": {
+      "steps_completed": [],
+      "current_step": null,
+      "completion_percentage": 0
+    },
+    "time_tracking": {
+      "estimated_hours": null,
+      "actual_hours": 0,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+  "task_20250821_105909_4e367758": {
+    "id": "task_20250821_105909_4e367758",
+    "description": "Fix critical login bug",
+    "type": "critical_bug",
+    "files": [
+      "src/auth/login.js"
+    ],
+    "priority": "critical",
+    "status": "pending",
+    "created_at": "2025-08-21T10:59:09.443488",
+    "updated_at": "2025-08-21T10:59:09.443488",
+    "deadline": null,
+    "tags": [],
+    "progress": {
+      "steps_completed": [],
+      "current_step": null,
+      "completion_percentage": 0
+    },
+    "time_tracking": {
+      "estimated_hours": null,
+      "actual_hours": 0,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+  "task_20250821_105909_1e2050d1": {
+    "id": "task_20250821_105909_1e2050d1",
+    "description": "Optimize database queries",
+    "type": "performance",
+    "files": [
+      "src/services/database.js",
+      "src/queries/user.js"
+    ],
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2025-08-21T10:59:09.460211",
+    "updated_at": "2025-08-21T10:59:09.460211",
+    "deadline": null,
+    "tags": [],
+    "progress": {
+      "steps_completed": [],
+      "current_step": null,
+      "completion_percentage": 0
+    },
+    "time_tracking": {
+      "estimated_hours": null,
+      "actual_hours": 0,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+  "task_20250821_105909_456f66fa": {
+    "id": "task_20250821_105909_456f66fa",
+    "description": "Refactor component structure",
+    "type": "refactor",
+    "files": [
+      "src/components/UserProfile.vue"
+    ],
+    "priority": "low",
+    "status": "pending",
+    "created_at": "2025-08-21T10:59:09.481649",
+    "updated_at": "2025-08-21T10:59:09.481649",
+    "deadline": null,
+    "tags": [],
+    "progress": {
+      "steps_completed": [],
+      "current_step": null,
+      "completion_percentage": 0
+    },
+    "time_tracking": {
+      "estimated_hours": null,
+      "actual_hours": 0,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+  "task_20250821_110128_a11e3147": {
+    "id": "task_20250821_110128_a11e3147",
+    "description": "Critical security vulnerability fix",
+    "type": "security_fix",
+    "files": [
+      "src/auth/login.js"
+    ],
+    "priority": "critical",
+    "status": "pending",
+    "created_at": "2025-08-21T11:01:28.855336",
+    "updated_at": "2025-08-21T11:01:28.855336",
+    "deadline": null,
+    "tags": [
+      "urgent",
+      "security"
+    ],
+    "progress": {
+      "steps_completed": [],
+      "current_step": null,
+      "completion_percentage": 0
+    },
+    "time_tracking": {
+      "estimated_hours": null,
+      "actual_hours": 0,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+  "task_20250821_110128_140399b1": {
+    "id": "task_20250821_110128_140399b1",
+    "description": "Performance optimization for database queries",
+    "type": "performance",
+    "files": [
+      "src/services/database.js",
+      "src/queries/user.js"
+    ],
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2025-08-21T11:01:28.870750",
+    "updated_at": "2025-08-21T11:01:28.870750",
+    "deadline": null,
+    "tags": [],
+    "progress": {
+      "steps_completed": [],
+      "current_step": null,
+      "completion_percentage": 0
+    },
+    "time_tracking": {
+      "estimated_hours": null,
+      "actual_hours": 0,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+  "task_20250821_110128_828bfc76": {
+    "id": "task_20250821_110128_828bfc76",
+    "description": "Code refactoring for better maintainability",
+    "type": "refactor",
+    "files": [
+      "src/components/UserProfile.vue"
+    ],
+    "priority": "low",
+    "status": "pending",
+    "created_at": "2025-08-21T11:01:28.890574",
+    "updated_at": "2025-08-21T11:01:28.890574",
+    "deadline": null,
+    "tags": [],
+    "progress": {
+      "steps_completed": [],
+      "current_step": null,
+      "completion_percentage": 0
+    },
+    "time_tracking": {
+      "estimated_hours": null,
+      "actual_hours": 0,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+  "task_20250821_110128_9530e649": {
+    "id": "task_20250821_110128_9530e649",
+    "description": "Add unit tests for new features",
+    "type": "test",
+    "files": [
+      "test/new_feature.test.js"
+    ],
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2025-08-21T11:01:28.902316",
+    "updated_at": "2025-08-21T11:01:28.902316",
+    "deadline": null,
+    "tags": [],
+    "progress": {
+      "steps_completed": [],
+      "current_step": null,
+      "completion_percentage": 0
+    },
+    "time_tracking": {
+      "estimated_hours": null,
+      "actual_hours": 0,
+      "started_at": null,
+      "completed_at": null
+    }
+  }
+}

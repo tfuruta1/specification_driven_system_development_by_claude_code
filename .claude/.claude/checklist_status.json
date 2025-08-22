@@ -1,0 +1,119 @@
+{
+  "generated_at": "2025-08-21T11:01:28.625089",
+  "target_file": "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\demo_integration.py",
+  "items": {
+    "file_understanding": {
+      "title": "ファイルの目的と機能の理解",
+      "required": true,
+      "questions": [
+        "このファイルの主な責務は何ですか？",
+        "どのような入力を受け取り、何を出力しますか？",
+        "他のファイルとの依存関係を把握していますか？"
+      ],
+      "completed": false,
+      "notes": ""
+    },
+    "implementation_analysis": {
+      "title": "既存実装の詳細分析",
+      "required": true,
+      "questions": [
+        "現在の実装方法を理解していますか？",
+        "なぜこの実装方法が選ばれたと思いますか？",
+        "実装上の制約や注意点はありますか？"
+      ],
+      "completed": false,
+      "notes": ""
+    },
+    "impact_analysis": {
+      "title": "修正による影響範囲の特定",
+      "required": true,
+      "questions": [
+        "この修正が影響する他のファイルはありますか？",
+        "既存のテストに影響はありますか？",
+        "APIの変更など、外部への影響はありますか？"
+      ],
+      "completed": false,
+      "notes": ""
+    },
+    "test_understanding": {
+      "title": "既存テストの理解",
+      "required": true,
+      "questions": [
+        "既存のテストを確認しましたか？",
+        "テストがカバーしている範囲を把握していますか？",
+        "新しいテストが必要な箇所を特定していますか？"
+      ],
+      "completed": false,
+      "notes": ""
+    },
+    "complexity_review": {
+      "title": "高複雑度コードの詳細確認",
+      "required": true,
+      "questions": [
+        "このファイルの複雑度が高い理由を理解していますか？",
+        "リファクタリングの必要性を検討しましたか？",
+        "修正により複雑度がさらに増加しませんか？"
+      ],
+      "completed": false,
+      "notes": "複雑度スコア: 81"
+    },
+    "test_coverage": {
+      "title": "テストカバレッジの確認",
+      "required": true,
+      "questions": [
+        "このファイルにはテストがありませんが、必要ですか？",
+        "修正に伴い新しいテストを作成する予定ですか？",
+        "テストなしで修正するリスクを理解していますか？"
+      ],
+      "completed": false,
+      "notes": "テストファイルが見つかりませんでした"
+    }
+  },
+  "file_analysis": {
+    "file_type": "python",
+    "size_lines": 316,
+    "complexity_score": 81,
+    "dependencies": [],
+    "exports": [],
+    "functions": [
+      "demo_lesson_1_verify_before_modify",
+      "demo_lesson_2_test_first",
+      "demo_lesson_3_incremental_fix",
+      "demo_integrated_workflow",
+      "main"
+    ],
+    "classes": [],
+    "imports": [
+      "json",
+      "os",
+      "pathlib",
+      "datetime",
+      "pre_modification_checklist",
+      "test_first_enforcer",
+      "incremental_fix_manager",
+      "development_rules"
+    ],
+    "comments_ratio": 0.022151898734177215,
+    "test_files": [],
+    "related_files": [
+      "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\.pending_reviews",
+      "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\.review_status",
+      "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\CLAUDE.md",
+      "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\compatibility_analysis.md",
+      "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\config.py",
+      "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\development_rules.py",
+      "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\incremental_fix_manager.py",
+      "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\migrate_to_v10.py",
+      "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\MIGRATION_REPORT.md",
+      "C:\\Users\\Administrator\\Documents\\PG\\品質保管台チェックシート\\.claude\\pre_modification_checklist.py"
+    ]
+  },
+  "completion_status": {
+    "file_understanding": false,
+    "implementation_analysis": false,
+    "impact_analysis": false,
+    "test_understanding": false,
+    "complexity_review": false,
+    "test_coverage": false
+  }
+}
