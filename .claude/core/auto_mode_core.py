@@ -9,12 +9,15 @@ import time
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 
-from .activity_logger import logger
 from .jst_utils import format_jst_datetime, get_filename_timestamp
 from .test_strategy import TestStrategy, TestLevel, TestResult
 from .integration_test_runner import IntegrationTestRunner, IntegrationTestResult
 from .auto_mode_config import auto_config
 from .auto_mode_state import auto_state
+
+# 統合システムインポート
+from .shared_logger import OptimizedLogger
+from .error_handler import StandardErrorHandler
 
 
 class AutoMode:
@@ -22,7 +25,7 @@ class AutoMode:
     
     def __init__(self, base_dir: str = ".claude"):
         """
-        Auto-Mode初期化
+        Auto-Mode初期化 - 統合システム使用
         
         Args:
             base_dir: ベースディレクトリ
@@ -31,9 +34,18 @@ class AutoMode:
         self.config = auto_config
         self.state = auto_state
         
-        # ActivityReportディレクトリ準備
+        # 統合ロガーとエラーハンドラー初期化
+        self.logger = OptimizedLogger(user="auto_mode", base_path=self.base_dir)
+        self.error_handler = StandardErrorHandler(logger=self.logger)
+        
+        # ActivityReportディレクトリ準備（エラーハンドリング付き）
         self.report_dir = self.base_dir / "ActivityReport"
-        self.report_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            self.report_dir.mkdir(parents=True, exist_ok=True)
+        except Exception as e:
+            self.error_handler.handle_file_operation_error(
+                "mkdir", self.report_dir, e
+            )
         
         # テスト戦略と統合テスト実行器初期化
         self.test_strategy = TestStrategy()
@@ -56,7 +68,8 @@ class AutoMode:
         if args is None:
             args = []
             
-        logger.info(f"/auto-mode {command} を実行中...", "AUTO_MODE")
+        self.logger.log_with_context("info", f"/auto-mode {command} を実行中...", 
+                                   {"command": command, "args": args})
         
         if command == "start":
             return self._start_auto_mode()
@@ -65,15 +78,19 @@ class AutoMode:
         elif command == "status":
             return self._get_status()
         else:
-            logger.error(f"不明なコマンド: {command}", "AUTO_MODE")
-            logger.info("使用可能なコマンド: start, stop, status", "AUTO_MODE")
+            validation_error = self.error_handler.handle_validation_error(
+                "command", command, "有効なコマンド名", 
+                suggestions=["start", "stop", "status"]
+            )
+            self.logger.log_with_context("error", f"不明なコマンド: {command}",
+                                       {"available_commands": ["start", "stop", "status"]})
             return False
             
     def _start_auto_mode(self) -> bool:
-        """Auto-Mode開始"""
-        try:
+        """Auto-Mode開始 - 統合エラーハンドリング使用"""
+        with self.error_handler.error_context("auto_mode_start") as ctx:
             if self.state.is_active:
-                logger.warn("Auto-Mode は既に開始されています", "AUTO_MODE")
+                self.logger.log_with_context("warning", "Auto-Mode は既に開始されています")
                 return True
                 
             # セッション開始
@@ -90,14 +107,12 @@ class AutoMode:
             # ActivityReport記録
             self._log_session_start(session)
             
-            logger.info(f"Auto-Mode開始完了！ セッションID: {session_id}", "AUTO_MODE")
-            logger.info(f"選択フロー: {self.config.current_flow}", "AUTO_MODE")
-            logger.info("アレックスとのペアプログラミングモードを開始します", "AUTO_MODE")
+            self.logger.log_with_context("info", "Auto-Mode開始完了", 
+                                       {"session_id": session_id, 
+                                        "flow": self.config.current_flow})
+            self.logger.log_with_context("info", "ペアプログラミングモード開始")
             
             return True
-            
-        except Exception as e:
-            logger.error(f"Auto-Mode開始エラー: {e}", "AUTO_MODE")
             return False
             
     def _stop_auto_mode(self) -> bool:

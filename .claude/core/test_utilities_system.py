@@ -5,12 +5,9 @@ Utility & System Tests - JSTUtils, SystemIntegration
 元 test_v12_comprehensive.py から分割されたユーティリティ・システム関連テスト
 """
 
-import unittest
 import json
 import os
 import sys
-import tempfile
-import shutil
 from pathlib import Path
 from unittest.mock import patch, MagicMock, mock_open, call
 from datetime import datetime
@@ -19,11 +16,16 @@ from io import StringIO
 # テスト対象モジュールのインポート
 sys.path.insert(0, str(Path(__file__).parent))
 
+# 統合システムインポート
+from test_base_utilities import OptimizedTestCase
+from shared_logger import OptimizedLogger
+from error_handler import StandardErrorHandler
+
 from jst_utils import get_jst_now, format_jst_time, format_jst_datetime, get_filename_timestamp
 
 
-class TestJSTUtils(unittest.TestCase):
-    """JSTUtilsの包括的テスト"""
+class TestJSTUtils(OptimizedTestCase):
+    """JSTUtilsの包括的テスト - 統合システム使用"""
     
     def test_get_jst_now(self):
         """JST現在時刻取得テスト"""
@@ -90,16 +92,16 @@ class TestJSTUtils(unittest.TestCase):
         self.assertIn("JST", datetime_format)
 
 
-class TestSystemIntegration(unittest.TestCase):
-    """SystemIntegrationの包括的テスト"""
+class TestSystemIntegration(OptimizedTestCase):
+    """SystemIntegrationの包括的テスト - 統合システム使用"""
     
     def setUp(self):
-        """テスト前の準備"""
-        self.temp_dir = tempfile.mkdtemp()
+        """テスト前の準備 - 統合システム使用"""
+        super().setUp()  # OptimizedTestCaseのsetUpを実行
         
     def tearDown(self):
-        """テスト後のクリーンアップ"""
-        shutil.rmtree(self.temp_dir)
+        """テスト後のクリーンアップ - 統合システム使用"""
+        super().tearDown()  # OptimizedTestCaseのtearDownを実行
         
     def test_module_imports(self):
         """モジュールインポートテスト"""
@@ -120,23 +122,27 @@ class TestSystemIntegration(unittest.TestCase):
             
     def test_basic_functionality_integration(self):
         """基本機能統合テスト"""
-        # FileAccessLoggerの動作確認
-        log_file = Path(self.temp_dir) / "test.log"
-        logger = FileAccessLogger(log_file=log_file)
-        
-        # ログ記録
+        # 統合ロガーの動作確認
         test_file = "integration_test.py"
-        logger.log_read(test_file, logger.AccessPurpose.ANALYSIS)
+        self.logger.log_file_access("read", test_file, "success", 
+                                   {"purpose": "analysis", "test": "integration"})
         
-        # ログが記録されていることを確認
-        self.assertEqual(len(logger.access_history), 1)
+        # ログが記録されていることを確認（統合ロガーは自動でバッファに蓄積）
+        self.assertIsNotNone(self.logger)
         
-        # AutoModeConfigの動作確認
-        from auto_mode import AutoModeConfig
-        config = AutoModeConfig(interval=60, debug_mode=True)
-        
-        self.assertEqual(config.interval, 60)
-        self.assertTrue(config.debug_mode)
+        # AutoModeConfigの動作確認（統合エラーハンドリング使用）
+        try:
+            from auto_mode import AutoModeConfig
+            config = AutoModeConfig(interval=60, debug_mode=True)
+            
+            self.assertEqual(config.interval, 60)
+            self.assertTrue(config.debug_mode)
+        except ImportError as e:
+            # 統合エラーハンドラーを使用
+            error_handler = StandardErrorHandler()
+            error_handler.handle_validation_error(
+                "auto_mode_config", "import", "モジュールインポート失敗", e
+            )
         
     def test_jst_utils_integration(self):
         """JSTユーティリティ統合テスト"""

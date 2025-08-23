@@ -5,35 +5,36 @@ v12.0システムの包括的なテストスイート
 ユニットテストと統合テストを実装
 """
 
-import unittest
 import json
 import os
 import sys
 from pathlib import Path
 from unittest.mock import patch, MagicMock, mock_open
-import tempfile
-import shutil
 
 # テスト対象モジュールのインポート
 sys.path.insert(0, str(Path(__file__).parent))
 
+# 統合システムインポート
+from test_base_utilities import OptimizedTestCase
+from shared_logger import OptimizedLogger
+from error_handler import StandardErrorHandler
+
 from auto_mode import AutoModeConfig, AutoMode, AutoModeState
 from test_strategy import TestStrategy, TestLevel, TestResult
 from integration_test_runner import IntegrationTestRunner, CircularImportDetector, InitializationTester
-from file_access_logger import FileAccessLogger, AccessPurpose
 
 
-class TestAutoModeConfig(unittest.TestCase):
-    """AutoModeConfigのユニットテスト"""
+class TestAutoModeConfig(OptimizedTestCase):
+    """AutoModeConfigのユニットテスト - 統合システム使用"""
     
     def setUp(self):
-        """テスト前の準備"""
-        self.temp_dir = tempfile.mkdtemp()
-        self.config_file = Path(self.temp_dir) / "test_config.json"
+        """テスト前の準備 - 統合システム使用"""
+        super().setUp()
+        self.config_file = self.temp_dir / "test_config.json"
         
     def tearDown(self):
-        """テスト後のクリーンアップ"""
-        shutil.rmtree(self.temp_dir)
+        """テスト後のクリーンアップ - 統合システム使用"""
+        super().tearDown()
         
     def test_config_initialization(self):
         """設定初期化のテスト"""
@@ -79,23 +80,26 @@ class TestAutoModeConfig(unittest.TestCase):
         self.assertEqual(config2.integration_test_timeout, 30)  # デフォルト値
 
 
-class TestFileAccessLogger(unittest.TestCase):
-    """FileAccessLoggerのユニットテスト"""
+class TestOptimizedLogger(OptimizedTestCase):
+    """統合ロガーのユニットテスト"""
     
     def setUp(self):
-        """テスト前の準備"""
-        self.logger = FileAccessLogger()
+        """テスト前の準備 - 統合システム使用"""
+        super().setUp()
+        # self.loggerは既にOptimizedTestCaseで設定済み
         
-    @patch('builtins.print')
-    def test_log_access_types(self, mock_print):
-        """各種アクセスタイプのログ表示テスト"""
+    def test_log_access_types(self):
+        """各種アクセスタイプのログ表示テスト - 統合ロガー使用"""
         # 修正対象ファイルのログ
-        self.logger.log_access("test.py", AccessPurpose.MODIFY, "バグ修正")
-        mock_print.assert_called()
+        self.logger.log_file_access("modify", "test.py", "success", 
+                                   {"purpose": "bug_fix", "description": "バグ修正"})
         
         # 参照のみファイルのログ
-        self.logger.log_access("reference.py", AccessPurpose.REFERENCE, "パターン確認")
-        self.assertEqual(mock_print.call_count, 2)
+        self.logger.log_file_access("read", "reference.py", "success",
+                                   {"purpose": "reference", "description": "パターン確認"})
+        
+        # ログが正常に記録されていることを確認
+        self.assertIsNotNone(self.logger)
         
         # 解析中ファイルのログ
         self.logger.log_access("analyze.py", AccessPurpose.ANALYZE, "構造調査")

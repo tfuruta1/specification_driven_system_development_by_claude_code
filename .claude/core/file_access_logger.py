@@ -17,6 +17,7 @@ from typing import Dict, List, Optional
 # 既存システムとの統合
 from logger import logger as unified_logger
 from jst_utils import get_jst_now, format_jst_time
+from error_handler import StandardErrorHandler
 
 
 class AccessPurpose(Enum):
@@ -49,15 +50,19 @@ class ColorTerminal:
             self.enable_windows_colors()
     
     def enable_windows_colors(self):
-        """Windows環境でANSI色表示を有効化"""
+        """Windows環境でANSI色表示を有効化 - 統合エラーハンドリング使用"""
         try:
             # Windows 10以降でANSI色表示を有効化
             os.system('color')
             # より確実な方法
             import subprocess
             subprocess.run([''], shell=True)
-        except:
-            pass
+        except Exception as e:
+            # エラーを無視するがログに記録
+            if hasattr(self, 'error_handler'):
+                self.error_handler.handle_validation_error(
+                    "windows_colors", "color_setup", "Windows色表示設定失敗", e
+                )
     
     def colorize(self, text: str, color: str) -> str:
         """テキストに色を付ける"""
@@ -77,10 +82,18 @@ class FileAccessLogger:
     """ファイルアクセス目的表示システム"""
     
     def __init__(self, base_dir: Optional[str] = None):
-        """初期化"""
-        # ベースディレクトリ設定
+        """初期化 - 統合エラーハンドリング使用"""
+        # エラーハンドラー初期化
+        self.error_handler = StandardErrorHandler()
+        
+        # ベースディレクトリ設定（エラーハンドリング付き）
         self.base_dir = Path(base_dir) if base_dir else Path('.claude/logs')
-        self.base_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            self.base_dir.mkdir(parents=True, exist_ok=True)
+        except Exception as e:
+            self.error_handler.handle_file_operation_error(
+                "mkdir", self.base_dir, e
+            )
         
         # セッション情報
         self.session_id = str(uuid.uuid4())[:8]
