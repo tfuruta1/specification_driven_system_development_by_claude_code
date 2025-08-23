@@ -12,43 +12,54 @@ Auto-Mode Command System (Modular Structure)
 
 from typing import Dict, List, Optional, Any
 
-# 分割されたモジュールをインポート
-from .auto_mode_config import AutoModeConfig, auto_config
-from .auto_mode_state import AutoModeState, auto_state
-from .auto_mode_core import AutoMode, auto_mode, create_auto_mode
+# 循環依存解決後のモジュールインポート
+from .auto_mode_config import AutoModeConfig
+from .auto_mode_state import AutoModeState
+from .auto_mode_core import AutoMode, create_auto_mode
+from .service_factory import get_config_service, get_state_service, initialize_services
 
-# 後方互換性のためのエクスポート
+# 循環依存解決後のエクスポート
 __all__ = [
     'AutoModeConfig',
     'AutoModeState', 
     'AutoMode',
-    'auto_config',
-    'auto_state',
-    'auto_mode',
-    'create_auto_mode'
+    'create_auto_mode',
+    'get_config_service',
+    'get_state_service',
+    'initialize_services'
 ]
 
 # デモ実行
 if __name__ == "__main__":
-    print("=== Auto-Mode System v12.0 (Modular Structure) ===")
+    print("=== Auto-Mode System v13.2 (Circular Dependency Resolved) ===")
+    
+    # サービス初期化
+    initialize_services()
+    
+    # サービス取得
+    config = get_config_service()
+    state = get_state_service()
     
     # システム状態表示
-    print(f"設定有効: {auto_config.is_enabled}")
-    print(f"現在のモード: {auto_config.mode}")
-    print(f"アクティブ: {auto_state.is_active}")
+    print(f"設定有効: {config.is_enabled}")
+    print(f"現在のモード: {config.mode}")
+    print(f"アクティブ: {state.is_active}")
     
     # 利用可能フロー表示
     print("\n利用可能フロー:")
-    for i, flow in enumerate(auto_config.flows, 1):
-        marker = "✓" if flow == auto_config.current_flow else " "
+    for i, flow in enumerate(config.flows, 1):
+        marker = "✓" if flow == config.current_flow else " "
         print(f"  {marker} {i}. {flow}")
     
     # 統合テスト設定表示
-    integration_settings = auto_config.get_config_summary()["integration_tests"]
+    integration_settings = config.get_config_summary()["integration_tests"]
     print("\n統合テスト設定:")
     for key, value in integration_settings.items():
         status = "有効" if value else "無効" if isinstance(value, bool) else str(value)
         print(f"  {key}: {status}")
+    
+    # AutoModeインスタンス作成
+    auto_mode_instance = create_auto_mode()
     
     # コマンドデモ
     print("\nコマンドデモ...")
@@ -56,7 +67,7 @@ if __name__ == "__main__":
     
     for cmd in commands:
         print(f"\n> /auto-mode {cmd}")
-        result = auto_mode.execute_command(cmd)
+        result = auto_mode_instance.execute_command(cmd)
         print(f"結果: {result}")
     
-    print("\n=== Demo Complete ===")
+    print("\n=== Demo Complete - Circular Dependencies Resolved ===")

@@ -8,45 +8,24 @@ Auto-Modeコア制御モジュール - リファクタリング済み（200行�
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 
-from .test_strategy import TestStrategy
-from .integration_test_runner import IntegrationTestRunner
-
-# 統合システムインポート
-from .shared_logger import OptimizedLogger
-from .error_handler import StandardErrorHandler
-
-# 分離されたモジュールインポート
-from .auto_mode_session import SessionManager
-from .auto_mode_workflow import WorkflowExecutor
-from .auto_mode_integration import IntegrationController
-
-
-# 循環依存回避のため遅延インポート
-def _get_auto_config():
-    """
-    auto_configの遅延インポート
-    
-    循環依存を回避するために遅延インポートパターンを使用。
-    AutoModeConfigインスタンスへの安全なアクセスを提供。
-    
-    Returns:
-        AutoModeConfig: 設定管理インスタンス
-    """
-    from .auto_mode_config import auto_config
-    return auto_config
-
-def _get_auto_state():
-    """
-    auto_stateの遅延インポート
-    
-    循環依存を回避するために遅延インポートパターンを使用。
-    AutoModeStateインスタンスへの安全なアクセスを提供。
-    
-    Returns:
-        AutoModeState: 状態管理インスタンス
-    """
-    from .auto_mode_state import auto_state
-    return auto_state
+# test_strategy removed - not needed
+try:
+    from .integration_test_runner import IntegrationTestRunner
+    from .shared_logger import OptimizedLogger
+    from .error_handler import StandardErrorHandler
+    from .auto_mode_session import SessionManager
+    from .auto_mode_workflow import WorkflowExecutor
+    from .auto_mode_integration import IntegrationController
+    from .service_factory import get_config_service, get_state_service
+except ImportError:
+    # スタンドアロン実行用
+    from integration_test_runner import IntegrationTestRunner
+    from shared_logger import OptimizedLogger
+    from error_handler import StandardErrorHandler
+    from auto_mode_session import SessionManager
+    from auto_mode_workflow import WorkflowExecutor
+    from auto_mode_integration import IntegrationController
+    from service_factory import get_config_service, get_state_service
 
 
 class AutoMode:
@@ -60,15 +39,14 @@ class AutoMode:
             base_dir: ベースディレクトリ
         """
         self.base_dir = Path(base_dir)
-        self.config = _get_auto_config()
-        self.state = _get_auto_state()
+        self.config = get_config_service()
+        self.state = get_state_service()
         
         # 統合ロガーとエラーハンドラー初期化
         self.logger = OptimizedLogger(user="auto_mode", base_path=self.base_dir)
         self.error_handler = StandardErrorHandler(logger=self.logger)
         
-        # テスト戦略と統合テスト実行器初期化
-        self.test_strategy = TestStrategy()
+        # 統合テスト実行器初期化
         self.integration_runner = IntegrationTestRunner()
         
         # 分離されたコンポーネント初期化
@@ -76,7 +54,7 @@ class AutoMode:
             self.base_dir, self.logger, self.error_handler
         )
         self.workflow_executor = WorkflowExecutor(
-            self.test_strategy, self.logger, self.error_handler
+            self.logger, self.error_handler
         )
         self.integration_controller = IntegrationController(
             self.integration_runner, self.logger, self.error_handler
@@ -284,13 +262,13 @@ def create_auto_mode(base_dir: str = ".claude") -> AutoMode:
     return AutoMode(base_dir)
 
 
-# シングルトンインスタンス
-auto_mode = AutoMode()
+# ServiceLocatorパターン使用 - 循環依存完全解消
 
 
 if __name__ == "__main__":
     # デモ実行
     print("=== Auto-Mode Demo ===")
+    auto_mode = create_auto_mode()
     print("Status:", auto_mode.execute_command("status"))
     print("Start:", auto_mode.execute_command("start"))
     print("Status:", auto_mode.execute_command("status"))

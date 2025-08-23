@@ -133,6 +133,9 @@ class ServiceLocator:
     
     KISS原則に従い、複雑なDIコンテナではなく
     軽量なサービス管理を提供
+    
+    ServiceFactoryと組み合わせて使用することで、
+    完全な循環依存解決を実現。
     """
     
     _services: Dict[str, Any] = {}
@@ -144,47 +147,26 @@ class ServiceLocator:
     
     @classmethod
     def get(cls, service_name: str) -> Any:
-        """サービス取得"""
+        """サービス取得（遅延初期化対応）"""
         if service_name not in cls._services:
-            raise ValueError(f"Service '{service_name}' not registered")
+            # ServiceFactoryによる遅延初期化を促す
+            from .service_factory import ServiceFactory
+            if not ServiceFactory.is_initialized():
+                ServiceFactory.initialize_services()
+            
+            if service_name not in cls._services:
+                raise ValueError(f"Service '{service_name}' not registered")
         return cls._services[service_name]
     
     @classmethod
     def clear(cls) -> None:
         """全サービスクリア（テスト用）"""
         cls._services.clear()
-
-
-def create_default_services() -> None:
-    """
-    デフォルトサービスの作成と登録
     
-    循環依存を避けるため、実際のインスタンス化は
-    この関数内で行う
-    """
-    from .auto_mode_config import AutoModeConfig
-    from .auto_mode_state import AutoModeState
-    
-    # デフォルトサービス登録
-    ServiceLocator.register('config', AutoModeConfig())
-    ServiceLocator.register('state', AutoModeState())
+    @classmethod
+    def has(cls, service_name: str) -> bool:
+        """サービス登録確認"""
+        return service_name in cls._services
 
 
-def get_config_service() -> ConfigInterface:
-    """設定サービス取得"""
-    try:
-        return ServiceLocator.get('config')
-    except ValueError:
-        # 初回時のみデフォルトサービス作成
-        create_default_services()
-        return ServiceLocator.get('config')
-
-
-def get_state_service() -> StateInterface:
-    """状態サービス取得"""
-    try:
-        return ServiceLocator.get('state')
-    except ValueError:
-        # 初回時のみデフォルトサービス作成
-        create_default_services()
-        return ServiceLocator.get('state')
+# 重複した関数を削除 - service_factory.pyで統一管理

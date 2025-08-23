@@ -9,21 +9,54 @@ import uuid
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 
-from .activity_logger import logger
-from .jst_utils import format_jst_datetime
-from .auto_mode_interfaces import StateInterface
+try:
+    from .activity_logger import logger
+    from .jst_utils import format_jst_datetime
+    from .auto_mode_interfaces import StateInterface
+except ImportError:
+    # スタンドアロン実行用
+    import logging
+    logger = logging.getLogger(__name__)
+    from jst_utils import format_jst_datetime
+    from auto_mode_interfaces import StateInterface
 
 
 class AutoModeState(StateInterface):
     """Auto-Mode状態管理クラス"""
     
+    # StateInterfaceの抽象プロパティ実装
+    @property
+    def is_active(self) -> bool:
+        """アクティブ状態"""
+        return self._is_active
+    
+    @property
+    def start_time(self) -> Optional[str]:
+        """開始時刻"""
+        return self._start_time
+    
+    @property
+    def current_session(self) -> Optional[str]:
+        """現在のセッション"""
+        return self._current_session
+    
+    @property
+    def session_count(self) -> int:
+        """セッション数"""
+        return self._session_count
+    
+    @property
+    def session_data(self) -> Dict[str, Any]:
+        """セッションデータ"""
+        return self._session_data
+    
     def __init__(self):
         """状態初期化"""
-        self.is_active = False
-        self.start_time = None
-        self.current_session = None
-        self.session_count = 0
-        self.session_data = {}  # セッション別データ保存
+        self._is_active = False
+        self._start_time = None
+        self._current_session = None
+        self._session_count = 0
+        self._session_data = {}  # セッション別データ保存
         
     def start(self) -> str:
         """
@@ -32,15 +65,15 @@ class AutoModeState(StateInterface):
         Returns:
             セッションID
         """
-        self.is_active = True
+        self._is_active = True
         self.start_time = format_jst_datetime()
         session_id = str(uuid.uuid4())[:8]
-        self.current_session = session_id
-        self.session_count += 1
+        self._current_session = session_id
+        self._session_count += 1
         
         # セッションデータ初期化
-        self.session_data[session_id] = {
-            'start_time': self.start_time,
+        self._session_data[session_id] = {
+            'start_time': self._start_time,
             'commands_executed': 0,
             'test_results': [],
             'errors': [],
@@ -52,15 +85,15 @@ class AutoModeState(StateInterface):
         
     def stop(self):
         """セッション停止"""
-        if self.is_active and self.current_session:
+        if self._is_active and self._current_session:
             # セッション終了時間を記録
-            if self.current_session in self.session_data:
-                self.session_data[self.current_session]['end_time'] = format_jst_datetime()
+            if self._current_session in self._session_data:
+                self._session_data[self._current_session]['end_time'] = format_jst_datetime()
             
-            logger.info(f"Auto-Mode: セッション停止 - {self.current_session}", "AUTO_MODE")
+            logger.info(f"Auto-Mode: セッション停止 - {self._current_session}", "AUTO_MODE")
         
-        self.is_active = False
-        self.current_session = None
+        self._is_active = False
+        self._current_session = None
         
     def get_status(self) -> Dict[str, Any]:
         """
@@ -70,14 +103,14 @@ class AutoModeState(StateInterface):
             状態辞書
         """
         status = {
-            'active': self.is_active,
-            'start_time': self.start_time,
-            'session_id': self.current_session,
-            'session_count': self.session_count
+            'active': self._is_active,
+            'start_time': self._start_time,
+            'session_id': self._current_session,
+            'session_count': self._session_count
         }
         
-        if self.current_session and self.current_session in self.session_data:
-            current_data = self.session_data[self.current_session]
+        if self._current_session and self._current_session in self._session_data:
+            current_data = self._session_data[self._current_session]
             status.update({
                 'commands_executed': current_data['commands_executed'],
                 'test_results_count': len(current_data['test_results']),
@@ -89,29 +122,29 @@ class AutoModeState(StateInterface):
 
     def increment_command_count(self):
         """コマンド実行回数をインクリメント"""
-        if self.current_session and self.current_session in self.session_data:
-            self.session_data[self.current_session]['commands_executed'] += 1
+        if self._current_session and self._current_session in self._session_data:
+            self._session_data[self._current_session]['commands_executed'] += 1
 
     def add_test_result(self, test_result: Dict[str, Any]):
         """テスト結果を追加"""
-        if self.current_session and self.current_session in self.session_data:
-            self.session_data[self.current_session]['test_results'].append({
+        if self._current_session and self._current_session in self._session_data:
+            self._session_data[self._current_session]['test_results'].append({
                 'timestamp': format_jst_datetime(),
                 'result': test_result
             })
 
     def add_error(self, error: str):
         """エラーを記録"""
-        if self.current_session and self.current_session in self.session_data:
-            self.session_data[self.current_session]['errors'].append({
+        if self._current_session and self._current_session in self._session_data:
+            self._session_data[self._current_session]['errors'].append({
                 'timestamp': format_jst_datetime(),
                 'error': error
             })
 
     def add_warning(self, warning: str):
         """警告を記録"""
-        if self.current_session and self.current_session in self.session_data:
-            self.session_data[self.current_session]['warnings'].append({
+        if self._current_session and self._current_session in self._session_data:
+            self._session_data[self._current_session]['warnings'].append({
                 'timestamp': format_jst_datetime(),
                 'warning': warning
             })
@@ -126,12 +159,12 @@ class AutoModeState(StateInterface):
         Returns:
             セッション要約データ
         """
-        target_session = session_id or self.current_session
+        target_session = session_id or self._current_session
         
-        if not target_session or target_session not in self.session_data:
+        if not target_session or target_session not in self._session_data:
             return None
         
-        data = self.session_data[target_session]
+        data = self._session_data[target_session]
         
         return {
             'session_id': target_session,
@@ -141,14 +174,14 @@ class AutoModeState(StateInterface):
             'test_results': len(data['test_results']),
             'errors': len(data['errors']),
             'warnings': len(data['warnings']),
-            'is_active': target_session == self.current_session and self.is_active
+            'is_active': target_session == self._current_session and self._is_active
         }
 
     def get_all_sessions_summary(self) -> List[Dict[str, Any]]:
         """全セッションの要約を取得"""
         return [
             self.get_session_summary(session_id) 
-            for session_id in self.session_data.keys()
+            for session_id in self._session_data.keys()
         ]
 
     def clear_session_data(self, session_id: str = None) -> bool:
@@ -163,15 +196,15 @@ class AutoModeState(StateInterface):
         """
         try:
             if session_id:
-                if session_id in self.session_data:
-                    del self.session_data[session_id]
+                if session_id in self._session_data:
+                    del self._session_data[session_id]
                     logger.info(f"Auto-Mode: セッションデータクリア - {session_id}", "AUTO_MODE")
                     return True
                 return False
             else:
                 # 全セッションクリア
-                self.session_data.clear()
-                self.session_count = 0
+                self._session_data.clear()
+                self._session_count = 0
                 logger.info("Auto-Mode: 全セッションデータクリア", "AUTO_MODE")
                 return True
         except Exception as e:
@@ -180,7 +213,7 @@ class AutoModeState(StateInterface):
 
     def is_session_active(self) -> bool:
         """セッションがアクティブかどうか"""
-        return self.is_active and self.current_session is not None
+        return self._is_active and self._current_session is not None
 
     def get_uptime(self) -> Optional[str]:
         """
@@ -189,7 +222,7 @@ class AutoModeState(StateInterface):
         Returns:
             アップタイム文字列（セッションが非アクティブの場合はNone）
         """
-        if not self.is_active or not self.start_time:
+        if not self._is_active or not self.start_time:
             return None
         
         try:
@@ -200,4 +233,4 @@ class AutoModeState(StateInterface):
             logger.error(f"Auto-Mode: アップタイム計算エラー - {e}", "AUTO_MODE")
             return None
 
-# シングルトンインスタンス削除 - サービスロケーターパターンを使用
+# ServiceLocatorパターンで管理 - シングルトン不要

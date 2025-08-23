@@ -1,13 +1,49 @@
 # 階層型システム関連ファイル削除候補リスト
 
 ## [目標] 削除理由
-v12.0でペアプログラミング体制（CTO+Alex）に移行したため、階層型システム（4部門体制）の関連ファイルは不要となりました。
+v13.1でalex-sdd-tdd-leadが統括する体制に移行したため、CTOロールと階層型システム（4部門体制）の関連ファイルは不要となりました。
 
 ## [警告] 削除対象ファイル
 
-### 1. 階層型部門関連ファイル
+### 1. 重複ロガーファイル（KISS原則違反）
 
-#### agents/cto/ ディレクトリ内
+#### core/ ディレクトリ内
+- `shared_logger.py` - OptimizedLoggerの重複実装（logger.pyのUnifiedLoggerと重複）
+- `activity_logger.py` - ActivityLoggerの重複実装（logger.pyのUnifiedLoggerと重複）
+- `file_access_logger.py` - FileAccessLoggerの重複実装（logger.pyのUnifiedLoggerと重複）
+
+**削除理由**: 6つのロガークラスが存在し、DRY原則とKISS原則に違反。logger.pyのUnifiedLoggerに統合済み。
+
+### 2. 巨大テストファイル（分割対象）
+
+#### core/ ディレクトリ内
+- `test_performance.py` (964行) - 性能・カバレッジ・統合テストが混在
+- `test_security.py` (799行) - セキュリティテストが過度に詳細化
+- `test_service_factory_comprehensive.py` (757行) - サービスファクトリーテストが過大
+
+**分割理由**: 500行超のファイルは単一責任原則に違反。論理的な境界で分割が必要。
+
+### 3. YAGNI原則違反ファイル（過度な設計）
+
+#### core/ ディレクトリ内
+- `path_utils.py` (166行) - Pathlibで十分な機能を重複実装（2回のみ使用）
+- `test_utilities.py` (674行) - 過度に複雑化されたテストユーティリティ
+- `trigger_keyword_detector.py` (361行) - 使用されていないトリガー検出システム
+
+**削除理由**: 使用頻度が低く、標準ライブラリで代替可能。YAGNI原則に違反。
+
+### 4. TODO/FIXME含有ファイル（未完成実装）
+
+#### core/ ディレクトリ内
+- `pair_programmer.py` - 2個のTODOマーカー
+- `system.py` - 7個のTODOマーカー
+- `sdd_tdd_system.py` - 3個のTODOマーカー
+
+**修正理由**: 未完成の実装は品質基準に違反。完成または削除が必要。
+
+### 5. 階層型部門関連ファイル
+
+#### agents/cto/ ディレクトリ内（削除済み）
 - `quality_assurance_dept.md` - 品質保証部の定義（廃止済み）
 - `file_access_permissions.md` - 部門別アクセス権限（簡素化済み）
 - `realtime_logging.md` - 部門別ログ管理（ActivityReportに統合済み）
@@ -15,10 +51,11 @@ v12.0でペアプログラミング体制（CTO+Alex）に移行したため、�
 - `workflow.md` - 部門間ワークフロー（SDD+TDD単一フローに統合済み）
 
 #### agents/ ディレクトリ内
+- `alex_engineer.md` - 旧Alex定義（alex-sdd-tdd-leadに統合済み・削除済み）
 - `hr_log_management.md` - 人事部ログ管理（廃止済み）
 
 #### docs/ ディレクトリ内
-- `cto_operations_guide.md` - CTO運用ガイド（cto.mdに統合済み）
+- `cto_operations_guide.md` - CTO運用ガイド（alex-sdd-tdd-leadに統合済み）
 - `hr_operations_guide.md` - 人事部運用ガイド（廃止済み）
 - `qa_dept_operations_guide.md` - 品質保証部運用ガイド（廃止済み）
 - `strategy_operations_guide.md` - 経営企画部運用ガイド（廃止済み）
@@ -29,7 +66,7 @@ v12.0でペアプログラミング体制（CTO+Alex）に移行したため、�
 #### 絵文字削除バックアップ
 - `.claude/CLAUDE.md.emoji_backup`
 - `.claude/README.md.emoji_backup`
-- `.claude/agents/cto/cto.md.emoji_backup`
+- `.claude/agents/cto/cto.md.emoji_backup`（CTOディレクトリと共に削除済み）
 - `.claude/docs/README.md.emoji_backup`
 
 ### 3. 旧システム関連
@@ -51,14 +88,43 @@ v12.0でペアプログラミング体制（CTO+Alex）に移行したため、�
 - `docs/existing_project_modification_workflow.md` - 既存プロジェクト修正ワークフロー
 
 ### 現行システムファイル
-- `.claude/agents/cto/cto.md` - 修正済みCTO定義
+- `.claude/agents/cto/cto.md` - 修正済みCTO定義（削除済み - alex-sdd-tdd-leadに統合）
 - `.claude/agents/alex-sdd-tdd-engineer.md` - アレックス定義
 - `.claude/docs/README.md` - 修正済みドキュメント管理
 - `.claude/commands/README.md` - 修正済みコマンド体系
 
 ## [計画] 削除実行計画
 
-### フェーズ1: 階層型部門ファイル削除
+### フェーズ1: 重複ロガーファイル削除（KISS原則適用）
+```bash
+# 重複ロガーファイルを削除
+rm .claude/core/shared_logger.py
+rm .claude/core/activity_logger.py
+rm .claude/core/file_access_logger.py
+
+# 参照を logger.py の UnifiedLogger に統一
+# grep -r "from shared_logger" .claude/core/ --include="*.py"
+# grep -r "from activity_logger" .claude/core/ --include="*.py"
+# grep -r "from file_access_logger" .claude/core/ --include="*.py"
+```
+
+### フェーズ2: 巨大ファイル分割（単一責任原則適用）
+```bash
+# test_performance.py を3つに分割
+# - test_performance_core.py (パフォーマンステスト)
+# - test_coverage_report.py (カバレッジテスト)
+# - test_integration_master.py (統合テスト)
+
+# test_security.py を分割
+# - test_security_core.py (基本セキュリティ)
+# - test_security_advanced.py (高度なセキュリティ)
+
+# test_service_factory_comprehensive.py を分割
+# - test_service_factory.py (基本テスト)
+# - test_service_locator.py (ロケーターテスト)
+```
+
+### フェーズ3: 階層型部門ファイル削除
 ```bash
 # 以下のファイルを削除
 rm .claude/agents/cto/quality_assurance_dept.md
