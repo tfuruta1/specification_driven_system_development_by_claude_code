@@ -11,9 +11,10 @@ from typing import Dict, List, Optional, Any
 
 from .activity_logger import logger
 from .jst_utils import format_jst_datetime
+from .auto_mode_interfaces import StateInterface
 
 
-class AutoModeState:
+class AutoModeState(StateInterface):
     """Auto-Mode状態管理クラス"""
     
     def __init__(self):
@@ -199,5 +200,4 @@ class AutoModeState:
             logger.error(f"Auto-Mode: アップタイム計算エラー - {e}", "AUTO_MODE")
             return None
 
-# シングルトンインスタンス
-auto_state = AutoModeState()
+# シングルトンインスタンス削除 - サービスロケーターパターンを使用

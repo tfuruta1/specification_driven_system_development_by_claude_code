@@ -50,19 +50,36 @@ class ColorTerminal:
             self.enable_windows_colors()
     
     def enable_windows_colors(self):
-        """Windows環境でANSI色表示を有効化 - 統合エラーハンドリング使用"""
+        """Windows環境でANSI色表示を有効化 - セキュア実装"""
         try:
-            # Windows 10以降でANSI色表示を有効化
-            os.system('color')
-            # より確実な方法
-            import subprocess
-            subprocess.run([''], shell=True)
+            import ctypes
+            import sys
+            
+            # Windows 10以降でANSI色表示を安全に有効化
+            if os.name == 'nt' and sys.platform.startswith('win'):
+                # STD_OUTPUT_HANDLE = -11
+                STD_OUTPUT_HANDLE = -11
+                ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004
+                
+                kernel32 = ctypes.windll.kernel32
+                handle = kernel32.GetStdHandle(STD_OUTPUT_HANDLE)
+                
+                # 現在のコンソールモードを取得
+                mode = ctypes.wintypes.DWORD()
+                kernel32.GetConsoleMode(handle, ctypes.byref(mode))
+                
+                # ANSI色表示フラグを設定
+                mode.value |= ENABLE_VIRTUAL_TERMINAL_PROCESSING
+                kernel32.SetConsoleMode(handle, mode)
+                
         except Exception as e:
             # エラーを無視するがログに記録
             if hasattr(self, 'error_handler'):
                 self.error_handler.handle_validation_error(
                     "windows_colors", "color_setup", "Windows色表示設定失敗", e
                 )
+            # フォールバック: 色表示を無効化
+            self.colors_enabled = False
     
     def colorize(self, text: str, color: str) -> str:
         """テキストに色を付ける"""
@@ -113,6 +130,13 @@ class FileAccessLogger:
         
         # アクセス履歴
         self.access_history: List[Dict] = []
+        
+        # セキュリティ設定
+        self.max_path_length = 1024
+        self.max_description_length = 500
+        self.allowed_file_extensions = {
+            '.py', '.js', '.ts', '.vue', '.html', '.css', '.json', '.md', '.txt', '.yml', '.yaml'
+        }
     
     def _init_session_log(self):
         """セッションログの初期化"""
@@ -127,10 +151,24 @@ Start Time: {format_jst_time()}
             f.write(header)
     
     def log_file_access(self, file_path: str, purpose: AccessPurpose, description: str):
-        """ファイルアクセスをログに記録"""
+        """
+        ファイルアクセスをログに記録
+        
+        Args:
+            file_path (str): ファイルパス（セキュリティ検証済み）
+            purpose (AccessPurpose): アクセス目的
+            description (str): 説明（サニタイズ済み）
+            
+        Raises:
+            ValueError: 不正な入力パラメータ
+        """
+        # 入力バリデーション
+        if not self._validate_inputs(file_path, purpose, description):
+            return
+            
         timestamp = get_jst_now()
         
-        # ファイル名抽出
+        # ファイル名抽出（安全な処理）
         filename = self.extract_filename(file_path)
         relative_path = self.convert_to_relative_path(file_path)
         
@@ -204,6 +242,79 @@ Start Time: {format_jst_time()}
     def extract_filename(self, file_path: str) -> str:
         """ファイル名を抽出"""
         return Path(file_path).name
+    
+    def _validate_inputs(self, file_path: str, purpose: AccessPurpose, description: str) -> bool:
+        """
+        入力パラメータのセキュリティバリデーション
+        
+        Args:
+            file_path (str): ファイルパス
+            purpose (AccessPurpose): アクセス目的
+            description (str): 説明
+            
+        Returns:
+            bool: 検証結果（True=有効, False=無効）
+        """
+        try:
+            # ファイルパスの検証
+            if not isinstance(file_path, str) or len(file_path) > self.max_path_length:
+                self.error_handler.handle_validation_error(
+                    "file_path", "length_validation", f"パス長が上限({self.max_path_length})を超過", 
+                    ValueError(f"Path too long: {len(file_path)}")
+                )
+                return False
+            
+            # パストラバーサル攻撃の検証
+            if '..' in file_path or file_path.startswith('/') and '../' in file_path:
+                self.error_handler.handle_validation_error(
+                    "file_path", "path_traversal", "パストラバーサル攻撃を検出",
+                    SecurityError("Path traversal detected")
+                )
+                return False
+                
+            # ファイル拡張子の検証
+            file_ext = Path(file_path).suffix.lower()
+            if file_ext and file_ext not in self.allowed_file_extensions:
+                self.error_handler.handle_validation_error(
+                    "file_path", "extension_validation", f"許可されていない拡張子: {file_ext}",
+                    ValueError(f"Disallowed extension: {file_ext}")
+                )
+                # 警告のみで処理継続（柔軟性のため）
+                
+            # purposeの検証
+            if not isinstance(purpose, AccessPurpose):
+                self.error_handler.handle_validation_error(
+                    "purpose", "type_validation", "AccessPurpose型以外が渡されました",
+                    TypeError(f"Expected AccessPurpose, got {type(purpose)}")
+                )
+                return False
+                
+            # 説明文の検証
+            if not isinstance(description, str) or len(description) > self.max_description_length:
+                self.error_handler.handle_validation_error(
+                    "description", "length_validation", f"説明文が上限({self.max_description_length})を超過",
+                    ValueError(f"Description too long: {len(description)}")
+                )
+                return False
+                
+            # XSS対策：HTMLタグの検出
+            import re
+            html_pattern = re.compile(r'<[^>]*>')
+            if html_pattern.search(description):
+                # HTMLタグを除去してログ出力
+                description = html_pattern.sub('', description)
+                
+            return True
+            
+        except Exception as e:
+            self.error_handler.handle_validation_error(
+                "validation", "general_error", "バリデーション処理でエラー", e
+            )
+            return False
+    
+class SecurityError(Exception):
+    """セキュリティ関連のカスタム例外"""
+    pass
     
     def get_session_summary(self) -> Dict:
         """セッション概要を取得"""

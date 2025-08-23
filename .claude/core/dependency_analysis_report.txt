@@ -1,0 +1,63 @@
+================================================================================
+DEPENDENCY ANALYSIS REPORT
+================================================================================
+
+BASIC STATISTICS:
+  Total Files: 52
+  Total Lines: 12673
+  Average Complexity: 16.37
+  Max Complexity: 47
+  Total Dependencies: 17
+
+CIRCULAR DEPENDENCY CHECK:
+  FOUND 2 CIRCULAR DEPENDENCIES:
+    Cycle 1: auto_mode_state -> auto_mode_interfaces -> auto_mode_state -> auto_mode_state
+    Cycle 2: auto_mode_interfaces -> auto_mode_config -> auto_mode_interfaces -> auto_mode_interfaces
+
+LAZY IMPORT STATUS:
+  Files with lazy imports: 22
+    auto_mode: ['auto_mode_config', 'auto_mode_state', 'auto_mode_core']
+    auto_mode_config: ['activity_logger', 'jst_utils', 'auto_mode_interfaces']
+    auto_mode_core: ['test_strategy', 'integration_test_runner', 'shared_logger', 'error_handler', 'auto_mode_session', 'auto_mode_workflow', 'auto_mode_integration', 'auto_mode_config', 'auto_mode_state']
+    auto_mode_integration: ['integration_test_runner', 'shared_logger', 'error_handler']
+    auto_mode_interfaces: ['auto_mode_config', 'auto_mode_state']
+    auto_mode_session: ['jst_utils', 'shared_logger', 'error_handler']
+    auto_mode_state: ['activity_logger', 'jst_utils', 'auto_mode_interfaces']
+    auto_mode_workflow: ['test_strategy', 'shared_logger', 'error_handler']
+    development_rules: ['dev_rules_core', 'dev_rules_checklist', 'dev_rules_tdd', 'dev_rules_tasks', 'dev_rules_integration']
+    dev_rules_checklist: ['dev_rules_core']
+    dev_rules_core: ['config', 'logger', 'emoji_validator']
+    dev_rules_integration: ['dev_rules_core', 'dev_rules_checklist', 'dev_rules_tdd', 'dev_rules_tasks']
+    dev_rules_tasks: ['dev_rules_core']
+    dev_rules_tdd: ['dev_rules_core']
+    emoji_core: ['config', 'logger', 'emoji_patterns']
+    emoji_file_scanner: ['config', 'logger', 'emoji_core', 'emoji_patterns']
+    emoji_utils: ['emoji_core', 'emoji_file_scanner', 'emoji_patterns']
+    emoji_validator: ['emoji_core', 'emoji_file_scanner', 'emoji_patterns', 'emoji_utils', 'emoji_utils', 'emoji_utils']
+    error_handler: ['shared_logger']
+    pair_programmer: ['logger', 'config', 'development_rules', 'emoji_validator']
+    verify_circular_dependency_resolution: ['auto_mode_config', 'auto_mode_state', 'auto_mode_interfaces']
+    __init__: ['unified_system', 'auto_mode_config', 'auto_mode_state', 'auto_mode_core', 'auto_mode', 'dev_rules_core', 'dev_rules_checklist', 'dev_rules_tdd', 'dev_rules_tasks', 'dev_rules_integration', 'development_rules', 'logger', 'jst_utils', 'trigger_keyword_detector', 'emoji_validator', 'cleanup', 'cache', 'config', 'commands', 'hooks', 'activity_logger', 'file_access_logger', 'pair_programmer']
+
+MODULES WITH MOST DEPENDENCIES:
+  auto_mode_core: 5 dependencies
+    -> auto_mode_integration, auto_mode_session, auto_mode_config, auto_mode_state, auto_mode_workflow
+  __init__: 4 dependencies
+    -> auto_mode_state, auto_mode_core, auto_mode_config, auto_mode
+  auto_mode: 3 dependencies
+    -> auto_mode_state, auto_mode_core, auto_mode_config
+  auto_mode_interfaces: 2 dependencies
+    -> auto_mode_state, auto_mode_config
+  auto_mode_config: 1 dependencies
+    -> auto_mode_interfaces
+
+DEPENDENCY MAP:
+  __init__ -> auto_mode, auto_mode_config, auto_mode_core, auto_mode_state
+  auto_mode -> auto_mode_config, auto_mode_core, auto_mode_state
+  auto_mode_config -> auto_mode_interfaces
+  auto_mode_core -> auto_mode_config, auto_mode_integration, auto_mode_session, auto_mode_state, auto_mode_workflow
+  auto_mode_interfaces -> auto_mode_config, auto_mode_state
+  auto_mode_state -> auto_mode_interfaces
+  commands -> auto_mode
+
+================================================================================

@@ -1,0 +1,44 @@
+================================================================================
+TEST PERFORMANCE ANALYSIS REPORT
+================================================================================
+
+BASIC PERFORMANCE METRICS:
+  Total Files Analyzed: 13
+  Successful Imports: 9
+  Failed Imports: 4
+  Success Rate: 69.2%
+
+IMPORT PERFORMANCE:
+  Average Import Time: 0.0130s
+  Fastest Import: 0.0012s
+  Slowest Import: 0.0886s
+
+FILE SIZE STATISTICS:
+  Total File Size: 223,952 bytes (218.7 KB)
+  Total Lines of Code: 6,183
+  Average File Size: 17227 bytes
+
+DETAILED RESULTS:
+Module                         Size(KB)   Lines    Import(ms)   Status    
+----------------------------------------------------------------------
+core_auto_mode_config          7.0        186      2.10         FAILED    
+core_auto_mode_core            10.8       298      0.51         FAILED    
+core_auto_mode_interfaces      4.7        190      2.47         SUCCESS   
+core_auto_mode_state           7.2        203      4.42         FAILED    
+test_core                      11.8       362      88.63        SUCCESS   
+test_emoji                     22.1       592      1.19         SUCCESS   
+test_integration               14.2       424      5.84         SUCCESS   
+test_logging                   23.4       688      9.09         SUCCESS   
+test_performance               34.4       965      1.14         FAILED    
+test_performance_analyzer      7.9        220      2.68         SUCCESS   
+test_security                  31.1       800      2.02         SUCCESS   
+test_utilities                 23.1       675      4.24         SUCCESS   
+test_workflow                  20.8       580      1.20         SUCCESS   
+
+IMPORT FAILURES:
+  test_performance: No module named 'psutil'
+  core_auto_mode_core: attempted relative import with no known parent package
+  core_auto_mode_config: attempted relative import with no known parent package
+  core_auto_mode_state: attempted relative import with no known parent package
+
+================================================================================

@@ -11,9 +11,10 @@ from typing import Dict, List, Optional, Any
 
 from .activity_logger import logger
 from .jst_utils import format_jst_datetime
+from .auto_mode_interfaces import ConfigInterface
 
 
-class AutoModeConfig:
+class AutoModeConfig(ConfigInterface):
     """Auto-Mode設定管理クラス"""
     
     def __init__(self, config_file: Path = None):
@@ -182,5 +183,4 @@ class AutoModeConfig:
             self.save()
             logger.info(f"Auto-Mode: 統合テスト設定更新 - {', '.join(updated)}", "AUTO_MODE")
 
-# シングルトンインスタンス
-auto_config = AutoModeConfig()
+# シングルトンインスタンス削除 - サービスロケーターパターンを使用

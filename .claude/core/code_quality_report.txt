@@ -1,0 +1,153 @@
+================================================================================
+CODE QUALITY ANALYSIS REPORT
+================================================================================
+
+SYSTEM QUALITY METRICS:
+  Total Files: 62
+  Total Lines of Code: 18,319
+  Total File Size: 596,945 bytes (583.0 KB)
+  Total Functions: 0
+  Total Classes: 0
+
+COMPLEXITY METRICS:
+  Average Complexity: 0.00
+  Maximum Complexity: 0
+  Average Maintainability Index: 0.00
+
+LOW MAINTAINABILITY FILES (<20):
+  activity_logger: 0.00
+  auto_mode: 0.00
+  auto_mode_config: 0.00
+  auto_mode_core: 0.00
+  auto_mode_integration: 0.00
+  auto_mode_interfaces: 0.00
+  auto_mode_session: 0.00
+  auto_mode_state: 0.00
+  auto_mode_workflow: 0.00
+  cache: 0.00
+  circular_import_detector: 0.00
+  cleanup: 0.00
+  cleanup_old_tests: 0.00
+  code_quality_analyzer: 0.00
+  commands: 0.00
+  component_connectivity: 0.00
+  config: 0.00
+  dependency_analyzer: 0.00
+  development_rules: 0.00
+  dev_rules_checklist: 0.00
+  dev_rules_core: 0.00
+  dev_rules_integration: 0.00
+  dev_rules_tasks: 0.00
+  dev_rules_tdd: 0.00
+  emoji_core: 0.00
+  emoji_file_scanner: 0.00
+  emoji_patterns: 0.00
+  emoji_utils: 0.00
+  emoji_validator: 0.00
+  error_handler: 0.00
+  file_access_demo: 0.00
+  file_access_integration: 0.00
+  file_access_logger: 0.00
+  hooks: 0.00
+  import_optimizer: 0.00
+  initialization_tester: 0.00
+  integrated_pair_system: 0.00
+  integration_test_core: 0.00
+  integration_test_runner: 0.00
+  integration_test_types: 0.00
+  jst_utils: 0.00
+  logger: 0.00
+  pair_programmer: 0.00
+  path_utils: 0.00
+  quick_demo: 0.00
+  run_consolidated_tests: 0.00
+  sdd_tdd_system: 0.00
+  shared_logger: 0.00
+  system: 0.00
+  test_core: 0.00
+  test_emoji: 0.00
+  test_integration: 0.00
+  test_logging: 0.00
+  test_performance: 0.00
+  test_performance_analyzer: 0.00
+  test_security: 0.00
+  test_utilities: 0.00
+  test_workflow: 0.00
+  trigger_keyword_detector: 0.00
+  unified_system: 0.00
+  verify_circular_dependency_resolution: 0.00
+  __init__: 0.00
+
+CODE SMELLS SUMMARY:
+
+TECHNICAL DEBT:
+  Total Technical Debt Ratio: 0.00
+  Average Debt per File: 0.00
+
+DETAILED FILE ANALYSIS:
+Module                    Lines    Complex  Maintain  Debt     Functions 
+---------------------------------------------------------------------------
+__init__                  72       0        0.0       0.0      0         
+activity_logger           326      0        0.0       0.0      0         
+auto_mode                 62       0        0.0       0.0      0         
+auto_mode_config          186      0        0.0       0.0      0         
+auto_mode_core            298      0        0.0       0.0      0         
+auto_mode_integration     300      0        0.0       0.0      0         
+auto_mode_interfaces      190      0        0.0       0.0      0         
+auto_mode_session         189      0        0.0       0.0      0         
+auto_mode_state           203      0        0.0       0.0      0         
+auto_mode_workflow        238      0        0.0       0.0      0         
+cache                     321      0        0.0       0.0      0         
+circular_import_detector  193      0        0.0       0.0      0         
+cleanup                   309      0        0.0       0.0      0         
+cleanup_old_tests         109      0        0.0       0.0      0         
+code_quality_analyzer     340      0        0.0       0.0      0         
+commands                  458      0        0.0       0.0      0         
+component_connectivity    224      0        0.0       0.0      0         
+config                    342      0        0.0       0.0      0         
+dependency_analyzer       249      0        0.0       0.0      0         
+dev_rules_checklist       307      0        0.0       0.0      0         
+dev_rules_core            146      0        0.0       0.0      0         
+dev_rules_integration     124      0        0.0       0.0      0         
+dev_rules_tasks           216      0        0.0       0.0      0         
+dev_rules_tdd             190      0        0.0       0.0      0         
+development_rules         132      0        0.0       0.0      0         
+emoji_core                182      0        0.0       0.0      0         
+emoji_file_scanner        275      0        0.0       0.0      0         
+emoji_patterns            571      0        0.0       0.0      0         
+emoji_utils               76       0        0.0       0.0      0         
+emoji_validator           95       0        0.0       0.0      0         
+error_handler             637      0        0.0       0.0      0         
+file_access_demo          240      0        0.0       0.0      0         
+file_access_integration   302      0        0.0       0.0      0         
+file_access_logger        420      0        0.0       0.0      0         
+hooks                     386      0        0.0       0.0      0         
+import_optimizer          249      0        0.0       0.0      0         
+initialization_tester     222      0        0.0       0.0      0         
+integrated_pair_system    234      0        0.0       0.0      0         
+integration_test_core     241      0        0.0       0.0      0         
+integration_test_runner   76       0        0.0       0.0      0         
+integration_test_types    58       0        0.0       0.0      0         
+jst_utils                 179      0        0.0       0.0      0         
+logger                    155      0        0.0       0.0      0         
+pair_programmer           256      0        0.0       0.0      0         
+path_utils                167      0        0.0       0.0      0         
+quick_demo                53       0        0.0       0.0      0         
+run_consolidated_tests    173      0        0.0       0.0      0         
+sdd_tdd_system            418      0        0.0       0.0      0         
+shared_logger             300      0        0.0       0.0      0         
+system                    372      0        0.0       0.0      0         
+test_core                 362      0        0.0       0.0      0         
+test_emoji                592      0        0.0       0.0      0         
+test_integration          424      0        0.0       0.0      0         
+test_logging              688      0        0.0       0.0      0         
+test_performance          965      0        0.0       0.0      0         
+test_performance_analyzer 220      0        0.0       0.0      0         
+test_security             800      0        0.0       0.0      0         
+test_utilities            675      0        0.0       0.0      0         
+test_workflow             580      0        0.0       0.0      0         
+trigger_keyword_detector  362      0        0.0       0.0      0         
+unified_system            349      0        0.0       0.0      0         
+verify_circular_dependency_resolution 241      0        0.0       0.0      0         
+
+================================================================================

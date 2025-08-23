@@ -469,3 +469,169 @@ def log_error(message: str, error: Exception) -> None:
     """後方互換: エラーログ記録"""
     standard_error = StandardError(message, original_exception=error)
     get_error_handler()._log_error(standard_error)
+
+
+# 追加のエラーハンドラーメソッド（分離されたモジュール用）
+class StandardErrorHandlerExtension:
+    """StandardErrorHandlerの拡張メソッド群"""
+    
+    def __init__(self, base_handler: StandardErrorHandler):
+        self.base_handler = base_handler
+    
+    def handle_auto_mode_error(self, operation: str, error: Exception,
+                             severity: ErrorSeverity = ErrorSeverity.HIGH):
+        """Auto-Modeエラーハンドリング"""
+        error_code = f"AUTO_MODE_{operation.upper()}_FAILED"
+        
+        error_details = {
+            'operation': operation,
+            'original_error': str(error),
+            'error_type': type(error).__name__
+        }
+        
+        system_error = StandardError(
+            message=f"Auto-Mode {operation} failed: {str(error)}",
+            error_code=error_code,
+            severity=severity,
+            details=error_details,
+            original_exception=error
+        )
+        
+        self.base_handler._log_error(system_error)
+        return system_error
+    
+    def handle_workflow_error(self, operation: str, error: Exception,
+                            severity: ErrorSeverity = ErrorSeverity.HIGH):
+        """ワークフローエラーハンドリング"""
+        error_code = f"WORKFLOW_{operation.upper()}_FAILED"
+        
+        error_details = {
+            'operation': operation,
+            'original_error': str(error),
+            'error_type': type(error).__name__
+        }
+        
+        system_error = StandardError(
+            message=f"Workflow {operation} failed: {str(error)}",
+            error_code=error_code,
+            severity=severity,
+            details=error_details,
+            original_exception=error
+        )
+        
+        self.base_handler._log_error(system_error)
+        return system_error
+    
+    def handle_test_execution_error(self, test_type: str, error: Exception,
+                                  severity: ErrorSeverity = ErrorSeverity.MEDIUM):
+        """テスト実行エラーハンドリング"""
+        error_code = f"TEST_{test_type.upper()}_FAILED"
+        
+        error_details = {
+            'test_type': test_type,
+            'original_error': str(error),
+            'error_type': type(error).__name__
+        }
+        
+        system_error = StandardError(
+            message=f"Test execution failed for {test_type}: {str(error)}",
+            error_code=error_code,
+            severity=severity,
+            details=error_details,
+            original_exception=error
+        )
+        
+        self.base_handler._log_error(system_error)
+        return system_error
+    
+    def handle_configuration_error(self, config_type: str, error: Exception,
+                                 severity: ErrorSeverity = ErrorSeverity.HIGH):
+        """設定エラーハンドリング"""
+        error_code = f"CONFIG_{config_type.upper()}_FAILED"
+        
+        error_details = {
+            'config_type': config_type,
+            'original_error': str(error),
+            'error_type': type(error).__name__
+        }
+        
+        config_error = StandardError(
+            message=f"Configuration error for {config_type}: {str(error)}",
+            error_code=error_code,
+            severity=severity,
+            details=error_details,
+            original_exception=error
+        )
+        
+        self.base_handler._log_error(config_error)
+        return config_error
+    
+    def handle_report_generation_error(self, report_type: str, error: Exception,
+                                     severity: ErrorSeverity = ErrorSeverity.MEDIUM):
+        """レポート生成エラーハンドリング"""
+        error_code = f"REPORT_{report_type.upper()}_FAILED"
+        
+        error_details = {
+            'report_type': report_type,
+            'original_error': str(error),
+            'error_type': type(error).__name__
+        }
+        
+        system_error = StandardError(
+            message=f"Report generation failed for {report_type}: {str(error)}",
+            error_code=error_code,
+            severity=severity,
+            details=error_details,
+            original_exception=error
+        )
+        
+        self.base_handler._log_error(system_error)
+        return system_error
+    
+    def handle_data_tracking_error(self, tracking_type: str, error: Exception,
+                                 severity: ErrorSeverity = ErrorSeverity.LOW):
+        """データ追跡エラーハンドリング"""
+        error_code = f"DATA_TRACKING_{tracking_type.upper()}_FAILED"
+        
+        error_details = {
+            'tracking_type': tracking_type,
+            'original_error': str(error),
+            'error_type': type(error).__name__
+        }
+        
+        system_error = StandardError(
+            message=f"Data tracking failed for {tracking_type}: {str(error)}",
+            error_code=error_code,
+            severity=severity,
+            details=error_details,
+            original_exception=error
+        )
+        
+        self.base_handler._log_error(system_error)
+        return system_error
+
+
+# StandardErrorHandlerに拡張メソッドを動的追加
+def _extend_error_handler():
+    """StandardErrorHandlerに拡張メソッドを追加"""
+    extension_methods = [
+        'handle_auto_mode_error',
+        'handle_workflow_error', 
+        'handle_test_execution_error',
+        'handle_configuration_error',
+        'handle_report_generation_error',
+        'handle_data_tracking_error'
+    ]
+    
+    for method_name in extension_methods:
+        if not hasattr(StandardErrorHandler, method_name):
+            def create_method(method_name):
+                def method(self, *args, **kwargs):
+                    extension = StandardErrorHandlerExtension(self)
+                    return getattr(extension, method_name)(*args, **kwargs)
+                return method
+            
+            setattr(StandardErrorHandler, method_name, create_method(method_name))
+
+# 拡張メソッドを適用
+_extend_error_handler()
