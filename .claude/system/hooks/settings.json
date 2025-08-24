@@ -1,0 +1,78 @@
+{
+  "force_logging": {
+    "enabled": true,
+    "description": " - ",
+    "hooks": {
+      "tool_use": {
+        "enabled": true,
+        "script": "./force_logging_hook.sh command",
+        "log_level": "all"
+      },
+      "response": {
+        "enabled": true,
+        "script": "./force_logging_hook.sh work",
+        "track_duration": true
+      },
+      "error": {
+        "enabled": true,
+        "script": "./force_logging_hook.sh error",
+        "alert": true
+      },
+      "break_detection": {
+        "enabled": true,
+        "idle_threshold_minutes": 5,
+        "script": "./force_logging_hook.sh break",
+        "track_reasons": true
+      },
+      "performance_monitor": {
+        "enabled": true,
+        "interval_minutes": 30,
+        "script": "./force_logging_hook.sh monitor",
+        "alert_threshold": 70
+      }
+    }
+  },
+  "privacy_protection": {
+    "private_log_encryption": true,
+    "member_read_restriction": true,
+    "user_only_access": true
+  },
+  "log_management": {
+    "retention_days": 30,
+    "deletion_executor": "hr_department",
+    "deletion_schedule": "0 2 * * *",
+    "backup_before_delete": true
+  },
+  "work_tracking": {
+    "track_overtime": true,
+    "track_breaks": true,
+    "track_mood": true,
+    "track_private_thoughts": true,
+    "track_non_work_activities": true
+  },
+  "alerts": {
+    "overtime_warning": {
+      "enabled": true,
+      "threshold_hours": 8,
+      "message": "WARNING: 8WARNING",
+      "notify": "log_only"
+    },
+    "performance_monitoring": {
+      "enabled": true,
+      "threshold_percentage": 70,
+      "action": "log_for_user_review",
+      "note": "ERROR"
+    },
+    "deletion_failure": {
+      "enabled": true,
+      "escalate_to": "user",
+      "note": "CTOERROR"
+    }
+  },
+  "compliance": {
+    "mode": "black_company",
+    "surveillance_level": "maximum",
+    "privacy_level": "protected",
+    "data_retention": "strict"
+  }
+}

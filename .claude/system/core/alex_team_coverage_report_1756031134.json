@@ -1,0 +1,772 @@
+{
+  "overall_coverage": 70.60975609756098,
+  "modules_tested": 29,
+  "total_modules": 41,
+  "execution_time": 0.1061561107635498,
+  "success_criteria": {
+    "coverage_target": false,
+    "all_modules_tested": false,
+    "execution_time": true,
+    "team_coordination": true
+  },
+  "final_status": "PARTIAL SUCCESS",
+  "detailed_results": {
+    "QA_Doc": {
+      "emoji_core": {
+        "status": "not_found",
+        "coverage": 0,
+        "quality_score": 0,
+        "message": "Import error: attempted relative import with no known parent package"
+      },
+      "emoji_validator": {
+        "status": "not_found",
+        "coverage": 0,
+        "quality_score": 0,
+        "message": "Import error: attempted relative import with no known parent package"
+      },
+      "emoji_utils": {
+        "status": "not_found",
+        "coverage": 0,
+        "quality_score": 0,
+        "message": "Import error: attempted relative import with no known parent package"
+      },
+      "emoji_file_scanner": {
+        "status": "not_found",
+        "coverage": 0,
+        "quality_score": 0,
+        "message": "Import error: attempted relative import with no known parent package"
+      },
+      "emoji_patterns": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 12,
+        "quality_score": 102,
+        "validation_tests": 5,
+        "integration_tests": 2,
+        "test_types": [
+          "unit_tests",
+          "validation_tests",
+          "integration_tests",
+          "quality_metrics"
+        ]
+      },
+      "dev_rules_checklist": {
+        "status": "not_found",
+        "coverage": 0,
+        "quality_score": 0,
+        "message": "Import error: attempted relative import with no known parent package"
+      },
+      "dev_rules_core": {
+        "status": "not_found",
+        "coverage": 0,
+        "quality_score": 0,
+        "message": "Import error: attempted relative import with no known parent package"
+      },
+      "dev_rules_integration": {
+        "status": "not_found",
+        "coverage": 0,
+        "quality_score": 0,
+        "message": "Import error: attempted relative import with no known parent package"
+      },
+      "dev_rules_tasks": {
+        "status": "not_found",
+        "coverage": 0,
+        "quality_score": 0,
+        "message": "Import error: attempted relative import with no known parent package"
+      },
+      "dev_rules_tdd": {
+        "status": "not_found",
+        "coverage": 0,
+        "quality_score": 0,
+        "message": "Import error: attempted relative import with no known parent package"
+      },
+      "circular_import_detector": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 5,
+        "quality_score": 101,
+        "validation_tests": 3,
+        "integration_tests": 4,
+        "test_types": [
+          "unit_tests",
+          "validation_tests",
+          "integration_tests",
+          "quality_metrics"
+        ]
+      },
+      "verify_circular_dependency_resolution": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 7,
+        "quality_score": 101,
+        "validation_tests": 3,
+        "integration_tests": 4,
+        "test_types": [
+          "unit_tests",
+          "validation_tests",
+          "integration_tests",
+          "quality_metrics"
+        ]
+      },
+      "verify_circular_resolution": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 7,
+        "quality_score": 101,
+        "validation_tests": 3,
+        "integration_tests": 4,
+        "test_types": [
+          "unit_tests",
+          "validation_tests",
+          "integration_tests",
+          "quality_metrics"
+        ]
+      }
+    },
+    "TDD_Engineer": {
+      "system": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 21,
+        "structure": {
+          "functions": [
+            "Any",
+            "ClaudeCodeSystem",
+            "DevelopmentFlow",
+            "Dict",
+            "Enum",
+            "List",
+            "Optional",
+            "Path",
+            "System",
+            "cleanup",
+            "datetime",
+            "existing_modification_flow",
+            "format_jst_time",
+            "get_cache_key",
+            "get_jst_now",
+            "load_cache",
+            "main",
+            "new_development_flow",
+            "save_cache",
+            "timedelta",
+            "timezone"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 21
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "config": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 31,
+        "structure": {
+          "functions": [
+            "Any",
+            "ClaudeCoreConfig",
+            "Config",
+            "Dict",
+            "Enum",
+            "Environment",
+            "IntegratedConfig",
+            "List",
+            "Optional",
+            "Path",
+            "detect_environment",
+            "disable_rule",
+            "enable_rule",
+            "get",
+            "get_config",
+            "get_environment",
+            "get_logging_config",
+            "get_pair_config",
+            "get_project_paths",
+            "get_project_root",
+            "get_quality_config",
+            "get_rule_status",
+            "get_rules_config",
+            "get_summary",
+            "get_tdd_config",
+            "get_testing_config",
+            "is_debug",
+            "is_production",
+            "set",
+            "update_environment",
+            "validate_config"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 31
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "cache": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 24,
+        "structure": {
+          "functions": [
+            "AnalysisCache",
+            "Any",
+            "CacheEntry",
+            "CachedAnalyzer",
+            "Dict",
+            "FileInfo",
+            "List",
+            "Optional",
+            "Path",
+            "analyze_project",
+            "asdict",
+            "calculate_file_hash",
+            "calculate_project_hash",
+            "cleanup_old_cache",
+            "clear_all_cache",
+            "dataclass",
+            "datetime",
+            "format_jst_time",
+            "get_cache_key",
+            "get_jst_now",
+            "get_statistics",
+            "load_cache",
+            "save_cache",
+            "timedelta"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 24
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "logger": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 28,
+        "structure": {
+          "functions": [
+            "FileUtils",
+            "IntegratedLogger",
+            "Logger",
+            "OptimizedLogger",
+            "Optional",
+            "Path",
+            "PathUtils",
+            "UnifiedLogger",
+            "configure",
+            "critical",
+            "datetime",
+            "debug",
+            "error",
+            "find_project_root",
+            "format_jst_time",
+            "get_context_history",
+            "get_jst_now",
+            "get_today_logs",
+            "info",
+            "log",
+            "safe_read",
+            "safe_write",
+            "set_file_output",
+            "timedelta",
+            "timezone",
+            "to_relative",
+            "warn",
+            "warning"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 28
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "error_handler": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 42,
+        "structure": {
+          "functions": [
+            "Any",
+            "Callable",
+            "Dict",
+            "Enum",
+            "ErrorCategory",
+            "ErrorSeverity",
+            "FileOperationError",
+            "List",
+            "NetworkError",
+            "OptimizedLogger",
+            "Optional",
+            "Path",
+            "StandardError",
+            "StandardErrorHandler",
+            "StandardErrorHandlerExtension",
+            "Type",
+            "Union",
+            "ValidationError",
+            "contextmanager",
+            "create_method",
+            "datetime",
+            "debug",
+            "error",
+            "error_context",
+            "get_error_handler",
+            "get_error_statistics",
+            "handle_auto_mode_error",
+            "handle_configuration_error",
+            "handle_data_tracking_error",
+            "handle_file_error",
+            "handle_file_operation_error",
+            "handle_network_error",
+            "handle_report_generation_error",
+            "handle_test_execution_error",
+            "handle_validation_error",
+            "handle_workflow_error",
+            "info",
+            "log_error",
+            "method",
+            "register_error_callback",
+            "register_recovery_strategy",
+            "warning"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 42
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "error_core": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 22,
+        "structure": {
+          "functions": [
+            "Any",
+            "BusinessLogicError",
+            "ConfigurationError",
+            "Dict",
+            "Enum",
+            "ErrorCategory",
+            "ErrorFactory",
+            "ErrorSeverity",
+            "FileOperationError",
+            "NetworkError",
+            "Optional",
+            "Path",
+            "PermissionError",
+            "ResourceError",
+            "StandardError",
+            "Union",
+            "ValidationError",
+            "create_config_error",
+            "create_file_error",
+            "create_network_error",
+            "create_validation_error",
+            "datetime"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 22
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "service_factory": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 9,
+        "structure": {
+          "functions": [
+            "ServiceFactory",
+            "ServiceLocator",
+            "clear_services",
+            "get_config_service",
+            "get_service",
+            "get_state_service",
+            "initialize_services",
+            "is_initialized",
+            "register_service"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 9
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "hooks": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 13,
+        "structure": {
+          "functions": [
+            "Callable",
+            "Dict",
+            "Enum",
+            "Hook",
+            "HookType",
+            "HooksManager",
+            "List",
+            "Optional",
+            "Path",
+            "datetime",
+            "format_jst_datetime",
+            "format_jst_time",
+            "get_jst_now"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 13
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "integration_test_core": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 9,
+        "structure": {
+          "functions": [
+            "CircularImportDetector",
+            "ComponentConnectivityTester",
+            "InitializationTester",
+            "IntegrationTestResult",
+            "IntegrationTestRunner",
+            "TestLevel",
+            "get_integration_report",
+            "quick_integration_test",
+            "run_integration_tests"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 9
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "integration_test_types": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 6,
+        "structure": {
+          "functions": [
+            "IntegrationTestError",
+            "IntegrationTestResult",
+            "List",
+            "TestResult",
+            "dataclass",
+            "field"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 6
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "jst_utils": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 17,
+        "structure": {
+          "functions": [
+            "Path",
+            "datetime",
+            "format_jst_date",
+            "format_jst_datetime",
+            "format_jst_header",
+            "format_jst_time",
+            "get_date_str",
+            "get_datetime_str",
+            "get_filename_timestamp",
+            "get_jst_now",
+            "get_jst_tomorrow",
+            "get_jst_yesterday",
+            "get_log_timestamp",
+            "get_session_time",
+            "get_time_str",
+            "timedelta",
+            "timezone"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 17
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "initialization_tester": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 6,
+        "structure": {
+          "functions": [
+            "Any",
+            "Dict",
+            "InitializationTester",
+            "List",
+            "Optional",
+            "Tuple"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 6
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "run_consolidated_tests": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 4,
+        "structure": {
+          "functions": [
+            "Path",
+            "count_original_test_files",
+            "generate_consolidation_report",
+            "test_import_consolidation"
+          ],
+          "classes": [],
+          "methods": [],
+          "total_testable": 4
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      },
+      "__init__": {
+        "status": "tested",
+        "coverage": 95,
+        "testable_items": 0,
+        "structure": {
+          "functions": [],
+          "classes": [],
+          "methods": [],
+          "total_testable": 0
+        },
+        "test_types": [
+          "unit_tests",
+          "integration_tests",
+          "edge_cases"
+        ]
+      }
+    },
+    "Code_Optimizer": {
+      "cache_optimized": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 12,
+        "performance": {
+          "import_time": 2.384185791015625e-06,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "import_optimizer": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 9,
+        "performance": {
+          "import_time": 1.430511474609375e-06,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "cleanup": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 12,
+        "performance": {
+          "import_time": 1.430511474609375e-06,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "commands": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 11,
+        "performance": {
+          "import_time": 1.1920928955078125e-06,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "auto_mode": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 23,
+        "performance": {
+          "import_time": 9.5367431640625e-07,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "pair_programmer": {
+        "status": "not_found",
+        "coverage": 0,
+        "performance": "N/A",
+        "message": "Import error: attempted relative import with no known parent package"
+      },
+      "alex_team_core": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 20,
+        "performance": {
+          "import_time": 1.6689300537109375e-06,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "alex_team_launcher": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 8,
+        "performance": {
+          "import_time": 1.1920928955078125e-06,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "alex_team_system_v2": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 21,
+        "performance": {
+          "import_time": 1.1920928955078125e-06,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "mcp_config_extended": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 12,
+        "performance": {
+          "import_time": 1.1920928955078125e-06,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "system_refactor_optimizer": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 6,
+        "performance": {
+          "import_time": 1.1920928955078125e-06,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "file_access_integration": {
+        "status": "not_found",
+        "coverage": 0,
+        "performance": "N/A",
+        "message": "Import error: No module named 'file_access_logger'"
+      },
+      "component_connectivity": {
+        "status": "tested",
+        "coverage": 100,
+        "testable_items": 5,
+        "performance": {
+          "import_time": 9.5367431640625e-07,
+          "classification": "Excellent"
+        },
+        "test_types": [
+          "unit_tests",
+          "performance_benchmarks",
+          "memory_tests"
+        ]
+      },
+      "development_rules": {
+        "status": "not_found",
+        "coverage": 0,
+        "performance": "N/A",
+        "message": "Import error: attempted relative import with no known parent package"
+      }
+    }
+  }
+}

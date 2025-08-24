@@ -1,0 +1,119 @@
+{
+  "generated_at": "2025-08-21T11:01:28.625089",
+  "target_file": "C:\\Users\\Administrator\\Documents\\PG\\\\.claude\\demo_integration.py",
+  "items": {
+    "file_understanding": {
+      "title": "",
+      "required": true,
+      "questions": [
+        "SUCCESS",
+        "SUCCESS",
+        "SUCCESS"
+      ],
+      "completed": false,
+      "notes": ""
+    },
+    "implementation_analysis": {
+      "title": "SUCCESS",
+      "required": true,
+      "questions": [
+        "SUCCESS",
+        "SUCCESS",
+        "SUCCESS"
+      ],
+      "completed": false,
+      "notes": ""
+    },
+    "impact_analysis": {
+      "title": "SUCCESS",
+      "required": true,
+      "questions": [
+        "SUCCESS",
+        "SUCCESS",
+        "APISUCCESS"
+      ],
+      "completed": false,
+      "notes": ""
+    },
+    "test_understanding": {
+      "title": "SUCCESS",
+      "required": true,
+      "questions": [
+        "SUCCESS",
+        "SUCCESS",
+        "SUCCESS"
+      ],
+      "completed": false,
+      "notes": ""
+    },
+    "complexity_review": {
+      "title": "SUCCESS",
+      "required": true,
+      "questions": [
+        "SUCCESS",
+        "SUCCESS",
+        "SUCCESS"
+      ],
+      "completed": false,
+      "notes": "SUCCESS: 81"
+    },
+    "test_coverage": {
+      "title": "SUCCESS",
+      "required": true,
+      "questions": [
+        "SUCCESS",
+        "SUCCESS",
+        "SUCCESS"
+      ],
+      "completed": false,
+      "notes": "SUCCESS"
+    }
+  },
+  "file_analysis": {
+    "file_type": "python",
+    "size_lines": 316,
+    "complexity_score": 81,
+    "dependencies": [],
+    "exports": [],
+    "functions": [
+      "demo_lesson_1_verify_before_modify",
+      "demo_lesson_2_test_first",
+      "demo_lesson_3_incremental_fix",
+      "demo_integrated_workflow",
+      "main"
+    ],
+    "classes": [],
+    "imports": [
+      "json",
+      "os",
+      "pathlib",
+      "datetime",
+      "pre_modification_checklist",
+      "test_first_enforcer",
+      "incremental_fix_manager",
+      "development_rules"
+    ],
+    "comments_ratio": 0.022151898734177215,
+    "test_files": [],
+    "related_files": [
+      "C:\\Users\\Administrator\\Documents\\PG\\TEST\\.claude\\.pending_reviews",
+      "C:\\Users\\Administrator\\Documents\\PG\\\\.claude\\.review_status",
+      "C:\\Users\\Administrator\\Documents\\PG\\\\.claude\\CLAUDE.md",
+      "C:\\Users\\Administrator\\Documents\\PG\\ANALYSIS\\.claude\\compatibility_analysis.md",
+      "C:\\Users\\Administrator\\Documents\\PG\\CONFIG\\.claude\\config.py",
+      "C:\\Users\\Administrator\\Documents\\PG\\CONFIG\\.claude\\development_rules.py",
+      "C:\\Users\\Administrator\\Documents\\PG\\\\.claude\\incremental_fix_manager.py",
+      "C:\\Users\\Administrator\\Documents\\PG\\\\.claude\\migrate_to_v10.py",
+      "C:\\Users\\Administrator\\Documents\\PG\\REPORT\\.claude\\MIGRATION_REPORT.md",
+      "C:\\Users\\Administrator\\Documents\\PG\\REPORT\\.claude\\pre_modification_checklist.py"
+    ]
+  },
+  "completion_status": {
+    "file_understanding": false,
+    "implementation_analysis": false,
+    "impact_analysis": false,
+    "test_understanding": false,
+    "complexity_review": false,
+    "test_coverage": false
+  }
+}

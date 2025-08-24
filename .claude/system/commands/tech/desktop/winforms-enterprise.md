@@ -1,0 +1,849 @@
+# /winforms-enterprise - WinForms 
+
+## 
+Windows Forms MDI
+
+## 
+```bash
+/winforms-enterprise [feature] [action] [options]
+
+# CONFIG
+/winforms-enterprise mdi create --ribbon-interface
+/winforms-enterprise databinding setup --complex-scenarios
+/winforms-enterprise printing design --report-builder
+/winforms-enterprise controls optimize --devexpress
+/winforms-enterprise validation implement --enterprise-rules
+```
+
+## WinForms SYSTEM
+
+### 1. MDISYSTEM
+```csharp
+// UI/MdiRibbonApplication.cs
+using System;
+using System.Windows.Forms;
+using System.Drawing;
+using DevExpress.XtraBars.Ribbon;
+
+public class EnterpriseMdiApplication : RibbonForm
+{
+    private RibbonControl ribbonControl;
+    private RibbonStatusBar ribbonStatusBar;
+    private DevExpress.XtraTabbedMdi.XtraTabbedMdiManager mdiManager;
+    
+    public EnterpriseMdiApplication()
+    {
+        InitializeMdiEnvironment();
+        InitializeRibbonInterface();
+        ConfigureWindowManagement();
+    }
+    
+    private void InitializeMdiEnvironment()
+    {
+        this.IsMdiContainer = true;
+        this.WindowState = FormWindowState.Maximized;
+        
+        // MDI 
+        mdiManager = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager();
+        mdiManager.MdiParent = this;
+        mdiManager.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+        mdiManager.ClosePageButtonShowMode = 
+            DevExpress.XtraTab.ClosePageButtonShowMode.InActiveTabPageHeader;
+        
+        // MDI 
+        mdiManager.PageAdded += (s, e) => UpdateWindowMenu();
+        mdiManager.PageRemoved += (s, e) => UpdateWindowMenu();
+    }
+    
+    private void InitializeRibbonInterface()
+    {
+        ribbonControl = new RibbonControl();
+        
+        // 
+        var homePage = new RibbonPage("");
+        var fileGroup = new RibbonPageGroup("");
+        
+        // 
+        var newButton = new BarButtonItem();
+        newButton.Caption = "";
+        newButton.LargeGlyph = Resources.NewDocument32;
+        newButton.ItemClick += (s, e) => CreateNewDocument();
+        
+        fileGroup.ItemLinks.Add(newButton);
+        homePage.Groups.Add(fileGroup);
+        ribbonControl.Pages.Add(homePage);
+        
+        // 
+        ribbonControl.Toolbar.ItemLinks.Add(newButton);
+        
+        this.Ribbon = ribbonControl;
+    }
+    
+    // 
+    public class MdiChildManager
+    {
+        private readonly Dictionary<string, Form> _openForms = new Dictionary<string, Form>();
+        private readonly Stack<Form> _formHistory = new Stack<Form>();
+        
+        public T OpenOrActivate<T>(string key, Func<T> factory) where T : Form
+        {
+            if (_openForms.ContainsKey(key))
+            {
+                var existingForm = _openForms[key];
+                existingForm.Activate();
+                return (T)existingForm;
+            }
+            
+            var newForm = factory();
+            newForm.MdiParent = Application.OpenForms[0];
+            newForm.FormClosed += (s, e) => _openForms.Remove(key);
+            
+            _openForms[key] = newForm;
+            _formHistory.Push(newForm);
+            
+            newForm.Show();
+            return newForm;
+        }
+        
+        public void CascadeWindows()
+        {
+            Application.OpenForms[0].LayoutMdi(MdiLayout.Cascade);
+        }
+        
+        public void TileHorizontal()
+        {
+            Application.OpenForms[0].LayoutMdi(MdiLayout.TileHorizontal);
+        }
+        
+        public void CloseAll()
+        {
+            foreach (var form in _openForms.Values.ToList())
+            {
+                form.Close();
+            }
+        }
+    }
+}
+
+// 
+public class DockingInterfaceManager
+{
+    private readonly DevExpress.XtraBars.Docking.DockManager dockManager;
+    private readonly Dictionary<string, DockPanel> panels;
+    
+    public DockingInterfaceManager(Control parentControl)
+    {
+        dockManager = new DockManager();
+        dockManager.Form = parentControl;
+        panels = new Dictionary<string, DockPanel>();
+        
+        CreateDefaultLayout();
+    }
+    
+    private void CreateDefaultLayout()
+    {
+        // 
+        var navPanel = dockManager.AddPanel(DockingStyle.Left);
+        navPanel.Text = "";
+        navPanel.Width = 250;
+        panels["Navigation"] = navPanel;
+        
+        // 
+        var propPanel = dockManager.AddPanel(DockingStyle.Right);
+        propPanel.Text = "";
+        propPanel.Width = 300;
+        panels["Properties"] = propPanel;
+        
+        // 
+        var outputPanel = dockManager.AddPanel(DockingStyle.Bottom);
+        outputPanel.Text = "";
+        outputPanel.Height = 200;
+        outputPanel.Options.ShowCloseButton = false;
+        panels["Output"] = outputPanel;
+        
+        // /
+        dockManager.SaveLayoutToXml("default_layout.xml");
+    }
+    
+    public void SaveLayout(string fileName)
+    {
+        dockManager.SaveLayoutToXml(fileName);
+    }
+    
+    public void RestoreLayout(string fileName)
+    {
+        if (File.Exists(fileName))
+        {
+            dockManager.RestoreLayoutFromXml(fileName);
+        }
+    }
+}
+```
+
+### 2. SYSTEM
+```csharp
+// DataBinding/EnterpriseDataBinding.cs
+using System;
+using System.ComponentModel;
+using System.Windows.Forms;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Grid;
+
+public class EnterpriseDataBindingManager
+{
+    // 
+    public class MasterDetailBinding
+    {
+        private readonly GridControl masterGrid;
+        private readonly GridControl detailGrid;
+        private readonly BindingSource masterBindingSource;
+        private readonly BindingSource detailBindingSource;
+        
+        public MasterDetailBinding()
+        {
+            masterBindingSource = new BindingSource();
+            detailBindingSource = new BindingSource();
+            
+            // 
+            masterGrid = new GridControl();
+            masterGrid.DataSource = masterBindingSource;
+            
+            var masterView = masterGrid.MainView as GridView;
+            masterView.OptionsView.ShowAutoFilterRow = true;
+            masterView.OptionsView.ShowGroupPanel = true;
+            masterView.OptionsBehavior.AutoExpandAllGroups = true;
+            
+            // 
+            detailGrid = new GridControl();
+            detailGrid.DataSource = detailBindingSource;
+            
+            // 
+            masterBindingSource.CurrentChanged += (s, e) =>
+            {
+                UpdateDetailData();
+            };
+        }
+        
+        private void UpdateDetailData()
+        {
+            var currentMaster = masterBindingSource.Current;
+            if (currentMaster != null)
+            {
+                // 
+                var masterId = currentMaster.GetType()
+                    .GetProperty("Id")?.GetValue(currentMaster);
+                
+                detailBindingSource.Filter = $"MasterId = {masterId}";
+            }
+        }
+        
+        // 
+        public void EnableVirtualMode(int pageSize = 100)
+        {
+            var view = masterGrid.MainView as GridView;
+            view.OptionsView.EnableAppearanceEvenRow = true;
+            view.OptionsView.EnableAppearanceOddRow = true;
+            
+            // 
+            var serverModeSource = new DevExpress.Data.Linq.LinqServerModeSource();
+            serverModeSource.QueryableSource = GetQueryableDataSource();
+            masterGrid.DataSource = serverModeSource;
+        }
+    }
+    
+    // 
+    public class CustomBindingConverter : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof(string) || 
+                   base.CanConvertFrom(context, sourceType);
+        }
+        
+        public override object ConvertFrom(ITypeDescriptorContext context, 
+            CultureInfo culture, object value)
+        {
+            if (value is string stringValue)
+            {
+                // 
+                return ParseCustomFormat(stringValue);
+            }
+            
+            return base.ConvertFrom(context, culture, value);
+        }
+        
+        private object ParseCustomFormat(string value)
+        {
+            // 
+            if (value.StartsWith("JPY"))
+            {
+                return decimal.Parse(value.Replace("JPY", "").Replace(",", ""));
+            }
+            
+            return value;
+        }
+    }
+    
+    // 
+    public class TwoWayDataBinding<T> where T : INotifyPropertyChanged
+    {
+        private readonly Control control;
+        private readonly T dataSource;
+        private readonly Dictionary<string, Binding> bindings;
+        
+        public TwoWayDataBinding(Control control, T dataSource)
+        {
+            this.control = control;
+            this.dataSource = dataSource;
+            this.bindings = new Dictionary<string, Binding>();
+            
+            // 
+            AutoBindProperties();
+        }
+        
+        private void AutoBindProperties()
+        {
+            var dataProperties = typeof(T).GetProperties();
+            
+            foreach (Control child in control.Controls)
+            {
+                var controlProperty = GetBindableProperty(child);
+                if (controlProperty != null)
+                {
+                    var matchingDataProperty = dataProperties
+                        .FirstOrDefault(p => p.Name == child.Name.Replace("txt", "")
+                                                             .Replace("cbo", "")
+                                                             .Replace("chk", ""));
+                    
+                    if (matchingDataProperty != null)
+                    {
+                        var binding = new Binding(
+                            controlProperty,
+                            dataSource,
+                            matchingDataProperty.Name,
+                            true,
+                            DataSourceUpdateMode.OnPropertyChanged);
+                        
+                        // 
+                        binding.Parse += ValidateBinding;
+                        binding.Format += FormatBinding;
+                        
+                        child.DataBindings.Add(binding);
+                        bindings[child.Name] = binding;
+                    }
+                }
+            }
+        }
+        
+        private string GetBindableProperty(Control control)
+        {
+            if (control is TextBox) return "Text";
+            if (control is ComboBox) return "SelectedValue";
+            if (control is CheckBox) return "Checked";
+            if (control is DateTimePicker) return "Value";
+            return null;
+        }
+        
+        private void ValidateBinding(object sender, ConvertEventArgs e)
+        {
+            // 
+            var binding = sender as Binding;
+            if (binding != null)
+            {
+                // 
+                ValidateBusinessRules(binding.PropertyName, e.Value);
+            }
+        }
+        
+        private void FormatBinding(object sender, ConvertEventArgs e)
+        {
+            // 
+            if (e.Value is decimal)
+            {
+                e.Value = ((decimal)e.Value).ToString("C");
+            }
+            else if (e.Value is DateTime)
+            {
+                e.Value = ((DateTime)e.Value).ToString("yyyy/MM/dd");
+            }
+        }
+    }
+}
+```
+
+### 3. SYSTEM
+```csharp
+// Printing/EnterprisePrinting.cs
+using System;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Windows.Forms;
+
+public class EnterprisePrintingManager
+{
+    private readonly PrintDocument printDocument;
+    private readonly PrintPreviewDialog previewDialog;
+    private readonly PageSetupDialog pageSetupDialog;
+    private int currentPage;
+    private readonly List<ReportPage> pages;
+    
+    public EnterprisePrintingManager()
+    {
+        printDocument = new PrintDocument();
+        printDocument.PrintPage += PrintDocument_PrintPage;
+        printDocument.BeginPrint += PrintDocument_BeginPrint;
+        
+        previewDialog = new PrintPreviewDialog
+        {
+            Document = printDocument,
+            WindowState = FormWindowState.Maximized
+        };
+        
+        pageSetupDialog = new PageSetupDialog
+        {
+            Document = printDocument
+        };
+        
+        pages = new List<ReportPage>();
+    }
+    
+    // REPORT
+    public class ReportDesigner
+    {
+        private readonly Panel designSurface;
+        private readonly List<ReportElement> elements;
+        private ReportElement selectedElement;
+        
+        public ReportDesigner()
+        {
+            designSurface = new Panel
+            {
+                BackColor = Color.White,
+                BorderStyle = BorderStyle.FixedSingle
+            };
+            
+            elements = new List<ReportElement>();
+            
+            // REPORT&REPORT
+            designSurface.AllowDrop = true;
+            designSurface.DragEnter += DesignSurface_DragEnter;
+            designSurface.DragDrop += DesignSurface_DragDrop;
+            designSurface.MouseDown += DesignSurface_MouseDown;
+            designSurface.MouseMove += DesignSurface_MouseMove;
+            designSurface.MouseUp += DesignSurface_MouseUp;
+        }
+        
+        public void AddElement(ReportElementType type, Point location)
+        {
+            ReportElement element = null;
+            
+            switch (type)
+            {
+                case ReportElementType.Label:
+                    element = new LabelElement
+                    {
+                        Text = "",
+                        Font = new Font("MS Gothic", 10),
+                        Location = location
+                    };
+                    break;
+                    
+                case ReportElementType.Table:
+                    element = new TableElement
+                    {
+                        Columns = 5,
+                        Rows = 10,
+                        Location = location
+                    };
+                    break;
+                    
+                case ReportElementType.Barcode:
+                    element = new BarcodeElement
+                    {
+                        BarcodeType = BarcodeType.Code128,
+                        Value = "123456789",
+                        Location = location
+                    };
+                    break;
+            }
+            
+            if (element != null)
+            {
+                elements.Add(element);
+                designSurface.Invalidate();
+            }
+        }
+        
+        public void ExportToExcel(string fileName)
+        {
+            // Excel TASK
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Report");
+                
+                foreach (var element in elements)
+                {
+                    if (element is TableElement table)
+                    {
+                        ExportTableToExcel(worksheet, table);
+                    }
+                }
+                
+                package.SaveAs(new FileInfo(fileName));
+            }
+        }
+    }
+    
+    // 
+    public class AdvancedPrintPreview : Form
+    {
+        private readonly PrintPreviewControl previewControl;
+        private readonly ToolStrip toolStrip;
+        private int currentZoom = 100;
+        
+        public AdvancedPrintPreview(PrintDocument document)
+        {
+            previewControl = new PrintPreviewControl
+            {
+                Document = document,
+                Dock = DockStyle.Fill,
+                Zoom = 1.0
+            };
+            
+            toolStrip = new ToolStrip();
+            
+            // 
+            var zoomInButton = new ToolStripButton("");
+            zoomInButton.Click += (s, e) =>
+            {
+                currentZoom = Math.Min(currentZoom + 25, 500);
+                previewControl.Zoom = currentZoom / 100.0;
+            };
+            
+            var zoomOutButton = new ToolStripButton("");
+            zoomOutButton.Click += (s, e) =>
+            {
+                currentZoom = Math.Max(currentZoom - 25, 10);
+                previewControl.Zoom = currentZoom / 100.0;
+            };
+            
+            var fitToPageButton = new ToolStripButton("");
+            fitToPageButton.Click += (s, e) =>
+            {
+                previewControl.AutoZoom = true;
+            };
+            
+            toolStrip.Items.AddRange(new ToolStripItem[]
+            {
+                zoomInButton,
+                zoomOutButton,
+                new ToolStripSeparator(),
+                fitToPageButton
+            });
+            
+            Controls.Add(previewControl);
+            Controls.Add(toolStrip);
+        }
+    }
+    
+    // 
+    public class BarcodeGenerator
+    {
+        public Bitmap GenerateBarcode(string data, BarcodeType type, int width, int height)
+        {
+            var barcode = new Bitmap(width, height);
+            
+            using (var graphics = Graphics.FromImage(barcode))
+            {
+                graphics.Clear(Color.White);
+                
+                switch (type)
+                {
+                    case BarcodeType.Code128:
+                        DrawCode128(graphics, data, width, height);
+                        break;
+                        
+                    case BarcodeType.QRCode:
+                        DrawQRCode(graphics, data, width, height);
+                        break;
+                        
+                    case BarcodeType.Code39:
+                        DrawCode39(graphics, data, width, height);
+                        break;
+                }
+            }
+            
+            return barcode;
+        }
+        
+        private void DrawCode128(Graphics g, string data, int width, int height)
+        {
+            // Code128 
+            var barWidth = width / (data.Length * 11);
+            var x = 0;
+            
+            foreach (char c in data)
+            {
+                var pattern = GetCode128Pattern(c);
+                
+                for (int i = 0; i < pattern.Length; i++)
+                {
+                    if (pattern[i] == '1')
+                    {
+                        g.FillRectangle(Brushes.Black, x, 0, barWidth, height - 20);
+                    }
+                    x += barWidth;
+                }
+            }
+            
+            // 
+            var font = new Font("Arial", 10);
+            var textSize = g.MeasureString(data, font);
+            g.DrawString(data, font, Brushes.Black, 
+                (width - textSize.Width) / 2, height - 20);
+        }
+    }
+}
+```
+
+### 4. SYSTEM
+```csharp
+// Validation/EnterpriseValidation.cs
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Windows.Forms;
+
+public class EnterpriseValidationFramework
+{
+    // SYSTEM
+    public class ValidationRuleEngine
+    {
+        private readonly List<IValidationRule> rules;
+        private readonly ErrorProvider errorProvider;
+        
+        public ValidationRuleEngine(Form form)
+        {
+            rules = new List<IValidationRule>();
+            errorProvider = new ErrorProvider();
+            errorProvider.ContainerControl = form;
+            
+            // ERROR
+            RegisterDefaultRules();
+        }
+        
+        private void RegisterDefaultRules()
+        {
+            // 
+            AddRule(new RequiredFieldRule());
+            
+            // 
+            AddRule(new EmailFormatRule());
+            AddRule(new PhoneNumberRule());
+            AddRule(new PostalCodeRule());
+            
+            // ANALYSIS
+            AddRule(new CreditLimitRule());
+            AddRule(new InventoryCheckRule());
+            AddRule(new DuplicateCheckRule());
+        }
+        
+        public ValidationResult ValidateControl(Control control)
+        {
+            var results = new List<ValidationError>();
+            
+            foreach (var rule in rules)
+            {
+                if (rule.AppliesTo(control))
+                {
+                    var result = rule.Validate(control);
+                    if (!result.IsValid)
+                    {
+                        results.Add(new ValidationError
+                        {
+                            Control = control,
+                            Message = result.ErrorMessage,
+                            Severity = result.Severity
+                        });
+                    }
+                }
+            }
+            
+            // ERROR
+            if (results.Any())
+            {
+                var error = results.OrderByDescending(r => r.Severity).First();
+                errorProvider.SetError(control, error.Message);
+                
+                // ERROR
+                switch (error.Severity)
+                {
+                    case ValidationSeverity.Error:
+                        errorProvider.Icon = SystemIcons.Error.ToBitmap();
+                        break;
+                    case ValidationSeverity.Warning:
+                        errorProvider.Icon = SystemIcons.Warning.ToBitmap();
+                        break;
+                }
+            }
+            else
+            {
+                errorProvider.SetError(control, string.Empty);
+            }
+            
+            return new ValidationResult
+            {
+                IsValid = !results.Any(),
+                Errors = results
+            };
+        }
+    }
+    
+    // ERROR
+    public class CompositeValidationRule : IValidationRule
+    {
+        private readonly List<IValidationRule> rules;
+        private readonly LogicalOperator operator;
+        
+        public CompositeValidationRule(LogicalOperator op)
+        {
+            rules = new List<IValidationRule>();
+            this.operator = op;
+        }
+        
+        public ValidationResult Validate(Control control)
+        {
+            var results = rules.Select(r => r.Validate(control)).ToList();
+            
+            bool isValid = operator == LogicalOperator.And
+                ? results.All(r => r.IsValid)
+                : results.Any(r => r.IsValid);
+            
+            return new ValidationResult
+            {
+                IsValid = isValid,
+                ErrorMessage = isValid ? null : 
+                    string.Join(", ", results.Where(r => !r.IsValid)
+                                            .Select(r => r.ErrorMessage))
+            };
+        }
+    }
+    
+    // ERROR
+    public class AsyncValidation
+    {
+        public async Task<ValidationResult> ValidateAsync(Control control)
+        {
+            var validationTasks = new List<Task<ValidationResult>>();
+            
+            // TASK
+            validationTasks.Add(CheckDatabaseDuplicateAsync(control.Text));
+            
+            // Web APITASK
+            validationTasks.Add(ValidateWithWebApiAsync(control.Text));
+            
+            // TASK
+            validationTasks.Add(ValidateWithExternalServiceAsync(control.Text));
+            
+            var results = await Task.WhenAll(validationTasks);
+            
+            return new ValidationResult
+            {
+                IsValid = results.All(r => r.IsValid),
+                ErrorMessage = string.Join(", ", 
+                    results.Where(r => !r.IsValid).Select(r => r.ErrorMessage))
+            };
+        }
+    }
+}
+
+// ERROR
+[AttributeUsage(AttributeTargets.Property)]
+public class CustomValidationAttribute : ValidationAttribute
+{
+    private readonly string validationMethod;
+    
+    public CustomValidationAttribute(string methodName)
+    {
+        validationMethod = methodName;
+    }
+    
+    protected override ValidationResult IsValid(object value, ValidationContext context)
+    {
+        var method = context.ObjectType.GetMethod(validationMethod);
+        
+        if (method != null)
+        {
+            var result = method.Invoke(context.ObjectInstance, new[] { value });
+            
+            if (result is bool isValid && !isValid)
+            {
+                return new ValidationResult(ErrorMessage ?? "SUCCESS");
+            }
+        }
+        
+        return ValidationResult.Success;
+    }
+}
+```
+
+## SUCCESS
+```csharp
+// ThirdParty/DevExpressIntegration.cs
+public class DevExpressOptimization
+{
+    public static void OptimizeDevExpressControls()
+    {
+        // 
+        DevExpress.UserSkins.BonusSkins.Register();
+        DevExpress.Skins.SkinManager.EnableFormSkins();
+        DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle("Office 2019 Colorful");
+        
+        // 
+        DevExpress.Utils.AppearanceObject.DefaultFont = 
+            new Font("Segoe UI", 9F, FontStyle.Regular);
+        
+        // 
+        DevExpress.XtraGrid.Views.Grid.GridView.ColumnAutoWidthEnabled = false;
+        
+        // CONFIG
+        DevExpress.XtraEditors.WindowsFormsSettings.AnimationMode = 
+            DevExpress.XtraEditors.AnimationMode.DisableAll;
+    }
+}
+```
+
+## 
+```markdown
+# WinForms  
+
+## 
+[OK] MDI: 
+[OK] : 
+[OK] : 
+[OK] : 
+[OK] : DevExpress
+
+## 
+- : 2 -> 0.5 (75%)
+- : 1002
+- : 
+- : 30%
+
+## 
+- MDI: 
+- : Excel/PDF/HTML
+- : 10
+- : 50
+
+## 
+1. WPF
+2. 
+3. 
+```
+
+## 
+- ****: 
+- ****: WinForms 
+
+---
+*WinForms*

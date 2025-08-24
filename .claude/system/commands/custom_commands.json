@@ -1,0 +1,156 @@
+{
+  "management_commands": {
+    "cto_commands": [
+      {
+        "name": "/cto-project-status",
+        "description": "",
+        "pattern": "/cto-project-status [project_name]",
+        "action": "1. \n2. GitHub\n3. "
+      },
+      {
+        "name": "/cto-tech-decision",
+        "description": "",
+        "pattern": "/cto-tech-decision <technology> <use_case>",
+        "action": "1. \n2. ROI\n3. \n4. "
+      },
+      {
+        "name": "/cto-resource-allocation",
+        "description": "",
+        "pattern": "/cto-resource-allocation",
+        "action": "1. REPORT\n2. REPORT\n3. REPORT\n4. REPORT"
+      },
+      {
+        "name": "/cto-quality-report",
+        "description": "REPORT",
+        "pattern": "/cto-quality-report [period]",
+        "action": "1. REPORT\n2. REPORT\n3. REPORT\n4. REPORT"
+      },
+      {
+        "name": "/cto-emergency-response",
+        "description": "",
+        "pattern": "/cto-emergency-response <incident_type>",
+        "action": "1. \n2. \n3. \n4. "
+      }
+    ],
+    "hr_commands": [
+      {
+        "name": "/hr-team-compose",
+        "description": "",
+        "pattern": "/hr-team-compose <project_type> <size> <duration>",
+        "action": "1. \n2. \n3. \n4. CTO"
+      },
+      {
+        "name": "/hr-skill-matrix",
+        "description": "",
+        "pattern": "/hr-skill-matrix [technology]",
+        "action": "1. \n2. \n3. "
+      },
+      {
+        "name": "/hr-capacity-planning",
+        "description": "",
+        "pattern": "/hr-capacity-planning <months>",
+        "action": "1. \n2. \n3. \n4. "
+      },
+      {
+        "name": "/hr-performance-review",
+        "description": "",
+        "pattern": "/hr-performance-review [team_name]",
+        "action": "1. KPI\n2. \n3. \n4. "
+      },
+      {
+        "name": "/hr-org-restructure",
+        "description": "",
+        "pattern": "/hr-org-restructure <scenario>",
+        "action": "1. \n2. \n3. \n4. "
+      }
+    ],
+    "strategy_commands": [
+      {
+        "name": "/strategy-tech-roadmap",
+        "description": "",
+        "pattern": "/strategy-tech-roadmap <years>",
+        "action": "1. \n2. \n3. \n4. "
+      },
+      {
+        "name": "/strategy-innovation-scan",
+        "description": "SYSTEM",
+        "pattern": "/strategy-innovation-scan <domain>",
+        "action": "1. SYSTEM\n2. SYSTEM\n3. POCSYSTEM\n4. SYSTEM"
+      },
+      {
+        "name": "/strategy-risk-assessment",
+        "description": "",
+        "pattern": "/strategy-risk-assessment <initiative>",
+        "action": "1. \n2. \n3. \n4. "
+      },
+      {
+        "name": "/strategy-digital-transform",
+        "description": "DX",
+        "pattern": "/strategy-digital-transform <area>",
+        "action": "1. ANALYSIS\n2. ANALYSIS\n3. ANALYSIS\n4. ANALYSIS"
+      },
+      {
+        "name": "/strategy-market-analysis",
+        "description": "ANALYSIS",
+        "pattern": "/strategy-market-analysis <segment>",
+        "action": "1. ANALYSIS\n2. ANALYSIS\n3. ANALYSIS\n4. ANALYSIS"
+      }
+    ],
+    "qa_dept_commands": [
+      {
+        "name": "/qa-github-health",
+        "description": "GitHub ",
+        "pattern": "/qa-github-health",
+        "action": "gh api /repos/{owner}/{repo} && gh pr list && gh issue list",
+        "requires": "gh"
+      },
+      {
+        "name": "/qa-pr-create",
+        "description": "PR",
+        "pattern": "/qa-pr-create <branch> <title>",
+        "action": "1. \n2. gh pr create --title\n3. \n4. ",
+        "requires": "gh"
+      },
+      {
+        "name": "/qa-release-prepare",
+        "description": "",
+        "pattern": "/qa-release-prepare <version>",
+        "action": "1. \n2. \n3. gh release create\n4. ",
+        "requires": "gh"
+      },
+      {
+        "name": "/qa-code-metrics",
+        "description": "",
+        "pattern": "/qa-code-metrics [branch]",
+        "action": "1. \n2. \n3. \n4. "
+      },
+      {
+        "name": "/qa-security-scan",
+        "description": "",
+        "pattern": "/qa-security-scan",
+        "action": "gh api /repos/{owner}/{repo}/vulnerability-alerts && gh api /repos/{owner}/{repo}/code-scanning/alerts",
+        "requires": "gh"
+      },
+      {
+        "name": "/qa-branch-protection",
+        "description": "",
+        "pattern": "/qa-branch-protection <branch> <rules>",
+        "action": "gh api -X PUT /repos/{owner}/{repo}/branches/{branch}/protection",
+        "requires": "gh"
+      },
+      {
+        "name": "/qa-pr-auto-merge",
+        "description": "",
+        "pattern": "/qa-pr-auto-merge <pr_number>",
+        "action": "1. \n2. \n3. gh pr merge --auto --squash",
+        "requires": "gh"
+      }
+    ]
+  },
+  "executive_help": {
+    "name": "/executive-help",
+    "description": "",
+    "pattern": "/executive-help",
+    "action": ":\n- CTO: /cto-* (5)\n- : /hr-* (5)\n- : /strategy-* (5)\n- : /qa-* (7)"
+  }
+}

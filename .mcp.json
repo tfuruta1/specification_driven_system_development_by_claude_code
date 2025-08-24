@@ -8,6 +8,49 @@
         "--allow-npx"
       ],
       "env": {}
+    },
+    "postgres": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "mcp_postgres_server"
+      ],
+      "env": {
+        "POSTGRES_HOST": "localhost",
+        "POSTGRES_PORT": "5432",
+        "POSTGRES_DB": "claude_code",
+        "POSTGRES_USER": "claude_user",
+        "POSTGRES_PASSWORD": ""
+      }
+    },
+    "redis": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "mcp_redis_server"
+      ],
+      "env": {
+        "REDIS_HOST": "localhost",
+        "REDIS_PORT": "6379",
+        "REDIS_PASSWORD": "",
+        "REDIS_DB": "0"
+      }
+    },
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\t1fur\\OneDrive\\Documents\\pg\\specification_driven_system_development_by_claude_code"
+      ],
+      "env": {
+        "FILESYSTEM_ROOT": "C:\\Users\\t1fur\\OneDrive\\Documents\\pg\\specification_driven_system_development_by_claude_code",
+        "FILESYSTEM_ALLOWED_EXTENSIONS": ".py,.js,.vue,.ts,.tsx,.json,.md,.txt",
+        "FILESYSTEM_MAX_FILE_SIZE": "10485760",
+        "FILESYSTEM_WATCH_CHANGES": "true"
+      }
     }
   }
 }
