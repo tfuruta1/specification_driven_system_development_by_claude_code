@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Git pre-commit hook
+コミット前に自動的にファイル整理とクリーンアップを実行
+"""
+
+import sys
+from pathlib import Path
+
+# .claudeフォルダを探す
+current = Path(__file__).resolve().parent
+for _ in range(5):
+    if current.name == '.claude':
+        claude_root = current
+        break
+    current = current.parent
+else:
+    print("Error: Could not find .claude directory")
+    sys.exit(1)
+
+sys.path.insert(0, str(claude_root / "system"))
+
+from core.file_manager import FileManager
+from core.auto_cleanup import cleanup_now
+
+def main():
+    """Pre-commit hook main function"""
+    print("Running pre-commit cleanup...")
+    
+    file_manager = FileManager()
+    
+    # 初期化
+    file_manager.initialize()
+    
+    # ファイル整理
+    result = file_manager.organize_files()
+    if result.data and result.data.get("moved_files"):
+        print(f"✓ Organized {len(result.data['moved_files'])} files")
+    
+    # 構造チェック
+    result = file_manager.enforce_structure()
+    if result.success:
+        print("✓ Folder structure compliant")
+    else:
+        if result.data and result.data.get("violations"):
+            print(f"⚠ Found {len(result.data['violations'])} structure violations:")
+            for violation in result.data["violations"][:3]:  # 最初の3件のみ表示
+                print(f"  - {Path(violation['file']).name}: {violation['reason']}")
+    
+    # 一時ファイルクリーンアップ
+    result = file_manager.cleanup_temp_files(max_age_hours=0)
+    if result.data and result.data.get("deleted"):
+        print(f"✓ Cleaned {len(result.data['deleted'])} temp files")
+    
+    print("Pre-commit cleanup completed")
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

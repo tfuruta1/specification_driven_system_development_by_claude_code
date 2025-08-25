@@ -19,31 +19,14 @@ from typing import Optional, Dict, Any, Type, Callable, Union, List
 from enum import Enum
 from contextlib import contextmanager
 
-# Fix missing import for OptimizedLogger
+# DRY principle: Use common base definitions
 try:
+    from .common_base import ErrorSeverity
     from .logger import OptimizedLogger
 except ImportError:
-    try:
-        from logger import OptimizedLogger
-    except ImportError:
-        # Fallback - create minimal logger interface
-        class OptimizedLogger:
-            def __init__(self, user=None, **kwargs):
-                self.user = user
-            def info(self, message): print(f"INFO: {message}")
-            def error(self, message): print(f"ERROR: {message}")
-            def warning(self, message): print(f"WARNING: {message}")
-            def debug(self, message): print(f"DEBUG: {message}")
-import logging
-
-
-class ErrorSeverity(Enum):
-    """ERROR"""
-    CRITICAL = "critical"    # ERROR
-    HIGH = "high"           # 
-    MEDIUM = "medium"       # ERROR
-    LOW = "low"            # ERROR
-    INFO = "info"          # ERROR
+    # Fallback imports
+    from common_base import ErrorSeverity
+    from logger import OptimizedLogger
 
 
 class ErrorCategory(Enum):

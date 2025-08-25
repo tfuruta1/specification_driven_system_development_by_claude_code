@@ -11,9 +11,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-# JST
-parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, parent_dir)
+# 相対パスユーティリティをインポート
+try:
+    from path_utils import paths, setup_import_path
+    setup_import_path()
+except ImportError:
+    # path_utilsが見つからない場合は直接パスを設定
+    sys.path.insert(0, str(Path(__file__).parent))
+    from path_utils import paths, setup_import_path
+    setup_import_path()
 try:
     from system.jst_config import get_jst_now, format_jst_time
 except ImportError:
@@ -28,15 +34,28 @@ except ImportError:
         return get_jst_now().strftime("%Y-%m-%d %H:%M:%S JST")
 
 
+def get_logger(name: Optional[str] = None):
+    """
+    ロガーインスタンスを取得（互換性のため追加）
+    
+    Args:
+        name: ロガー名
+        
+    Returns:
+        UnifiedLoggerインスタンス
+    """
+    return UnifiedLogger(name)
+
+
 class UnifiedLogger:
     """agent_monitor + agent_activity_logger + daily_log_writer """
     
     def __init__(self, name: Optional[str] = None):
         """Initialize UnifiedLogger with optional name for compatibility"""
         self.name = name or "default"
-        self.base_path = Path(__file__).parent.parent
-        self.log_dir = self.base_path / "logs"
-        self.log_dir.mkdir(exist_ok=True)
+        self.base_path = paths.root
+        self.log_dir = paths.logs
+        self.log_dir.mkdir(parents=True, exist_ok=True)
         
         # 
         today = get_jst_now().strftime("%Y-%m-%d")

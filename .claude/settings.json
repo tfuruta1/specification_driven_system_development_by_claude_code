@@ -1,0 +1,123 @@
+{
+  "project": {
+    "name": "Specification Driven System Development",
+    "description": "TDD・YAGNI・DRY・KISS原則適用による高品質Python開発プロジェクト",
+    "version": "16.0",
+    "type": "python_system_development"
+  },
+  "tools": {
+    "permissions": {
+      "read": {
+        "enabled": true,
+        "restricted_paths": [
+          "*.secret",
+          "*.key",
+          ".env*",
+          "**/node_modules/**",
+          "**/__pycache__/**",
+          "**/venv/**",
+          "**/env/**"
+        ]
+      },
+      "write": {
+        "enabled": true,
+        "restricted_paths": [
+          "*.secret",
+          "*.key", 
+          ".env*",
+          "/etc/**",
+          "/usr/**",
+          "/bin/**"
+        ],
+        "require_confirmation": [
+          "*.py",
+          "*.json",
+          "*.yaml",
+          "*.yml"
+        ]
+      },
+      "bash": {
+        "enabled": true,
+        "restricted_commands": [
+          "rm -rf /",
+          "sudo rm",
+          "chmod 777",
+          "dd if=",
+          "mkfs",
+          "fdisk"
+        ],
+        "allowed_patterns": [
+          "pytest*",
+          "python*",
+          "pip*",
+          "coverage*",
+          "git*",
+          "cd*",
+          "ls*",
+          "find*",
+          "grep*"
+        ]
+      }
+    }
+  },
+  "development": {
+    "test_driven_development": {
+      "enabled": true,
+      "enforce_red_green_refactor": true,
+      "minimum_coverage": 100,
+      "test_frameworks": ["unittest", "pytest"],
+      "coverage_tool": "coverage"
+    },
+    "coding_principles": {
+      "yagni": {
+        "enabled": true,
+        "check_unused_imports": true,
+        "check_dead_code": true
+      },
+      "dry": {
+        "enabled": true,
+        "max_duplicate_lines": 3,
+        "extract_common_functions": true
+      },
+      "kiss": {
+        "enabled": true,
+        "max_function_length": 30,
+        "max_nesting_depth": 4,
+        "prefer_simple_solutions": true
+      }
+    },
+    "quality_gates": {
+      "test_coverage": {
+        "minimum": 100,
+        "fail_below": 95
+      },
+      "code_complexity": {
+        "max_cyclomatic": 10,
+        "max_function_lines": 30
+      },
+      "style_checks": {
+        "enabled": true,
+        "tools": ["black", "flake8", "mypy"]
+      }
+    }
+  },
+  "caching": {
+    "enabled": true,
+    "strategy": "unified_cache",
+    "memory_limit_mb": 100,
+    "disk_cache_ttl": 3600,
+    "cleanup_interval": 86400
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "handlers": ["console", "file"],
+    "log_file": ".claude/temp/logs/system.log"
+  },
+  "monitoring": {
+    "performance_tracking": true,
+    "cache_hit_rate_target": 80,
+    "memory_usage_alert": 500,
+    "test_execution_time_alert": 10
+  }
+}

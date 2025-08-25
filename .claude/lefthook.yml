@@ -1,0 +1,110 @@
+# Lefthook設定 - AI往復最適化対応
+# 記事: https://zenn.dev/sakupanda/articles/ecb4ae7e9a240e に基づく設定
+
+# Pre-commit hooks - CI失敗を事前防止
+pre-commit:
+  parallel: true
+  commands:
+    # 1. リント検査
+    lint:
+      glob: "*.py"
+      run: python -m flake8 {staged_files} --max-line-length=100 --ignore=E501,W503
+      stage_fixed: true
+      
+    # 2. 型チェック  
+    type-check:
+      glob: "*.py"
+      run: python -m mypy {staged_files} --ignore-missing-imports --no-strict-optional
+      
+    # 3. 自動テスト実行（高速テストのみ）
+    quick-test:
+      run: python -m pytest project/tests/test_*_minimal.py -v --tb=short
+      
+    # 4. テストカバレッジチェック（コアモジュールのみ）
+    coverage-check:
+      run: python -m pytest project/tests/test_*_minimal.py --cov=system/core --cov-fail-under=80 --cov-report=term-missing
+      
+    # 5. 循環依存チェック
+    dependency-check:
+      run: python system/core/dependency_checker.py
+      
+    # 6. セキュリティチェック（基本）
+    security-check:
+      glob: "*.py"
+      run: python -c "import re, sys; [sys.exit(1) if re.search(r'(password|secret|key)\s*=\s*['\"]', open(f).read(), re.I) else None for f in sys.argv[1:]]" {staged_files}
+
+# Pre-push hooks - より厳密なチェック
+pre-push:
+  commands:
+    # 1. 全体テストスイート
+    full-test:
+      run: python -m pytest project/tests/ -v --maxfail=5
+      
+    # 2. 完全カバレッジレポート
+    full-coverage:
+      run: python -m pytest project/tests/ --cov=system/core --cov-report=html --cov-report=term
+      
+    # 3. パフォーマンステスト
+    performance-test:
+      run: python -c "import time; start=time.time(); import system.core; print(f'Import time: {time.time()-start:.3f}s')"
+
+# Post-merge hooks - デプロイ後チェック  
+post-merge:
+  commands:
+    # 1. 依存関係更新チェック
+    dependency-sync:
+      run: pip install -r requirements.txt --quiet
+      
+    # 2. キャッシュクリア
+    cache-clear:
+      run: find . -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+      
+    # 3. 設定整合性チェック
+    config-verify:
+      run: python system/core/config.py
+
+# カスタムコマンド - AI往復最適化用
+custom:
+  # AI開発サイクル用一括チェック
+  ai-ready:
+    run: |
+      echo "=== AI Development Cycle Check ==="
+      python -m pytest project/tests/test_*_minimal.py -v &&
+      python system/core/dependency_checker.py &&
+      python -m flake8 system/core/*.py --max-line-length=100 --ignore=E501,W503 &&
+      echo "✅ Ready for AI collaboration"
+      
+  # TDD サイクル用
+  tdd-cycle:
+    run: |
+      echo "=== TDD Cycle Verification ==="
+      python -m pytest project/tests/ --cov=system/core --cov-report=term-missing &&
+      echo "✅ TDD cycle completed successfully"
+      
+  # 自動テスト生成
+  generate-tests:
+    run: |
+      echo "=== Generating Tests for New Modules ==="
+      for file in system/core/*.py; do
+        module=$(basename "$file" .py)
+        if [ ! -f "project/tests/test_${module}.py" ]; then
+          echo "Generating tests for $module"
+          python system/core/automated_test_generator.py "$module"
+        fi
+      done
+
+# 出力設定
+output:
+  - summary
+  - execute
+
+# 設定
+settings:
+  # 並行実行数
+  parallel: 4
+  
+  # ログレベル
+  verbose: false
+  
+  # 失敗時の動作
+  follow: true

@@ -1,0 +1,42 @@
+{
+  "mcpServers": {
+    "python-tools": {
+      "command": "python",
+      "args": ["-m", "mcp_python_tools"],
+      "description": "Enhanced Python development tools for TDD workflow",
+      "capabilities": {
+        "testing": true,
+        "code_analysis": true,
+        "refactoring": true
+      }
+    },
+    "git-tools": {
+      "command": "python", 
+      "args": ["-m", "mcp_git"],
+      "description": "Git integration for version control",
+      "capabilities": {
+        "version_control": true,
+        "commit_tracking": true
+      }
+    },
+    "filesystem": {
+      "command": "python",
+      "args": ["-m", "mcp_filesystem"],
+      "description": "Enhanced filesystem operations",
+      "capabilities": {
+        "file_operations": true,
+        "project_analysis": true
+      }
+    }
+  },
+  "preferences": {
+    "auto_install_missing_servers": false,
+    "server_timeout": 30,
+    "retry_count": 3
+  },
+  "development": {
+    "debug_mode": false,
+    "log_mcp_communications": false,
+    "performance_monitoring": true
+  }
+}

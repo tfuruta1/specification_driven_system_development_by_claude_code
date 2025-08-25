@@ -1,0 +1,105 @@
+{
+  "folder_structure": {
+    "root_allowed_files": [
+      "README.md",
+      "CLAUDE.md",
+      ".gitignore",
+      ".mcp.json"
+    ],
+    "claude_root_allowed_files": [
+      ".pending_reviews",
+      ".review_status",
+      "lefthook.yml",
+      "mcp.json",
+      "settings.json"
+    ],
+    "directories": {
+      "system": {
+        "description": "System modules and core functionality",
+        "subdirs": ["core", "templates"],
+        "allowed_extensions": [".py", ".json", ".yml"]
+      },
+      "project": {
+        "description": "Project-specific files",
+        "subdirs": ["tests", "docs"],
+        "allowed_extensions": [".py", ".md", ".json"]
+      },
+      "reports": {
+        "description": "Generated reports (permanent)",
+        "subdirs": ["coverage", "diagnosis", "refactoring", "general"],
+        "allowed_extensions": [".md", ".html", ".json", ".xml"]
+      },
+      "temp": {
+        "description": "Temporary files (auto-cleanup)",
+        "subdirs": [],
+        "allowed_extensions": ["*"],
+        "auto_cleanup": true,
+        "max_age_hours": 24
+      },
+      "archive": {
+        "description": "Archived old files",
+        "subdirs": ["old_modules", "backups"],
+        "allowed_extensions": ["*"]
+      },
+      "config": {
+        "description": "Configuration files",
+        "subdirs": [],
+        "allowed_extensions": [".json", ".yml", ".yaml", ".ini"]
+      },
+      "commands": {
+        "description": "Command scripts",
+        "subdirs": [],
+        "allowed_extensions": [".py", ".sh", ".bat"]
+      },
+      "hooks": {
+        "description": "Git hooks and automation scripts",
+        "subdirs": [],
+        "allowed_extensions": [".py", ".sh", ""]
+      }
+    }
+  },
+  "file_rules": {
+    "naming_conventions": {
+      "test_files": "^test_.*\\.py$|.*_test\\.py$",
+      "config_files": ".*\\.(json|yml|yaml|ini)$",
+      "report_files": ".*_report.*\\.(md|html|json)$",
+      "temp_files": ".*\\.(tmp|temp|cache|log)$"
+    },
+    "auto_placement": {
+      "test_": "project/tests/",
+      "_test.py": "project/tests/",
+      "_report": "reports/",
+      "_diagnosis": "reports/diagnosis/",
+      "_coverage": "reports/coverage/",
+      "_refactor": "reports/refactoring/",
+      ".tmp": "temp/",
+      ".temp": "temp/",
+      ".cache": "temp/",
+      ".log": "temp/"
+    },
+    "forbidden_patterns": [
+      "__pycache__",
+      ".pytest_cache",
+      ".benchmarks",
+      "*.pyc",
+      ".DS_Store",
+      "Thumbs.db"
+    ]
+  },
+  "cleanup_rules": {
+    "temp_folder": {
+      "max_age_hours": 24,
+      "check_interval_hours": 1,
+      "exclude_patterns": ["*.keep", ".gitkeep"]
+    },
+    "auto_delete_patterns": [
+      "__pycache__",
+      ".pytest_cache",
+      "*.pyc",
+      ".coverage",
+      "htmlcov",
+      ".benchmarks"
+    ],
+    "archive_after_days": 30
+  }
+}

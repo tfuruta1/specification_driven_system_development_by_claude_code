@@ -1,6 +1,6 @@
 {
   "version": "11.0",
-  "environment": "production",
+  "environment": "test",
   "debug": true,
   "pair_programming": {
     "cto_name": "CTO",
@@ -19,8 +19,7 @@
     "enforce_test_first": true,
     "enforce_incremental_fix": true,
     "validate_emojis": true,
-    "test_rule": false,
-    "test_rule_status": false
+    "test_rule": true
   },
   "logging": {
     "level": "INFO",
@@ -51,7 +50,7 @@
     "root_path": ".",
     "docs_path": ".claude/docs",
     "workspace_path": ".claude/workspace",
-    "cache_path": ".claude/cache",
+    "cache_path": ".claude/temp/cache",
     "activity_report_path": ".claude/ActivityReport"
   },
   "quality": {
@@ -59,5 +58,8 @@
     "code_review_required": true,
     "documentation_required": true,
     "performance_monitoring": true
+  },
+  "test": {
+    "key": "value"
   }
 }

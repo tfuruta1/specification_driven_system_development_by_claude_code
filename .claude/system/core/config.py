@@ -8,10 +8,19 @@ CTOSYSTEM
 """
 
 import os
+import sys
 import json
 from pathlib import Path
 from typing import Dict, Any, Optional, List
 from enum import Enum
+
+# 相対パスユーティリティをインポート
+try:
+    from path_utils import paths
+except ImportError:
+    # path_utilsが見つからない場合は直接パスを設定
+    sys.path.insert(0, str(Path(__file__).parent))
+    from path_utils import paths
 
 class Environment(Enum):
     """TEST"""
@@ -28,8 +37,9 @@ class ClaudeCoreConfig:
     
     def __init__(self):
         """TEST"""
-        self.base_path = Path(__file__).parent.parent.parent
-        self.config_file = self.base_path / "system" / "config" / "core_config.json"
+        # path_utilsを使って相対パスを取得
+        self.base_path = paths.root
+        self.config_file = paths.config / "core_config.json"
         self.config_file.parent.mkdir(parents=True, exist_ok=True)
         
         # CONFIG
@@ -418,3 +428,7 @@ if __name__ == "__main__":
     for name, path in paths.items():
         exists = "[CHECK]" if path.exists() else "[CROSS]"
         print(f"  {exists} {name}: {path}")
+
+
+# エイリアス（互換性のため）
+ConfigManager = ClaudeCoreConfig

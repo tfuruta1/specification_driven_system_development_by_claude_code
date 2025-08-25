@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Claude CLI - シンプルなコマンドラインインターフェース
+KISS原則に基づく単純な実装
+"""
+
+import sys
+from pathlib import Path
+
+# パス設定
+claude_root = Path(__file__).resolve().parent
+sys.path.insert(0, str(claude_root))
+
+from system import CoreSystem
+
+def print_help():
+    """ヘルプ表示"""
+    print("""
+Claude System CLI v2.0.0
+
+Usage: claude <command>
+
+Commands:
+  organize  - Organize project files
+  cleanup   - Clean temporary files
+  test      - Run tests with coverage
+  check     - Check code quality
+  status    - Show system status
+  help      - Show this help
+
+Examples:
+  claude organize
+  claude test
+  claude status
+""")
+
+def main():
+    """メインエントリーポイント"""
+    if len(sys.argv) < 2 or sys.argv[1] in ["help", "-h", "--help"]:
+        print_help()
+        return 0
+    
+    command = sys.argv[1]
+    system = CoreSystem()
+    
+    # コマンド実行
+    result = system.execute(command)
+    
+    # 結果表示
+    if result.success:
+        print(f"[OK] {result.message}")
+    else:
+        print(f"[FAIL] {result.message}")
+    
+    # データがあれば表示
+    if result.data:
+        import json
+        print(json.dumps(result.data, indent=2))
+    
+    return 0 if result.success else 1
+
+if __name__ == "__main__":
+    sys.exit(main())
